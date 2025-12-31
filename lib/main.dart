@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_riverpod/presentation/theme/app_theme.dart';
-import 'package:flutter_clean_riverpod/presentation/ui/core/app_loader.dart';
 import 'package:flutter_clean_riverpod/service/app_initializer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -44,13 +43,6 @@ class MyApp extends ConsumerWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       routerConfig: AppRouter.router,
-      builder: (context, child) {
-        if (child == null) {
-          return const SizedBox();
-        } else {
-          return AppLoader(child: child);
-        }
-      },
     );
   }
 }

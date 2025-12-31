@@ -37,7 +37,7 @@ class AppAlertDialog extends StatelessWidget {
           Container(
             margin: const EdgeInsets.all(24.0),
             decoration: BoxDecoration(
-              color: context.getColor(AppPalette.primaryTextFieldBackground),
+              color: context.color(AppPalette.primaryTextFieldBackground),
               borderRadius: const BorderRadius.all(
                 Radius.circular(16.0),
               ),
@@ -97,8 +97,8 @@ class AppAlertDialog extends StatelessWidget {
                 child: AppButton(
                   width: 100.0,
                   title: cancelText ?? LocaleKeys.label_cancel.tr(),
-                  titleColor: context.getColor(AppPalette.secondaryButtonTitle),
-                  backgroundColor: context.getColor(AppPalette.secondaryColor),
+                  titleColor: context.color(AppPalette.secondaryButtonTitle),
+                  backgroundColor: context.color(AppPalette.secondaryColor),
                   padding: EdgeInsets.symmetric(
                     vertical: 8.0,
                     horizontal: 16.0,
@@ -117,7 +117,7 @@ class AppAlertDialog extends StatelessWidget {
                   width: 100.0,
                   title: confirmText ?? LocaleKeys.label_ok.tr(),
                   titleColor: Colors.white,
-                  backgroundColor: context.getColor(AppPalette.mainColor),
+                  backgroundColor: context.color(AppPalette.mainColor),
                   padding: EdgeInsets.symmetric(
                     vertical: 8.0,
                     horizontal: 16.0,

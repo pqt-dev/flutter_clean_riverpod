@@ -25,7 +25,7 @@ class PermissionAlertDialog extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       elevation: 0.0,
-      backgroundColor: context.getColor(
+      backgroundColor: context.color(
         AppPalette.primaryBackground,
       ),
       child: _dialogContent,
@@ -60,7 +60,7 @@ class PermissionAlertDialog extends StatelessWidget {
             AppButton(
               title: LocaleKeys.grant_permission.tr(),
               titleColor: Colors.white,
-              backgroundColor: context.getColor(AppPalette.mainColor),
+              backgroundColor: context.color(AppPalette.mainColor),
               onTap: () {
                 Navigator.of(context).pop<bool>(true);
               },
@@ -71,8 +71,8 @@ class PermissionAlertDialog extends StatelessWidget {
             AppButton(
               title: LocaleKeys.label_cancel.tr(),
               height: 50.0,
-              titleColor: context.getColor(AppPalette.secondaryButtonTitle),
-              backgroundColor: context.getColor(AppPalette.secondaryColor),
+              titleColor: context.color(AppPalette.secondaryButtonTitle),
+              backgroundColor: context.color(AppPalette.secondaryColor),
               onTap: () {
                 Navigator.of(context).pop<bool>(false);
               },

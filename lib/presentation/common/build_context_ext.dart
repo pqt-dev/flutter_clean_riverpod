@@ -2,13 +2,12 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_riverpod/data/error/api_error.dart';
-import 'package:flutter_clean_riverpod/presentation/ui/core/app_loader.dart';
 
 import '../../generated/locale_keys.g.dart';
 import '../theme/app_theme_extension.dart';
 
 extension BuildContextExt on BuildContext {
-  Color getColor(AppPalette key) {
+  Color color(AppPalette key) {
     final theme = Theme.of(this).extension<AppThemeExtension>();
     if (theme == null) {
       return Colors.orange;
@@ -41,13 +40,5 @@ extension BuildContextExt on BuildContext {
       title: LocaleKeys.oops.tr(),
       message: LocaleKeys.unknown_error.tr(),
     );
-  }
-
-  void displayLoader() {
-    findAncestorStateOfType<AppLoaderState>()?.show();
-  }
-
-  void closeLoader() {
-    findAncestorStateOfType<AppLoaderState>()?.close();
   }
 }
