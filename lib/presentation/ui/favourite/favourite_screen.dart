@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../theme/theme_controller.dart';
+import '../../theme/theme_mode_viewmodel.dart';
 
 class FavouriteScreen extends StatelessWidget {
   const FavouriteScreen({super.key});
@@ -20,8 +20,7 @@ class ThemeSwitcher extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeController = ref.read(themeProvider.notifier);
-
+    final viewmodel = ref.read(themeModeViewmodelProvider.notifier);
     return Scaffold(
       appBar: AppBar(title: Text("Theme Switcher")),
       body: Center(
@@ -29,15 +28,15 @@ class ThemeSwitcher extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: () => themeController.setTheme(ThemeMode.light),
+              onPressed: () => viewmodel.setTheme(ThemeMode.light),
               child: Text("Light Theme"),
             ),
             ElevatedButton(
-              onPressed: () => themeController.setTheme(ThemeMode.dark),
+              onPressed: () => viewmodel.setTheme(ThemeMode.dark),
               child: Text("Dark Theme"),
             ),
             ElevatedButton(
-              onPressed: () => themeController.setTheme(ThemeMode.system),
+              onPressed: () => viewmodel.setTheme(ThemeMode.system),
               child: Text("System Theme"),
             ),
           ],

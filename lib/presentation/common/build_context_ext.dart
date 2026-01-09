@@ -7,7 +7,7 @@ import '../../generated/locale_keys.g.dart';
 import '../theme/app_theme_extension.dart';
 
 extension BuildContextExt on BuildContext {
-  Color color(AppPalette key) {
+  Color color(Palette key) {
     final theme = Theme.of(this).extension<AppThemeExtension>();
     if (theme == null) {
       return Colors.orange;
@@ -15,7 +15,7 @@ extension BuildContextExt on BuildContext {
     return theme.getColor(key);
   }
 
-  bool get isDarkTheme {
+  bool get isDarkMode {
     final brightness = MediaQuery.of(this).platformBrightness;
     return brightness == Brightness.dark;
   }

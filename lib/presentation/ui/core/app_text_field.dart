@@ -43,8 +43,8 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      cursorColor: context.color(AppPalette.mainColor),
-      cursorErrorColor: context.color(AppPalette.mainColor),
+      cursorColor: context.color(Palette.mainColor),
+      cursorErrorColor: context.color(Palette.mainColor),
       controller: controller,
       focusNode: focusNode,
       obscureText: isPassword ?? false,
@@ -62,7 +62,7 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: prefixIcon,
-        prefixIconColor: context.color(AppPalette.primaryTextColor),
+        prefixIconColor: context.color(Palette.primaryTextColor),
         suffixIcon: suffixIcon != null
             ? IconButton(
                 splashColor: Colors.transparent,
@@ -71,13 +71,13 @@ class CustomTextField extends StatelessWidget {
                 onPressed: onSuffixIconPressed,
               )
             : null,
-        suffixIconColor: context.color(AppPalette.primaryTextColor),
+        suffixIconColor: context.color(Palette.primaryTextColor),
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(8.0),
         ),
         filled: true,
-        fillColor: context.color(AppPalette.primaryTextFieldBackground),
+        fillColor: context.color(Palette.primaryTextFieldBackground),
         errorStyle: TextStyle(
           color: Colors.red.shade500,
         ),

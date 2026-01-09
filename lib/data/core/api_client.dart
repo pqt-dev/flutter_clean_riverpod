@@ -1,18 +1,20 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_clean_riverpod/data/core/api_result.dart';
 import 'package:flutter_clean_riverpod/data/error/api_error.dart';
-import 'package:flutter_clean_riverpod/service/connectivity_service.dart';
+import 'package:flutter_clean_riverpod/service/internet_connection_service.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 
 enum ApiMethod { get, post, put, patch, delete }
 
 typedef ResponseDecoder<T> = T Function(Response response);
 
+@injectable
 class ApiClient {
   final Dio dio;
-  final ConnectivityService connectivityService;
+  final InternetConnectionService internetConnectionService;
 
-  ApiClient(this.dio, this.connectivityService);
+  ApiClient(this.dio, this.internetConnectionService);
 
   Future<ApiResult<T>> request<T>({
     required String endpoint,
@@ -23,7 +25,7 @@ class ApiClient {
     Options? options,
   }) async {
     try {
-      final hasInternet = await connectivityService.hasInternet();
+      final hasInternet = await internetConnectionService.hasInternet();
       if (!hasInternet) {
         return ApiResult.failed(InternetError());
       }

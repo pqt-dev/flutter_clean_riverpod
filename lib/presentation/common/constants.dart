@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-class AppConstants {
+class Constants {
   static const Locale enUS = Locale('en', 'US');
   static const Locale viVN = Locale('vi', 'VN');
   static const Locale jaJP = Locale('ja', 'JP');

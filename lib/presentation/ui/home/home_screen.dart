@@ -26,7 +26,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               onTap: () => Scaffold.of(context).openDrawer(),
               child: Icon(Icons.menu),
             );
-          }
+          },
         ),
         title: 'LIST OF COUNTRIES',
         titleColor: Colors.white,

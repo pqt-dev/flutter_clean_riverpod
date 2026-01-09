@@ -1,6 +1,8 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:injectable/injectable.dart';
 
-class ConnectivityService {
+@singleton
+class InternetConnectionService {
   Future<bool> hasInternet() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     return connectivityResult.any((element) => [

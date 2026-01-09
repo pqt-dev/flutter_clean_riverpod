@@ -1,28 +1,29 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_riverpod/di/injection.dart';
 import 'package:flutter_clean_riverpod/presentation/theme/app_theme.dart';
-import 'package:flutter_clean_riverpod/service/app_initializer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'generated/codegen_loader.g.dart';
-import 'presentation/common/app_constants.dart';
+import 'presentation/common/constants.dart';
 import 'presentation/router/app_router.dart';
-import 'presentation/theme/theme_controller.dart';
+import 'presentation/theme/theme_mode_viewmodel.dart';
 
 void main() async {
-  await AppInitializer.getInstance.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
+  await configureDependencies();
   runApp(
     ProviderScope(
       child: EasyLocalization(
         supportedLocales: const [
-          AppConstants.enUS,
-          AppConstants.viVN,
-          AppConstants.jaJP,
+          Constants.enUS,
+          Constants.viVN,
+          Constants.jaJP,
         ],
-        path: AppConstants.assetTranslationPath,
-        fallbackLocale: AppConstants.enUS,
+        path: Constants.assetTranslationPath,
+        fallbackLocale: Constants.enUS,
         assetLoader: const CodegenLoader(),
-        startLocale: AppConstants.enUS,
+        startLocale: Constants.enUS,
         child: const MyApp(),
       ),
     ),
@@ -34,7 +35,7 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(themeProvider);
+    final themeMode = ref.watch(themeModeViewmodelProvider);
     return MaterialApp.router(
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
