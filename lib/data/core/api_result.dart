@@ -9,13 +9,13 @@ sealed class ApiResult<T> {
 }
 
 final class Success<T> extends ApiResult<T> {
-  Success(this.value);
+  const Success(this.value);
 
   final T value;
 }
 
-final class Failure<T> extends ApiResult<T> {
-  Failure(this.error);
+final class Failure extends ApiResult<Never> {
+  const Failure(this.error);
 
   final ApiError error;
 }

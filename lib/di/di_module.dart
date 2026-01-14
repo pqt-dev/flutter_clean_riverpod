@@ -9,7 +9,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/core/api_endpoint.dart';
-import '../data/core/auth_interceptor.dart';
+import '../data/inteceptor/auth_interceptor.dart';
 import '../data/repository/theme/theme_repository.dart';
 
 @module

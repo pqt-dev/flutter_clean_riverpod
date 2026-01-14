@@ -26,13 +26,12 @@ class HomeController extends AsyncNotifier<HomeState> {
   Future<HomeState> _initialize() async {
     final result = await repository.fetchAllCountries();
     switch (result) {
-      case Success<List<CountryResponse>>():
-        final response = result.value;
+      case Success<List<CountryResponse>>(:final value):
         return HomeState(
-          countries: response,
+          countries: value,
         );
-      case Failure<List<CountryResponse>>():
-        throw result.error;
+      case Failure(:final error):
+        throw error;
     }
   }
 }

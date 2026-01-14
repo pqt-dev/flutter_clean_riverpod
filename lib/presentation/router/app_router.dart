@@ -10,7 +10,7 @@ import '../ui/setting/setting_screen.dart';
 
 class AppRouter {
   static final router = GoRouter(
-    initialLocation: AppRoutes.homeRoute.path,
+    initialLocation: AppRoutes.home,
     debugLogDiagnostics: true,
     routes: [
       StatefulShellRoute.indexedStack(
@@ -20,7 +20,7 @@ class AppRouter {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: AppRoutes.homeRoute.path,
+                path: AppRoutes.home,
                 builder: (context, state) => HomeScreen(),
               ),
             ],
@@ -28,7 +28,7 @@ class AppRouter {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: AppRoutes.searchRoute.path,
+                path: AppRoutes.search,
                 builder: (context, state) => SearchScreen(),
               ),
             ],
@@ -36,7 +36,7 @@ class AppRouter {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: AppRoutes.favourite.path,
+                path: AppRoutes.favourite,
                 builder: (context, state) => FavouriteScreen(),
               ),
             ],
@@ -44,11 +44,11 @@ class AppRouter {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: AppRoutes.setting.path,
+                path: AppRoutes.setting,
                 builder: (context, state) => SettingScreen(),
                 routes: [
                   GoRoute(
-                    path: AppRoutes.detailSetting.nestedPath ?? '-',
+                    path: AppRoutes.detailSetting,
                     builder: (context, state) => NestedSettingScreen(),
                   ),
                 ],

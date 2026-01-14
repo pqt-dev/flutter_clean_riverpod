@@ -29,7 +29,7 @@ class CountryRepositoryImpl implements CountryRepository {
             'borders',
           ],
         },
-        decoder: (response) => (response.data as List)
+        decoder: (data) => (data as List<dynamic>)
             .map((element) => CountryResponse.fromJson(element))
             .toList());
   }

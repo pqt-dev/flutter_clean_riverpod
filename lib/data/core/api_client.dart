@@ -1,20 +1,29 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_clean_riverpod/data/core/api_result.dart';
-import 'package:flutter_clean_riverpod/data/error/api_error.dart';
-import 'package:flutter_clean_riverpod/service/internet_connection_service.dart';
+import 'package:flutter_clean_riverpod/data/error/api_error_mapper.dart';
 import 'package:injectable/injectable.dart';
-import 'package:logger/logger.dart';
 
-enum ApiMethod { get, post, put, patch, delete }
+enum ApiMethod {
+  get('GET'),
+  post('POST'),
+  put('PUT'),
+  patch('PATCH'),
+  delete('DELETE')
+  ;
 
-typedef ResponseDecoder<T> = T Function(Response response);
+  final String value;
+
+  const ApiMethod(this.value);
+}
+
+typedef ResponseDecoder<T> = T Function(dynamic data);
 
 @injectable
 class ApiClient {
   final Dio dio;
-  final InternetConnectionService internetConnectionService;
+  final ApiErrorMapper apiErrorMapper;
 
-  ApiClient(this.dio, this.internetConnectionService);
+  ApiClient(this.dio, this.apiErrorMapper);
 
   Future<ApiResult<T>> request<T>({
     required String endpoint,
@@ -23,87 +32,22 @@ class ApiClient {
     Object? data,
     Map<String, dynamic>? queryParameters,
     Options? options,
+    CancelToken? cancelToken,
   }) async {
     try {
-      final hasInternet = await internetConnectionService.hasInternet();
-      if (!hasInternet) {
-        return ApiResult.failed(InternetError());
-      }
-      final response = await _sendRequest(
-        method,
+      final response = await dio.request(
         endpoint,
         queryParameters: queryParameters,
-        options: options,
+        options: options?.copyWith(
+          method: method.value,
+        ),
         data: data,
+        cancelToken: cancelToken,
       );
-      try {
-        final parsedResponse = decoder(response);
-        return ApiResult.success(parsedResponse);
-      } catch (e, stackTrace) {
-        Logger().e("Parse error: $e", stackTrace: stackTrace);
-        return ApiResult.failed(ParseResponseError(e));
-      }
-    } on DioException catch (e, stackTrace) {
-      Logger().e("Dio error: ${e.message}", stackTrace: stackTrace);
-      if ([
-        DioExceptionType.connectionTimeout,
-        DioExceptionType.receiveTimeout,
-        DioExceptionType.sendTimeout,
-      ].contains(e.type)) {
-        return ApiResult.failed(const InternetError());
-      }
-      if (e.response?.statusCode == 401) {
-        return ApiResult.failed(UnauthorizedError(e));
-      }
-      return ApiResult.failed(RequestApiError(e));
+      final decoded = decoder(response.data);
+      return ApiResult.success(decoded);
     } catch (e, stackTrace) {
-      Logger().e("Unexpected error: $e", stackTrace: stackTrace);
-      return ApiResult.failed(UnknownError(e));
-    }
-  }
-
-  Future<Response> _sendRequest(
-    ApiMethod method,
-    String endpoint, {
-    Object? data,
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-  }) {
-    switch (method) {
-      case ApiMethod.get:
-        return dio.get(
-          endpoint,
-          queryParameters: queryParameters,
-          options: options,
-        );
-      case ApiMethod.post:
-        return dio.post(
-          endpoint,
-          data: data,
-          queryParameters: queryParameters,
-          options: options,
-        );
-      case ApiMethod.put:
-        return dio.put(
-          data: data,
-          endpoint,
-          queryParameters: queryParameters,
-          options: options,
-        );
-      case ApiMethod.patch:
-        return dio.patch(
-          data: data,
-          endpoint,
-          queryParameters: queryParameters,
-          options: options,
-        );
-      case ApiMethod.delete:
-        return dio.delete(
-          data: data,
-          endpoint,
-          queryParameters: queryParameters,
-          options: options,
-        );
+      return ApiResult.failed(apiErrorMapper.map(e, stackTrace));
     }
   }
 }
