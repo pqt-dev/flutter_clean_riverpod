@@ -13,7 +13,7 @@ Build:
   script:
     - make run_ci
   tags:
-    - able_app
+    - flutter_clean_riverpod
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: always
