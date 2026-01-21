@@ -1,11 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_riverpod/di/injection.dart';
 import 'package:flutter_clean_riverpod/presentation/theme/app_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'generated/codegen_loader.g.dart';
-import 'presentation/common/constants.dart';
+import 'infrastructure/constants/app_constants.dart';
+import 'infrastructure/constants/locale_constants.dart';
+import 'infrastructure/di/injection.dart';
 import 'presentation/router/app_router.dart';
 import 'presentation/theme/theme_mode_viewmodel.dart';
 
@@ -16,14 +17,14 @@ void main() async {
     ProviderScope(
       child: EasyLocalization(
         supportedLocales: const [
-          Constants.enUS,
-          Constants.viVN,
-          Constants.jaJP,
+          LocaleConstants.enUS,
+          LocaleConstants.viVN,
+          LocaleConstants.jaJP,
         ],
-        path: Constants.assetTranslationPath,
-        fallbackLocale: Constants.enUS,
+        path: AppConstants.assetTranslationPath,
+        fallbackLocale: LocaleConstants.enUS,
         assetLoader: const CodegenLoader(),
-        startLocale: Constants.enUS,
+        startLocale: LocaleConstants.enUS,
         child: const MyApp(),
       ),
     ),

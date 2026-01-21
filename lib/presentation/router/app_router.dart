@@ -1,12 +1,12 @@
 import 'package:flutter_clean_riverpod/presentation/router/app_routes.dart';
-import 'package:flutter_clean_riverpod/presentation/ui/home/home_screen.dart';
-import 'package:flutter_clean_riverpod/presentation/ui/main_home/main_home_screen.dart';
-import 'package:flutter_clean_riverpod/presentation/ui/setting/nested_setting_screen.dart';
+import 'package:flutter_clean_riverpod/presentation/features/home/home_screen.dart';
+import 'package:flutter_clean_riverpod/presentation/features/main_home/main_home_screen.dart';
+import 'package:flutter_clean_riverpod/presentation/features/setting/nested_setting_screen.dart';
 import 'package:go_router/go_router.dart';
 
-import '../ui/favourite/favourite_screen.dart';
-import '../ui/search/search_screen.dart';
-import '../ui/setting/setting_screen.dart';
+import '../features/favourite/favourite_screen.dart';
+import '../features/search/search_screen.dart';
+import '../features/setting/setting_screen.dart';
 
 class AppRouter {
   static final router = GoRouter(

@@ -15,36 +15,35 @@ class AppTheme {
 
   static final _lightThemeExtension = AppThemeExtension(
     colors: {
-      Palette.mainColor: Colors.white,
-      Palette.secondaryColor: Colors.black,
-      Palette.primaryColor: Colors.white70,
       Palette.primaryTextColor: Colors.black,
       Palette.primaryBackground: Colors.white,
-      Palette.secondaryBackground: const Color(0xffF5F5F5),
+      Palette.secondaryBackground: Colors.white70,
       Palette.errorColor: Colors.red,
-      Palette.primaryTextFieldBackground: Colors.white54,
-      Palette.secondaryButtonTitle: const Color(0xff0a9d8d),
+      Palette.primaryTextFieldBackground: Colors.white12,
+      Palette.primaryButtonBackground: Colors.black87,
+      Palette.primaryButtonText: Colors.white,
     },
   );
 
-  static final darkTheme = ThemeData.dark(useMaterial3: false).copyWith(
-    extensions: [
-      _darkThemeExtension,
-    ],
-    textTheme: GoogleFonts.ubuntuTextTheme(),
-  );
+  static final darkTheme =
+      ThemeData.dark(
+        useMaterial3: false,
+      ).copyWith(
+        extensions: [
+          _darkThemeExtension,
+        ],
+        textTheme: GoogleFonts.ubuntuTextTheme(),
+      );
 
   static final _darkThemeExtension = AppThemeExtension(
     colors: {
-      Palette.mainColor: Colors.black,
-      Palette.secondaryColor: Colors.white,
-      Palette.primaryColor: Colors.white24,
       Palette.primaryTextColor: Colors.white,
-      Palette.primaryBackground: const Color(0xff28292C),
-      Palette.secondaryBackground: const Color(0xff181A20),
+      Palette.primaryBackground: Colors.black,
+      Palette.secondaryBackground: Colors.black54,
       Palette.errorColor: Colors.red,
-      Palette.primaryTextFieldBackground: Colors.black54,
-      Palette.secondaryButtonTitle: Colors.black,
+      Palette.primaryTextFieldBackground: Colors.black12,
+      Palette.primaryButtonBackground: Colors.white70,
+      Palette.primaryButtonText: Colors.black87,
     },
   );
 }

@@ -1,31 +1,20 @@
-import 'package:dio/dio.dart';
-import 'package:flutter_clean_riverpod/data/core/api_client.dart';
-import 'package:flutter_clean_riverpod/data/core/api_result.dart';
+import 'package:flutter_clean_riverpod/data/datasource/remote/api_result.dart';
 import 'package:flutter_clean_riverpod/data/error/api_error.dart';
-import 'package:flutter_clean_riverpod/data/repository/country/country_repository.dart';
-import 'package:flutter_clean_riverpod/data/response/country/country_response.dart';
+import 'package:flutter_clean_riverpod/data/models/response/country/country_response.dart';
+import 'package:flutter_clean_riverpod/data/repositories/country/country_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'country_repository_test.mocks.dart';
 
-@GenerateNiceMocks([
-  MockSpec<Dio>(),
-  MockSpec<ApiClient>(),
-  MockSpec<DioException>(),
-  MockSpec<CountryResponse>(),
-  MockSpec<CountryRepository>(),
-])
+@GenerateNiceMocks([MockSpec<CountryRepository>()])
 void main() {
-  late final MockCountryRepository repository;
-  setUpAll(() {
-    repository = MockCountryRepository();
-  });
+  final repository = MockCountryRepository();
   test('Fetch data success is successfully.', () async {
     final mockResponseSuccess = ApiResult<List<CountryResponse>>.success([
-      MockCountryResponse(),
-      MockCountryResponse(),
+      CountryResponse(),
+      CountryResponse(),
     ]);
     provideDummy(mockResponseSuccess);
     when(

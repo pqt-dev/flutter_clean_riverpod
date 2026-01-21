@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 
 enum Palette {
-  mainColor,
-  secondaryColor,
   primaryTextColor,
   errorColor,
-  primaryColor,
   primaryBackground,
   secondaryBackground,
   primaryTextFieldBackground,
-  secondaryButtonTitle,
+  primaryButtonBackground,
+  primaryButtonText,
 }
 
 class AppThemeExtension extends ThemeExtension<AppThemeExtension> {

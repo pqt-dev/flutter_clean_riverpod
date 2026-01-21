@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_riverpod/data/repository/theme/theme_repository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../data/repositories/theme/theme_repository.dart';
 
 part 'theme_mode_viewmodel.g.dart';
 
