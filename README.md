@@ -1,6 +1,10 @@
 # Flutter clean riverpod boilerplate
 
 A lightweight Flutter starter template implementing **Clean architecture** with **Riverpod state management**
+> This project does not strictly follow Clean Architecture.
+> The structure is optimized for fast development and scalability,
+> while keeping a clear separation between data and UI layers.
+
 
 ## 🎯 Features
 
@@ -30,23 +34,37 @@ A lightweight Flutter starter template implementing **Clean architecture** with 
 ## 🏗 Project Structure
 
 ```
-lib/
-├── data/              # Contains classes for handling requests, responses, and clients to fetch data from network or local storage.
-├── service/           # Contains common services used across the application.
-├── presentation/      # Contains feature modules for the app.
-│   ├── common/        # Shared components and logic used throughout the app.
-│   ├── router/        # Manages navigation between screens in the app.
-│   ├── theme/         # Contains settings for the app's appearance and theme.
-│   ├── ui/            # Screens and widgets specific to the user interface.
-└── service/           # Contains utility functions for common tasks.
+lib
+├── infrastructure/    # Foundational code, shared across the app.
+│   ├── constants/     # Global constants (Locale, storage keys, date formats, etc.).
+│   ├── di/            # Dependency injection setup using GetIt.
+│   └── services/      # Shared utility services (e.g., InternetConnectionService).
+│
+├── data/
+│   ├── datasources/   # Abstract sources for local (DB, SharedPreferences) and remote (API) data.
+│   ├── models/        # Data Transfer Objects (DTOs) with fromJson/toJson methods.
+│   └── repositories/  # Implementation of repositories, deciding where to fetch data from.
+│
+├── presentation/
+│   ├── features/      # Screens and ViewModels, grouped by feature (e.g., home, search, settings).
+│   ├── router/        # GoRouter configuration and route definitions.
+│   ├── theme/         # App theme configuration (colors, styles, fonts) and Theme ViewModel.
+│   └── dialogs/       # Reusable custom dialogs.
+│
+└── main.dart          # The entry point of the application.
 ```
 
 ## 🚀 Getting Started
 
 ## 1. All in one terminal: clean, get packages, generate necessary classes/files.
    ```bash
-   (fvm) dart run tool/setup.dart
+   make
    ```
+
+or execute a specific terminal:
+```bash
+make clean/pub_get/l10n/build_runner
+```
 
 ## 2. Run each command separately:
    ### 🚀 Delete the `build/` and `.dart_tool/` directories.:

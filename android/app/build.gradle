@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.clean_riverpod"
+    namespace = "com.flutter.clean_riverpod"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -22,7 +22,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.clean_riverpod"
+        applicationId = "com.flutter.clean_riverpod"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 23
@@ -45,18 +45,18 @@ android {
             dimension = "environment"
             resValue("string", "app_name", "[DEV] Clean riverpod")
             versionNameSuffix = "-dev"
-            applicationId = "com.example.clean_riverpod"
+            applicationId = "com.flutter.clean_riverpod"
         }
         create("stg") {
             dimension = "environment"
             resValue("string", "app_name", "[STG] Clean riverpod")
             versionNameSuffix = "-stg"
-            applicationId = "com.example.clean_riverpod"
+            applicationId = "com.flutter.clean_riverpod"
         }
         create("prod") {
             dimension = "environment"
             resValue("string", "app_name", "Clean riverpod")
-            applicationId = "com.example.clean_riverpod"
+            applicationId = "com.flutter.clean_riverpod"
         }
     }
 }
