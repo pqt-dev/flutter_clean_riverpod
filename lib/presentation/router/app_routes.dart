@@ -3,5 +3,6 @@ class AppRoutes {
   static final search = '/search';
   static final favourite = '/favourite';
   static final setting = '/setting';
-  static final detailSetting = '/detail_setting';
+  static final countries = '/countries';
+  static final countriesInHome = '/home/countries';
 }

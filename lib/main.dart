@@ -8,13 +8,14 @@ import 'infrastructure/constants/app_constants.dart';
 import 'infrastructure/constants/locale_constants.dart';
 import 'infrastructure/di/injection.dart';
 import 'presentation/router/app_router.dart';
-import 'presentation/theme/theme_mode_viewmodel.dart';
+import 'presentation/theme/theme_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies();
   runApp(
     ProviderScope(
+      retry: (_, _) => null,
       child: EasyLocalization(
         supportedLocales: const [
           LocaleConstants.enUS,
@@ -36,7 +37,7 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(themeModeViewmodelProvider);
+    final themeMode = ref.watch(themeViewmodelProvider);
     return MaterialApp.router(
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,

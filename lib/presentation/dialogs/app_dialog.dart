@@ -94,14 +94,14 @@ class AppDialog extends StatelessWidget {
           Builder(
             builder: (context) {
               return AppButton(
-                title: cancelText ?? LocaleKeys.label_cancel.tr(),
+                title: cancelText ?? LocaleKeys.cancel.tr(),
                 titleColor: context.color(Palette.primaryButtonText),
                 backgroundColor: context.color(Palette.primaryButtonBackground),
                 padding: EdgeInsets.symmetric(
                   vertical: 8.0,
                   horizontal: 16.0,
                 ),
-                onTap: () => onCancel?.call(),
+                onPressed: () => onCancel?.call(),
               );
             },
           ),
@@ -109,14 +109,14 @@ class AppDialog extends StatelessWidget {
           Builder(
             builder: (context) {
               return AppButton(
-                title: confirmText ?? LocaleKeys.label_ok.tr(),
+                title: confirmText ?? LocaleKeys.ok.tr(),
                 titleColor: context.color(Palette.primaryButtonText),
                 backgroundColor: context.color(Palette.primaryButtonBackground),
                 padding: EdgeInsets.symmetric(
                   vertical: 8.0,
                   horizontal: 16.0,
                 ),
-                onTap: () {
+                onPressed: () {
                   if (onConfirm != null) {
                     onConfirm!();
                   }

@@ -4,10 +4,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../data/repositories/theme/theme_repository.dart';
 
-part 'theme_mode_viewmodel.g.dart';
+part 'theme_viewmodel.g.dart';
 
 @riverpod
-class ThemeModeViewmodel extends _$ThemeModeViewmodel {
+class ThemeViewmodel extends _$ThemeViewmodel {
   final repository = GetIt.instance.get<ThemeRepository>();
 
   @override

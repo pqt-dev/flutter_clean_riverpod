@@ -1,8 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_riverpod/generated/locale_keys.g.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import 'bottom_nav_tab.dart';
 
 class MainHomeScreen extends ConsumerWidget {
   const MainHomeScreen({
@@ -17,22 +17,36 @@ class MainHomeScreen extends ConsumerWidget {
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: BottomNavigationBar(
-        items: BottomNavTab.values
-            .map(
-              (tab) => BottomNavigationBarItem(
-                label: tab.title,
-                icon: Padding(
-                  padding: const EdgeInsets.all(2),
-                  child: switch (tab) {
-                    BottomNavTab.feed => Icon(Icons.home_outlined),
-                    BottomNavTab.search => Icon(Icons.search_outlined),
-                    BottomNavTab.favourite => Icon(Icons.favorite_outline_rounded),
-                    BottomNavTab.setting => Icon(Icons.settings_outlined),
-                  },
-                ),
-              ),
-            )
-            .toList(),
+        items: [
+          BottomNavigationBarItem(
+            label: LocaleKeys.home.tr(context: context),
+            icon: Padding(
+              padding: .all(2.0),
+              child: Icon(Icons.home_outlined),
+            ),
+          ),
+          BottomNavigationBarItem(
+            label: LocaleKeys.search.tr(context: context),
+            icon: Padding(
+              padding: .all(2.0),
+              child: Icon(Icons.search_outlined),
+            ),
+          ),
+          BottomNavigationBarItem(
+            label: LocaleKeys.favourite.tr(context: context),
+            icon: Padding(
+              padding: .all(2.0),
+              child: Icon(Icons.favorite_outline),
+            ),
+          ),
+          BottomNavigationBarItem(
+            label: LocaleKeys.setting.tr(context: context),
+            icon: Padding(
+              padding: .all(2.0),
+              child: Icon(Icons.settings_outlined),
+            ),
+          ),
+        ],
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,
         currentIndex: navigationShell.currentIndex,
@@ -44,9 +58,7 @@ class MainHomeScreen extends ConsumerWidget {
         unselectedLabelStyle: const TextStyle(
           fontWeight: FontWeight.w600,
         ),
-        onTap: (int index) {
-          navigationShell.goBranch(index);
-        },
+        onTap: (int index) => navigationShell.goBranch(index),
       ),
     );
   }

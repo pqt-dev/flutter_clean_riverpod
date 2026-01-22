@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_riverpod/presentation/extensions/build_context_x.dart';
+import 'package:flutter_clean_riverpod/presentation/theme/app_theme_extension.dart';
 
 import 'app_text.dart';
 
@@ -6,9 +8,9 @@ class AppButton extends StatelessWidget {
   const AppButton({
     super.key,
     required this.title,
-    required this.titleColor,
-    required this.backgroundColor,
-    this.onTap,
+    this.titleColor,
+    this.backgroundColor,
+    this.onPressed,
     this.width,
     this.height,
     this.padding,
@@ -18,7 +20,7 @@ class AppButton extends StatelessWidget {
   final String title;
   final Color? titleColor;
   final Color? backgroundColor;
-  final VoidCallback? onTap;
+  final VoidCallback? onPressed;
   final double? width;
   final double? height;
   final EdgeInsets? padding;
@@ -26,10 +28,10 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ElevatedButton(
-    onPressed: onTap,
+    onPressed: onPressed,
     style: ElevatedButton.styleFrom(
       shape: shape,
-      backgroundColor: backgroundColor,
+      backgroundColor: backgroundColor ?? context.color(Palette.primaryButtonBackground),
       padding:
           padding ??
           const EdgeInsets.symmetric(
@@ -39,7 +41,7 @@ class AppButton extends StatelessWidget {
     child: AppText(
       text: title,
       maxLines: 1,
-      color: titleColor,
+      color: titleColor ?? context.color(Palette.primaryButtonText),
     ),
   );
 }

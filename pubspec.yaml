@@ -68,7 +68,6 @@ dependencies:
   flutter_spinkit: ^5.2.1
   google_fonts: ^6.3.3
   injectable: ^2.7.1+4
-  change_app_package_name: ^1.5.0
 
 
 dev_dependencies:
@@ -97,6 +96,9 @@ dev_dependencies:
 
 
   injectable_generator: ^2.9.1
+
+  change_app_package_name: ^1.5.0
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
