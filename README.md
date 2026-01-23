@@ -103,12 +103,12 @@ This command will clean the project, get dependencies, and run code generation a
 
 - To run a specific task:
 
-```
-make clean         # Clean project
-make pub_get       # Get dependencies
-make l10n          # Generate localization files
-make build_runner  # Generate Freezed/JsonSerializable files
-```
+    ```
+    make clean         # Clean project
+    make pub_get       # Get dependencies
+    make l10n          # Generate localization files
+    make build_runner  # Generate Freezed/JsonSerializable files
+    ```
 
 **Option 2: Manual Setup**
 
