@@ -1,16 +1,16 @@
-import 'package:flutter_clean_riverpod/presentation/router/app_routes.dart';
-import 'package:flutter_clean_riverpod/presentation/ui/home/home_screen.dart';
-import 'package:flutter_clean_riverpod/presentation/ui/main_home/main_home_screen.dart';
-import 'package:flutter_clean_riverpod/presentation/ui/setting/nested_setting_screen.dart';
 import 'package:go_router/go_router.dart';
 
-import '../ui/favourite/favourite_screen.dart';
-import '../ui/search/search_screen.dart';
-import '../ui/setting/setting_screen.dart';
+import '../features/country/countries_screen.dart';
+import '../features/favourite/favourite_screen.dart';
+import '../features/home/home_screen.dart';
+import '../features/main_home/main_home_screen.dart';
+import '../features/search/search_screen.dart';
+import '../features/setting/setting_screen.dart';
+import 'app_routes.dart';
 
 class AppRouter {
   static final router = GoRouter(
-    initialLocation: AppRoutes.homeRoute.path,
+    initialLocation: AppRoutes.home,
     debugLogDiagnostics: true,
     routes: [
       StatefulShellRoute.indexedStack(
@@ -20,15 +20,21 @@ class AppRouter {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: AppRoutes.homeRoute.path,
+                path: AppRoutes.home,
                 builder: (context, state) => HomeScreen(),
+                routes: [
+                  GoRoute(
+                    path: AppRoutes.countries,
+                    builder: (context, state) => CountriesScreen(),
+                  ),
+                ],
               ),
             ],
           ),
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: AppRoutes.searchRoute.path,
+                path: AppRoutes.search,
                 builder: (context, state) => SearchScreen(),
               ),
             ],
@@ -36,7 +42,7 @@ class AppRouter {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: AppRoutes.favourite.path,
+                path: AppRoutes.favourite,
                 builder: (context, state) => FavouriteScreen(),
               ),
             ],
@@ -44,14 +50,8 @@ class AppRouter {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: AppRoutes.setting.path,
+                path: AppRoutes.setting,
                 builder: (context, state) => SettingScreen(),
-                routes: [
-                  GoRoute(
-                    path: AppRoutes.detailSetting.nestedPath ?? '-',
-                    builder: (context, state) => NestedSettingScreen(),
-                  ),
-                ],
               ),
             ],
           ),

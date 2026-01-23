@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 
-enum AppPalette {
-  mainColor,
-  secondaryColor,
+enum Palette {
   primaryTextColor,
   errorColor,
-  primaryColor,
   primaryBackground,
   secondaryBackground,
   primaryTextFieldBackground,
-  secondaryButtonTitle,
+  primaryButtonBackground,
+  primaryButtonText,
 }
 
 class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
-  final Map<AppPalette, Color> colors;
+  final Map<Palette, Color> colors;
 
   const AppThemeExtension({required this.colors});
 
-  Color getColor(AppPalette key) {
+  Color getColor(Palette key) {
     assert(colors[key] != null);
     return colors[key]!;
   }
 
   @override
-  ThemeExtension<AppThemeExtension> copyWith({Map<AppPalette, Color>? colors}) {
+  ThemeExtension<AppThemeExtension> copyWith({Map<Palette, Color>? colors}) {
     return AppThemeExtension(colors: colors ?? this.colors);
   }
 
@@ -31,7 +29,7 @@ class AppThemeExtension extends ThemeExtension<AppThemeExtension> {
   AppThemeExtension lerp(ThemeExtension<AppThemeExtension>? other, double t) {
     if (other is! AppThemeExtension) return this;
 
-    final mergedColors = <AppPalette, Color>{};
+    final mergedColors = <Palette, Color>{};
     final allKeys = {...colors.keys, ...other.colors.keys};
 
     for (final key in allKeys) {

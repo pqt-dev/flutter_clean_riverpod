@@ -37,6 +37,7 @@ coverage/
 *.mocks.dart
 *.g.dart
 *.freezed.dart
+*.config.dart
 
 # Symbolication related
 app.*.symbols

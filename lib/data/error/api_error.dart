@@ -1,27 +1,35 @@
 import 'package:dio/dio.dart';
 
-abstract class ApiError<T> {
-  final T error;
+sealed class ApiError {
+  final StackTrace? stackTrace;
 
-  const ApiError(this.error);
+  const ApiError({this.stackTrace});
 }
 
-class InternetError extends ApiError<String> {
-  const InternetError([super.error = "No Internet Connection"]);
+class InternetError extends ApiError {
+  const InternetError({super.stackTrace});
 }
 
-class RequestApiError extends ApiError<DioException> {
-  const RequestApiError(super.error);
+class RequestApiError extends ApiError {
+  final DioException exception;
+
+  const RequestApiError(this.exception, {super.stackTrace});
 }
 
-class ParseResponseError extends ApiError<Object> {
-  const ParseResponseError(super.error);
+class UnauthorizedError extends ApiError {
+  final DioException exception;
+
+  const UnauthorizedError(this.exception, {super.stackTrace});
 }
 
-class UnauthorizedError extends ApiError<DioException> {
-  const UnauthorizedError(super.error);
+class ParseResponseError extends ApiError {
+  final Exception exception;
+
+  const ParseResponseError(this.exception, {super.stackTrace});
 }
 
-class UnknownError extends ApiError<Object?> {
-  const UnknownError([super.error]);
+class UnknownError extends ApiError {
+  final Object? obj;
+
+  const UnknownError(this.obj, {super.stackTrace});
 }
