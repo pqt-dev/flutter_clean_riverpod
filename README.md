@@ -138,16 +138,16 @@ If you prefer to run commands manually, follow these steps in order:
    (fvm) dart run build_runner build -d
    ```
 ## 🧪 Testing
-#### 🚀 Run unit test:
+- Run unit test:
 
-   ```
-   (fvm) flutter test
-   ```
+    ```bash
+    fvm) flutter test
+    ```
 
-#### 🚀 Generate Coverage Report (HTML):
+- Generate Coverage Report (HTML):
 
-   ```
-   (fvm) flutter test --coverage && genhtml coverage/lcov.info -o coverage/html && open coverage/html/index.html
-   ```
+    ```bash
+       (fvm) flutter test --coverage && genhtml coverage/lcov.info -o coverage/html && open coverage/html/index.html
+    ```
 
    ---
