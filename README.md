@@ -69,19 +69,19 @@ lib
 
 Run this command to change the package name for both platforms.
 
-```
+```bash
 (fvm) dart run change_app_package_name:main com.new.package.name
 ```
 
 To rename only Android:
 
-```
+```bash
 (fvm) dart run change_app_package_name:main com.new.package.name --android
 ```
 
 To rename only IOS:
 
-```
+```bash
 (fvm) dart run change_app_package_name:main com.new.package.name --ios
 ```
 
@@ -103,7 +103,7 @@ This command will clean the project, get dependencies, and run code generation a
 
 - To run a specific task:
 
-    ```
+    ```bash
     make clean         # Clean project
     make pub_get       # Get dependencies
     make l10n          # Generate localization files
@@ -116,25 +116,25 @@ If you prefer to run commands manually, follow these steps in order:
 
 - Clean the project:
    
-   ```
+   ```bash
    (fvm) flutter clean
    ```
 
 - Get dependencies:
 
-   ```
+   ```bash
    (fvm) flutter pub get
    ```
 
 - Generate localization files:
 
-   ```
+   ```bash
    (fvm) dart run easy_localization:generate -S assets/translations & (fvm) dart run easy_localization:generate -S assets/translations -f keys -o locale_keys.g.dart
    ```
 
 - Generate auto-generated files (such as `*.freezed.dart` , `*.g.dart` ...):
 
-   ```
+   ```bash
    (fvm) dart run build_runner build -d
    ```
 ## 🧪 Testing
