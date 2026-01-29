@@ -1,6 +1,7 @@
-import 'package:flutter_clean_riverpod/data/datasource/remote/api_result.dart';
-import 'package:flutter_clean_riverpod/data/models/response/country/country_response.dart';
-import 'package:flutter_clean_riverpod/data/repositories/country/country_repository.dart';
+import 'package:flutter_clean_riverpod/data/models/country/country_model.dart';
+import 'package:flutter_clean_riverpod/domain/core/result.dart';
+import 'package:flutter_clean_riverpod/domain/entities/country.dart';
+import 'package:flutter_clean_riverpod/domain/repositories/country/country_repository.dart';
 import 'package:flutter_clean_riverpod/presentation/features/country/country_state.dart';
 import 'package:flutter_clean_riverpod/presentation/features/country/country_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,12 +26,7 @@ void main() {
     'Test whether the CountryViewmodel instance is initialized and `initialize()` function is successful',
     () async {
       final container = ProviderContainer();
-      final mockResponseSuccess = ApiResult<List<CountryResponse>>.success(
-        [
-          CountryResponse(),
-          CountryResponse(),
-        ],
-      );
+      final mockResponseSuccess = Success([Country(), Country()]);
       provideDummy(mockResponseSuccess);
       when(mockRepository.fetchAllCountries()).thenAnswer((_) async => mockResponseSuccess);
       final future = container.read(countryViewmodelProvider.future);
@@ -47,7 +43,7 @@ void main() {
               .having(
                 (state) => state.countries,
                 'Is a list of CountryResponse',
-                isA<List<CountryResponse>>(),
+                isA<List<CountryModel>>(),
               ),
         ),
       );

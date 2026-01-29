@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../infrastructure/constants/storage_keys.dart';
-import 'theme_repository.dart';
+import '../../../domain/repositories/theme/theme_repository.dart';
 
 class ThemeRepositoryImpl implements ThemeRepository {
   final SharedPreferences preferences;

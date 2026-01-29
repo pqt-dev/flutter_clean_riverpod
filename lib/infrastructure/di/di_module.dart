@@ -4,13 +4,8 @@ import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../data/datasource/remote/api_client.dart';
-import '../../data/datasource/remote/api_endpoint.dart';
-import '../../data/datasource/remote/interceptor/auth_interceptor.dart';
-import '../../data/repositories/country/country_repository.dart';
-import '../../data/repositories/country/country_repository_impl.dart';
-import '../../data/repositories/theme/theme_repository.dart';
-import '../../data/repositories/theme/theme_repository_impl.dart';
+import '../../data/datasource/core/api_endpoint.dart';
+import '../../data/datasource/core/interceptor/auth_interceptor.dart';
 
 @module
 abstract class NetworkModule {
@@ -40,18 +35,26 @@ abstract class NetworkModule {
   );
 }
 
-@module
-abstract class RepositoryModule {
-  @lazySingleton
-  ThemeRepository themeRepository(SharedPreferences prefs) {
-    return ThemeRepositoryImpl(prefs);
-  }
-
-  @lazySingleton
-  CountryRepository countryRepository(ApiClient client) {
-    return CountryRepositoryImpl(client);
-  }
-}
+// @module
+// abstract class DatasourceModule {
+//   @lazySingleton
+//   CountryDatasource countryDatasource(ApiClient client) {
+//     return CountryDatasourceImpl(client);
+//   }
+// }
+//
+// @module
+// abstract class RepositoryModule {
+//   @lazySingleton
+//   ThemeRepository themeRepository(SharedPreferences prefs) {
+//     return ThemeRepositoryImpl(prefs);
+//   }
+//
+//   @lazySingleton
+//   CountryRepository countryRepository(CountryDatasource datasource) {
+//     return CountryRepositoryImpl(datasource);
+//   }
+// }
 
 @module
 abstract class ConfigModule {
