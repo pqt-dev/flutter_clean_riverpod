@@ -2,8 +2,6 @@
 
 A lightweight, scalable Flutter starter template implementing **Clean Architecture** with **Riverpod** for state management.
 
-> [!NOTE]
-> This project adopts a "Pragmatic Clean Architecture" approach. It is optimized for development speed and scalability while maintaining a clear separation between the Data and UI layers, without being overly dogmatic.
 ## 🎯 Features
 
 - **Architecture**: Clean separation of concerns
@@ -43,8 +41,16 @@ lib
 │
 ├── data/
 │   ├── datasources/   # Abstract sources for local (DB, SharedPreferences) and remote (API) data.
+│   ├── failures/      # Exception Mappers ensuring proper error handling (Exception -> AppError).
+│   ├── mappers/       # Mappers to transform Data Models to Domain Entities.
 │   ├── models/        # Data Transfer Objects (DTOs) with fromJson/toJson methods.
-│   └── repositories/  # Implementation of repositories, deciding where to fetch data from.
+│   └── repositories/  # Implementation of Domain Repositories.
+│
+├── domain/
+│   ├── core/          # Core Domain Logic (Result type, AppError definitions).
+│   ├── entities/      # Pure business objects (Plain Dart Objects).
+│   ├── repositories/  # Interfaces (Contracts) for repositories.
+│   └── use_cases/     # Application Business Rules (Interactors).
 │
 ├── presentation/
 │   ├── features/      # Screens and ViewModels, grouped by feature (e.g., home, search, settings).
@@ -69,19 +75,19 @@ lib
 
 Run this command to change the package name for both platforms.
 
-```
+```bash
 (fvm) dart run change_app_package_name:main com.new.package.name
 ```
 
 To rename only Android:
 
-```
+```bash
 (fvm) dart run change_app_package_name:main com.new.package.name --android
 ```
 
 To rename only IOS:
 
-```
+```bash
 (fvm) dart run change_app_package_name:main com.new.package.name --ios
 ```
 
@@ -103,12 +109,12 @@ This command will clean the project, get dependencies, and run code generation a
 
 - To run a specific task:
 
-```
-make clean         # Clean project
-make pub_get       # Get dependencies
-make l10n          # Generate localization files
-make build_runner  # Generate Freezed/JsonSerializable files
-```
+    ```bash
+    make clean         # Clean project
+    make pub_get       # Get dependencies
+    make l10n          # Generate localization files
+    make build_runner  # Generate Freezed/JsonSerializable files
+    ```
 
 **Option 2: Manual Setup**
 
@@ -116,38 +122,38 @@ If you prefer to run commands manually, follow these steps in order:
 
 - Clean the project:
    
-   ```
+   ```bash
    (fvm) flutter clean
    ```
 
 - Get dependencies:
 
-   ```
+   ```bash
    (fvm) flutter pub get
    ```
 
 - Generate localization files:
 
-   ```
+   ```bash
    (fvm) dart run easy_localization:generate -S assets/translations & (fvm) dart run easy_localization:generate -S assets/translations -f keys -o locale_keys.g.dart
    ```
 
 - Generate auto-generated files (such as `*.freezed.dart` , `*.g.dart` ...):
 
-   ```
+   ```bash
    (fvm) dart run build_runner build -d
    ```
 ## 🧪 Testing
-#### 🚀 Run unit test:
+- Run unit test:
 
-   ```
-   (fvm) flutter test
-   ```
+    ```bash
+    fvm) flutter test
+    ```
 
-#### 🚀 Generate Coverage Report (HTML):
+- Generate Coverage Report (HTML):
 
-   ```
-   (fvm) flutter test --coverage && genhtml coverage/lcov.info -o coverage/html && open coverage/html/index.html
-   ```
+    ```bash
+       (fvm) flutter test --coverage && genhtml coverage/lcov.info -o coverage/html && open coverage/html/index.html
+    ```
 
    ---

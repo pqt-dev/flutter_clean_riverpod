@@ -1,35 +1,23 @@
-import '../../datasource/remote/api_client.dart';
-import '../../datasource/remote/api_endpoint.dart';
-import '../../datasource/remote/api_result.dart';
-import '../../models/response/country/country_response.dart';
-import 'country_repository.dart';
+import 'package:flutter_clean_riverpod/data/mappers/country_mapper.dart';
+import 'package:flutter_clean_riverpod/domain/entities/country.dart';
+import 'package:injectable/injectable.dart';
 
+import '../../../domain/core/result.dart';
+import '../../../domain/repositories/country/country_repository.dart';
+import '../../datasource/country/country_datasource_remote.dart';
+
+@LazySingleton(as: CountryRepository)
 class CountryRepositoryImpl implements CountryRepository {
-  final ApiClient client;
+  final CountryDatasourceRemote remoteDatasource;
 
-  CountryRepositoryImpl(this.client);
+  CountryRepositoryImpl(this.remoteDatasource);
 
   @override
-  Future<ApiResult<List<CountryResponse>>> fetchAllCountries() {
-    return client.request(
-        endpoint: APIEndpoint.allCountries,
-        method: ApiMethod.get,
-        queryParameters: {
-          'fields': [
-            'name',
-            'flags',
-            'capital',
-            'area',
-            'region',
-            'subregion',
-            'population',
-            'postalCode',
-            'timezones',
-            'borders',
-          ],
-        },
-        decoder: (data) => (data as List<dynamic>)
-            .map((element) => CountryResponse.fromJson(element))
-            .toList());
+  Future<Result<List<Country>>> fetchAllCountries() async {
+    final result = await remoteDatasource.fetchCountries();
+    return switch (result) {
+      Success(value: final models) => Success(models.map((e) => e.toEntity()).toList()),
+      Failure(error: final error) => Failure(error),
+    };
   }
 }

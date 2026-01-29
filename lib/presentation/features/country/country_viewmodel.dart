@@ -1,19 +1,19 @@
-import 'package:flutter_clean_riverpod/infrastructure/di/injection.dart';
+import 'package:flutter_clean_riverpod/domain/use_cases/country/country_use_case.dart';
 import 'package:flutter_clean_riverpod/presentation/features/country/country_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../data/datasource/remote/api_result.dart';
-import '../../../data/repositories/country/country_repository.dart';
+import '../../../domain/core/result.dart';
+import '../../../infrastructure/di/injection.dart';
 
 part 'country_viewmodel.g.dart';
 
 @riverpod
 class CountryViewmodel extends _$CountryViewmodel {
-  final repository = getIt.get<CountryRepository>();
+  final useCase = getIt.get<CountryUseCase>();
 
   @override
   FutureOr<CountryState> build() async {
-    final result = await repository.fetchAllCountries();
+    final result = await useCase.fetchAllCountries();
     switch (result) {
       case Success(:final value):
         return CountryState(

@@ -1,7 +1,8 @@
-import 'package:flutter_clean_riverpod/data/datasource/remote/api_result.dart';
-import 'package:flutter_clean_riverpod/data/error/api_error.dart';
-import 'package:flutter_clean_riverpod/data/models/response/country/country_response.dart';
-import 'package:flutter_clean_riverpod/data/repositories/country/country_repository.dart';
+import 'package:flutter_clean_riverpod/data/models/country/country_model.dart';
+import 'package:flutter_clean_riverpod/domain/core/app_error.dart';
+import 'package:flutter_clean_riverpod/domain/core/result.dart';
+import 'package:flutter_clean_riverpod/domain/entities/country.dart';
+import 'package:flutter_clean_riverpod/domain/repositories/country/country_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -12,23 +13,20 @@ import 'country_repository_test.mocks.dart';
 void main() {
   final repository = MockCountryRepository();
   test('Fetch data success is successfully.', () async {
-    final mockResponseSuccess = ApiResult<List<CountryResponse>>.success([
-      CountryResponse(),
-      CountryResponse(),
-    ]);
+    final mockResponseSuccess = Success([Country(), Country()]);
     provideDummy(mockResponseSuccess);
     when(
       repository.fetchAllCountries(),
     ).thenAnswer((_) async => mockResponseSuccess);
     final actual = await repository.fetchAllCountries();
-    expect(actual, isA<ApiResult<List<CountryResponse>>>());
+    expect(actual, isA<Result<List<CountryModel>>>());
     expect(
       actual,
-      isA<Success<List<CountryResponse>>>()
+      isA<Success<List<CountryModel>>>()
           .having(
             (value) => value.value,
             'Is a list of CountryResponse',
-            isA<List<CountryResponse>>(),
+            isA<List<CountryModel>>(),
           )
           .having(
             (value) => value.value.length,
@@ -38,7 +36,7 @@ void main() {
     );
   });
   test('Fetch data is error.', () async {
-    final mockError = ApiResult<List<CountryResponse>>.failed(InternetError());
+    final mockError = Failure(NetworkError());
     provideDummy(mockError);
     when(repository.fetchAllCountries()).thenAnswer((_) async => mockError);
     final actual = await repository.fetchAllCountries();

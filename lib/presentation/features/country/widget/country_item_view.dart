@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_riverpod/domain/entities/country.dart';
 
-import '../../../../data/models/response/country/country_response.dart';
 import '../../widgets/app_text.dart';
 
 class CountryItemView extends StatelessWidget {
   const CountryItemView({super.key, required this.data});
 
-  final CountryResponse data;
+  final Country data;
 
   @override
   Widget build(BuildContext context) {
