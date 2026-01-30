@@ -1,4 +1,3 @@
-import 'package:flutter_clean_riverpod/data/models/country/country_model.dart';
 import 'package:flutter_clean_riverpod/domain/core/app_error.dart';
 import 'package:flutter_clean_riverpod/domain/core/result.dart';
 import 'package:flutter_clean_riverpod/domain/entities/country.dart';
@@ -14,19 +13,19 @@ void main() {
   final repository = MockCountryRepository();
   test('Fetch data success is successfully.', () async {
     final mockResponseSuccess = Success([Country(), Country()]);
-    provideDummy(mockResponseSuccess);
+    provideDummy<Result<List<Country>>>(mockResponseSuccess);
     when(
       repository.fetchAllCountries(),
     ).thenAnswer((_) async => mockResponseSuccess);
     final actual = await repository.fetchAllCountries();
-    expect(actual, isA<Result<List<CountryModel>>>());
+    expect(actual, isA<Result<List<Country>>>());
     expect(
       actual,
-      isA<Success<List<CountryModel>>>()
+      isA<Success<List<Country>>>()
           .having(
             (value) => value.value,
-            'Is a list of CountryResponse',
-            isA<List<CountryModel>>(),
+            'Is a list of Country',
+            isA<List<Country>>(),
           )
           .having(
             (value) => value.value.length,
@@ -37,8 +36,9 @@ void main() {
   });
   test('Fetch data is error.', () async {
     final mockError = Failure(NetworkError());
-    provideDummy(mockError);
+    provideDummy<Result<List<Country>>>(mockError);
     when(repository.fetchAllCountries()).thenAnswer((_) async => mockError);
+    provideDummy(Failure(ServerError()));
     final actual = await repository.fetchAllCountries();
     expect(actual, isA<Failure>());
   });
