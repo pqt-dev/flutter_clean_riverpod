@@ -1,7 +1,6 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
 }
 
@@ -25,7 +24,7 @@ android {
         applicationId = "com.flutter.clean_riverpod"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = 23
+        minSdkVersion = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -45,18 +44,17 @@ android {
             dimension = "environment"
             resValue("string", "app_name", "[DEV] Clean riverpod")
             versionNameSuffix = "-dev"
-            applicationId = "com.flutter.clean_riverpod"
+            applicationIdSuffix = ".dev"
         }
         create("stg") {
             dimension = "environment"
             resValue("string", "app_name", "[STG] Clean riverpod")
             versionNameSuffix = "-stg"
-            applicationId = "com.flutter.clean_riverpod"
+            applicationIdSuffix = ".stg"
         }
         create("prod") {
             dimension = "environment"
             resValue("string", "app_name", "Clean riverpod")
-            applicationId = "com.flutter.clean_riverpod"
         }
     }
 }

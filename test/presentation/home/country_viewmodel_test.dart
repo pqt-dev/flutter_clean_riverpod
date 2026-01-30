@@ -1,7 +1,6 @@
-import 'package:flutter_clean_riverpod/data/models/country/country_model.dart';
 import 'package:flutter_clean_riverpod/domain/core/result.dart';
 import 'package:flutter_clean_riverpod/domain/entities/country.dart';
-import 'package:flutter_clean_riverpod/domain/repositories/country/country_repository.dart';
+import 'package:flutter_clean_riverpod/domain/use_cases/country/country_use_case.dart';
 import 'package:flutter_clean_riverpod/presentation/features/country/country_state.dart';
 import 'package:flutter_clean_riverpod/presentation/features/country/country_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,23 +11,23 @@ import 'package:mockito/mockito.dart';
 
 import 'country_viewmodel_test.mocks.dart';
 
-@GenerateNiceMocks([MockSpec<CountryRepository>()])
+@GenerateNiceMocks([MockSpec<CountryUseCase>()])
 void main() {
-  late final MockCountryRepository mockRepository;
+  late final MockCountryUseCase countryUseCase;
   setUp(() {
-    mockRepository = MockCountryRepository();
-    if (GetIt.instance.isRegistered<CountryRepository>()) {
-      GetIt.instance.unregister<CountryRepository>();
+    countryUseCase = MockCountryUseCase();
+    if (GetIt.instance.isRegistered<CountryUseCase>()) {
+      GetIt.instance.unregister<CountryUseCase>();
     }
-    GetIt.instance.registerSingleton<CountryRepository>(mockRepository);
+    GetIt.instance.registerSingleton<CountryUseCase>(countryUseCase);
   });
   test(
     'Test whether the CountryViewmodel instance is initialized and `initialize()` function is successful',
     () async {
       final container = ProviderContainer();
       final mockResponseSuccess = Success([Country(), Country()]);
-      provideDummy(mockResponseSuccess);
-      when(mockRepository.fetchAllCountries()).thenAnswer((_) async => mockResponseSuccess);
+      provideDummy<Result<List<Country>>>(mockResponseSuccess);
+      when(countryUseCase.fetchAllCountries()).thenAnswer((_) async => mockResponseSuccess);
       final future = container.read(countryViewmodelProvider.future);
       addTearDown(container.dispose);
       await expectLater(
@@ -43,7 +42,7 @@ void main() {
               .having(
                 (state) => state.countries,
                 'Is a list of CountryResponse',
-                isA<List<CountryModel>>(),
+                isA<List<Country>>(),
               ),
         ),
       );
