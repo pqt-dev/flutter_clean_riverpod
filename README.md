@@ -70,25 +70,57 @@ lib
 
 ### 1. Customization
 
-> [!NOTE] 
-> Using [change_app_package_name](https://pub.dev/packages/change_app_package_name) to **change app package name** with single command. Update AndroidManifest, build.gradle, MainActivity files & move MainActivity file to new directory structure automatically.
+> [!NOTE]
+> This project uses [change_app_package_name](https://pub.dev/packages/change_app_package_name) internally to update Android and iOS application identifiers.
 
-Run this command to change the package name for both platforms.
+#### Rename Flutter project & application package (Recommended)
+
+This project provides a `make rename` command to **rename both**:
+- the **Flutter project name** (`pubspec.yaml`)
+- the **application package identifiers** (Android & iOS)
+
+in a single step.
+
+Run:
 
 ```bash
-(fvm) dart run change_app_package_name:main com.new.package.name
+make rename project_name=new_project_name package_name=com.new.package.name
+```
+
+What this command does?
+
+✅ Update project name in pubspec.yaml
+
+✅ Update all Dart imports
+(package:old_project_name/... → package:new_project_name/...)
+
+✅ Change Android applicationId
+
+✅ Change iOS bundle identifier
+
+✅ Move Android MainActivity to the correct package directory
+
+⚠️ Note: iOS test targets (RunnerTests, RunnerUITests) may still contain the old name (safe to ignore or clean manually if needed)
+
+**Alternative**: Change package name only
+
+If you only want to change the application package name
+(without renaming the Flutter project):
+Android & iOS
+```bash
+fvm dart run change_app_package_name:main com.new.package.name
 ```
 
 To rename only Android:
 
 ```bash
-(fvm) dart run change_app_package_name:main com.new.package.name --android
+fvm dart run change_app_package_name:main com.new.package.name --android
 ```
 
 To rename only IOS:
 
 ```bash
-(fvm) dart run change_app_package_name:main com.new.package.name --ios
+fvm dart run change_app_package_name:main com.new.package.name --ios
 ```
 
 Where `com.new.package.name` is the new package name that you want for your app. replace it with any
