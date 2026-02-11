@@ -40,19 +40,19 @@ android {
 
     flavorDimensions += "environment"
     productFlavors {
-        create("dev") {
+        create("develop") {
             dimension = "environment"
             resValue("string", "app_name", "[DEV] Clean riverpod")
             versionNameSuffix = "-dev"
             applicationIdSuffix = ".dev"
         }
-        create("stg") {
+        create("staging") {
             dimension = "environment"
             resValue("string", "app_name", "[STG] Clean riverpod")
             versionNameSuffix = "-stg"
             applicationIdSuffix = ".stg"
         }
-        create("prod") {
+        create("production") {
             dimension = "environment"
             resValue("string", "app_name", "Clean riverpod")
         }
