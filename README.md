@@ -68,6 +68,10 @@ lib
 > [!NOTE]
 > Prerequisite: This project uses FVM (Flutter Version Manager). Ensure you have FVM installed or remove fvm from the commands below if using a standard Flutter install.
 
+> [!WARNING]
+> Warning: Note: The `make` command is primarily tested on macOS and may not work correctly on Linux or Windows.
+
+
 ### 1. Customization
 
 > [!NOTE]
@@ -84,7 +88,7 @@ in a single step.
 Run:
 
 ```bash
-make rename project_name=new_project_name package_name=com.new.package.name
+make rename project_name=new_project_name package_name=com.new.both.name
 ```
 
 What this command does?
@@ -100,31 +104,31 @@ What this command does?
 
 ✅ Move Android MainActivity to the correct package directory
 
-⚠️ Note: iOS test targets (RunnerTests, RunnerUITests) may still contain the old name (safe to ignore or clean manually if needed)
+#### OPTIONAL:
 
-**Alternative**: Change package name only
-
-If you only want to change the application package name
-(without renaming the Flutter project):
-Android & iOS
-```bash
-fvm dart run change_app_package_name:main com.new.package.name
-```
-
-To rename only Android:
+**Rename only the project name and update all Dart imports**
 
 ```bash
-fvm dart run change_app_package_name:main com.new.package.name --android
+make rename project_name=new_project_name
 ```
 
-To rename only IOS:
+**Rename only the Android package name**
 
 ```bash
-fvm dart run change_app_package_name:main com.new.package.name --ios
+make rename android_package=com.new.package.name
 ```
 
-Where `com.new.package.name` is the new package name that you want for your app. replace it with any
-name you want.
+**Rename only the iOS bundle identifier**
+
+```bash
+make rename ios_bundle=com.new.bundle.id
+```
+
+**Rename Android and iOS using the same package name**
+
+```bash
+make rename package_name=com.new.both.name
+```
 
 ### 2. Setup
 You can set up the project in two ways. Using Makefile is recommended for simplicity.

@@ -13,7 +13,7 @@ BLUE := \033[0;34m
 RED := \033[0;31m
 NC := \033[0m
 
-.PHONY: all check_version clean pub_get l10n build_runner rename
+.PHONY: all check_version clean pub_get l10n build_runner rename info
 
 all: check_version clean pub_get l10n build_runner
 	@echo "$(GREEN)🎉 All tasks completed successfully!$(NC)"
@@ -39,8 +39,6 @@ check_version:
 	fi; \
 	echo "$(GREEN)🎉 Dart SDK version check passed$(NC)"
 
-
-
 clean:
 	@echo "$(BLUE)🚀 flutter clean$(NC)"
 	@$(FLUTTER) clean
@@ -60,25 +58,55 @@ build_runner:
 
 rename:
 	@echo "$(BLUE)📛 Detecting old project name...$(NC)"
-	@OLD_NAME=$$(grep '^name:' pubspec.yaml | awk '{print $$2}'); \
+	@OLD_PROJECT_NAME=$$(grep '^name:' pubspec.yaml | awk '{print $$2}'); \
 	OLD_ANDROID_APPLICATION_ID=$$(grep -R "applicationId" android/app 2>/dev/null \
     		| sed -E 's/.*applicationId[ ="]+([^"]+).*/\1/' \
     		| head -n 1); \
 	OLD_IOS_BUNDLE_ID=$$(grep -R "PRODUCT_BUNDLE_IDENTIFIER" ios/Runner.xcodeproj/project.pbxproj \
     		| sed -E 's/.*= ([^;]+);/\1/' \
     		| head -n 1); \
-	if [ -z "$$OLD_NAME" ]; then \
+	if [ -z "$$OLD_PROJECT_NAME" ]; then \
 		echo "$(RED)❌ Cannot detect old project name$(NC)"; \
 		exit 1; \
 	fi; \
-	echo "$(GREEN)✔ Old project name: $$OLD_NAME$(NC)"; \
-	echo "$(GREEN)✔ Old package: $$OLD_ANDROID_APPLICATION_ID$(NC)"; \
-	echo "$(GREEN)✔ Old bundle id: $$OLD_IOS_BUNDLE_ID$(NC)"; \
-	echo "$(BLUE)✏️  Updating pubspec.yaml$(NC)"; \
-	sed -i '' "s/^name: $$OLD_NAME$$/name: $(project_name)/" pubspec.yaml; \
-	echo "$(BLUE)🔁 Updating imports (package:$$OLD_NAME/... → package:$(project_name)/...)$(NC)"; \
-	grep -rl "package:$$OLD_NAME/" lib test 2>/dev/null \
-	| xargs sed -i '' "s/package:$$OLD_NAME\//package:$(project_name)\//g" || true; \
-	echo "$(BLUE)📦 Changing app package name ($$OLD_NAME → $(package_name)$(NC))"; \
-	$(DART) run change_app_package_name:main $(package_name)
+	echo "$(GREEN)✔ Old PROJECT name: $$OLD_PROJECT_NAME$(NC)"; \
+	echo "$(GREEN)✔ Old PACKAGE name (Android): $$OLD_ANDROID_APPLICATION_ID$(NC)"; \
+	echo "$(GREEN)✔ Old BUNDLE ID (iOS): $$OLD_IOS_BUNDLE_ID$(NC)"; \
+	\
+	if [ -n "$(project_name)" ]; then \
+		echo "$(BLUE)✏️ Updating project name → $(project_name)$(NC)"; \
+		sed -i '' "s/^name: $$OLD_PROJECT_NAME$$/name: $(project_name)/" pubspec.yaml; \
+		grep -rl "package:$$OLD_PROJECT_NAME/" lib test 2>/dev/null \
+		| xargs sed -i '' "s/package:$$OLD_PROJECT_NAME\//package:$(project_name)\//g" || true; \
+	fi; \
+	\
+    if [ -n "$(package_name)" ]; then \
+    	echo "$(BLUE)📦🍎 Changing package name (Android + iOS) → $(package_name)$(NC)"; \
+    	$(DART) run change_app_package_name:main $(package_name); \
+    else \
+		if [ -n "$(android_package)" ]; then \
+			echo "$(BLUE)📦 Changing Android package → $(android_package)$(NC)"; \
+			$(DART) run change_app_package_name:main $(android_package) --android; \
+		fi; \
+			\
+		if [ -n "$(ios_bundle)" ]; then \
+			echo "$(BLUE)🍎 Changing iOS bundle → $(ios_bundle)$(NC)"; \
+			$(DART) run change_app_package_name:main $(ios_bundle) --ios;\
+		fi; \
+	fi;
+	@$(MAKE) info
 	@echo "$(GREEN)🎉 Rename completed successfully!$(NC)"
+
+info:
+	@echo "$(BLUE)📋 Detecting current project information...$(NC)"
+	@PROJECT_NAME=$$(grep '^name:' pubspec.yaml | awk '{print $$2}'); \
+	ANDROID_PACKAGE=$$(grep -R "applicationId" android/app 2>/dev/null \
+		| sed -E 's/.*applicationId[ ="]+([^"]+).*/\1/' \
+		| head -n 1); \
+	IOS_BUNDLE=$$(grep -R "PRODUCT_BUNDLE_IDENTIFIER" ios/Runner.xcodeproj/project.pbxproj 2>/dev/null \
+		| sed -E 's/.*= ([^;]+);/\1/' \
+		| head -n 1); \
+	\
+	echo "$(GREEN)✔ Project name      : $$PROJECT_NAME$(NC)"; \
+	echo "$(GREEN)✔ Android package   : $$ANDROID_PACKAGE$(NC)"; \
+	echo "$(GREEN)✔ iOS bundle id     : $$IOS_BUNDLE$(NC)"
