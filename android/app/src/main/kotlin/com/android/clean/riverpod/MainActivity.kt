@@ -1,4 +1,4 @@
-package com.flutter.clean_riverpod
+package com.android.clean.riverpod
 
 import io.flutter.embedding.android.FlutterActivity
 

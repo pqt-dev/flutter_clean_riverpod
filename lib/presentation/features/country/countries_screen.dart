@@ -28,9 +28,32 @@ class CountriesScreen extends ConsumerWidget {
             itemBuilder: (context, index) => CountryItemView(data: value.countries[index]),
             itemCount: value.countries.length,
           ),
-          AsyncError<CountryState>() => const SizedBox.shrink(),
+          AsyncError<CountryState>(:final error) => Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.error_outline, size: 48.0, color: Theme.of(context).colorScheme.error),
+                  const SizedBox(height: 16.0),
+                  Text(
+                    error.toString(),
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  const SizedBox(height: 16.0),
+                  ElevatedButton.icon(
+                    onPressed: () => ref.invalidate(countryViewmodelProvider),
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Retry'),
+                  ),
+                ],
+              ),
+            ),
+          ),
         },
       ),
     );
   }
 }
+

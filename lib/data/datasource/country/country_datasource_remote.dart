@@ -4,13 +4,15 @@ import 'package:injectable/injectable.dart';
 import '../../models/country/country_model.dart';
 import '../core/api_client.dart';
 import '../core/api_endpoint.dart';
+import 'country_datasource.dart';
 
-@lazySingleton
-class CountryDatasourceRemote {
+@LazySingleton(as: CountryDatasource)
+class CountryDatasourceRemote implements CountryDatasource {
   final ApiClient client;
 
   CountryDatasourceRemote(this.client);
 
+  @override
   Future<Result<List<CountryModel>>> fetchCountries() async {
     return client.request(
       endpoint: APIEndpoint.allCountries,

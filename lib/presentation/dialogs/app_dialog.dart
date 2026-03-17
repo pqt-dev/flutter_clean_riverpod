@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../generated/locale_keys.g.dart';
+import 'package:flutter_clean_riverpod/generated/locale_keys.g.dart';
 import '../extensions/build_context_x.dart';
 import '../features/widgets/app_button.dart';
 import '../features/widgets/app_text.dart';

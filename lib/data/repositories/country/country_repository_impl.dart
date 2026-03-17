@@ -4,11 +4,11 @@ import 'package:injectable/injectable.dart';
 
 import '../../../domain/core/result.dart';
 import '../../../domain/repositories/country/country_repository.dart';
-import '../../datasource/country/country_datasource_remote.dart';
+import '../../datasource/country/country_datasource.dart';
 
 @LazySingleton(as: CountryRepository)
 class CountryRepositoryImpl implements CountryRepository {
-  final CountryDatasourceRemote remoteDatasource;
+  final CountryDatasource remoteDatasource;
 
   CountryRepositoryImpl(this.remoteDatasource);
 
