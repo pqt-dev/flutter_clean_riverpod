@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../domain/core/app_error.dart';
 
-@injectable
+@lazySingleton
 class ExceptionMapper {
   const ExceptionMapper();
 

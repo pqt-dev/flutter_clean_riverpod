@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_clean_riverpod/domain/entities/country.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

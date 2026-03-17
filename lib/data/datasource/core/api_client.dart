@@ -18,10 +18,10 @@ enum ApiMethod {
 
 typedef ResponseDecoder<T> = T Function(dynamic data);
 
-@injectable
+@lazySingleton
 class ApiClient {
   final Dio dio;
-  ExceptionMapper exceptionMapper;
+  final ExceptionMapper exceptionMapper;
 
   ApiClient(this.dio, this.exceptionMapper);
 

@@ -15,7 +15,6 @@ void main() async {
   await configureDependencies();
   runApp(
     ProviderScope(
-      retry: (_, _) => null,
       child: EasyLocalization(
         supportedLocales: const [
           LocaleConstants.enUS,

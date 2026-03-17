@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_clean_riverpod/domain/core/app_theme_mode.dart';
 
 abstract class ThemeRepository {
-  Future<void> save(ThemeMode theme);
+  Future<void> save(AppThemeMode theme);
 
-  Future<ThemeMode> fetch();
+  Future<AppThemeMode> fetch();
 }
