@@ -12,7 +12,7 @@ class CountryItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.white,
+      color: Theme.of(context).cardColor,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () {

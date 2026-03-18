@@ -1,8 +1,8 @@
 class AppRoutes {
-  static final home = '/home';
-  static final search = '/search';
-  static final favourite = '/favourite';
-  static final setting = '/setting';
-  static final countries = '/countries';
-  static final countriesInHome = '/home/countries';
+  static const home = '/home';
+  static const search = '/search';
+  static const favourite = '/favourite';
+  static const setting = '/setting';
+  static const countries = '/countries';
+  static const countriesInHome = '/home/countries';
 }

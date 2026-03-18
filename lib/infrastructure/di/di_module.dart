@@ -9,7 +9,7 @@ import '../../data/datasource/core/interceptor/auth_interceptor.dart';
 
 @module
 abstract class NetworkModule {
-  @injectable
+  @lazySingleton
   Dio dio(
     AuthInterceptor authInterceptor,
     PrettyDioLogger logger,
@@ -34,27 +34,6 @@ abstract class NetworkModule {
     maxWidth: 90,
   );
 }
-
-// @module
-// abstract class DatasourceModule {
-//   @lazySingleton
-//   CountryDatasource countryDatasource(ApiClient client) {
-//     return CountryDatasourceImpl(client);
-//   }
-// }
-//
-// @module
-// abstract class RepositoryModule {
-//   @lazySingleton
-//   ThemeRepository themeRepository(SharedPreferences prefs) {
-//     return ThemeRepositoryImpl(prefs);
-//   }
-//
-//   @lazySingleton
-//   CountryRepository countryRepository(CountryDatasource datasource) {
-//     return CountryRepositoryImpl(datasource);
-//   }
-// }
 
 @module
 abstract class ConfigModule {
