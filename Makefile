@@ -13,7 +13,7 @@ BLUE := \033[0;34m
 RED := \033[0;31m
 NC := \033[0m
 
-.PHONY: all check_version clean pub_get l10n build_runner rename info
+.PHONY: all check_version clean pub_get l10n build_runner rename info clean_cache
 
 all: check_version clean pub_get l10n build_runner
 	@echo "$(GREEN)🎉 All tasks completed successfully!$(NC)"
@@ -110,3 +110,11 @@ info:
 	echo "$(GREEN)✔ Project name      : $$PROJECT_NAME$(NC)"; \
 	echo "$(GREEN)✔ Android package   : $$ANDROID_PACKAGE$(NC)"; \
 	echo "$(GREEN)✔ iOS bundle id     : $$IOS_BUNDLE$(NC)"
+
+clean_cache:
+	@echo "$(BLUE)🧹 Cleaning old project traces and caches...$(NC)"
+	@$(FLUTTER) clean
+	@$(FLUTTER) pub get
+	@rm -rf android/app/.cxx/ .idea/ coverage/ build/
+	@rm -f *.iml android/*.iml
+	@echo "$(GREEN)✔ Cache cleaned successfully!$(NC)"
