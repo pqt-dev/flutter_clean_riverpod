@@ -104,6 +104,17 @@ What this command does?
 
 ✅ Move Android MainActivity to the correct package directory
 
+#### Clean Old Project Traces (Important)
+
+After renaming the project, you might still find traces of the old project name in cache files or IDE configurations. To completely wipe them out and ensure a clean workspace, run this command:
+
+```bash
+make clean_cache
+```
+
+> [!NOTE]
+> *The `.idea` folder and `.iml` files will automatically be regenerated with the new project name the next time you open the project in your IDE.*
+
 #### OPTIONAL:
 
 **Rename only the project name and update all Dart imports**
@@ -157,7 +168,7 @@ This command will clean the project, get dependencies, and run code generation a
 If you prefer to run commands manually, follow these steps in order:
 
 - Clean the project:
-   
+
    ```bash
    fvm flutter clean
   ```
