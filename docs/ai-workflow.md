@@ -80,14 +80,7 @@ Báo cáo: danh sách file đã đổi + tóm tắt thay đổi.
 ```
 
 ## 6. Definition of Done
-- [ ] `fvm flutter analyze` sạch
-- [ ] `fvm flutter test` pass
-- [ ] Đã chạy `make build_runner` / `make l10n` nếu đổi model/state/viewmodel/injectable/l10n/mocks
-- [ ] Không sửa file generated (`*.g.dart`, `*.freezed.dart`, `*.config.dart`, `*.gen.dart`, `*.mocks.dart`)
-- [ ] Không import sai layer (domain không import data/presentation/flutter/dio; presentation không import data)
-- [ ] Text hiển thị qua l10n (3 file JSON đủ key)
-- [ ] Lỗi trả `Result`/`Failure`, không throw ra ngoài datasource
-- [ ] Không thêm package mới ngoài yêu cầu
+Checklist đầy đủ nằm ở skill `flutter-verify` (nguồn duy nhất). Khi đổi DoD chỉ cần sửa ở đó.
 
 ## 7. Anti-pattern hay gặp của AI trong repo này
 | Sai | Đúng |
@@ -109,3 +102,4 @@ Báo cáo: danh sách file đã đổi + tóm tắt thay đổi.
 ## 8. Bảo trì
 - Quy ước đổi (layer, naming, lệnh, cấu trúc thư mục) thì cập nhật `CLAUDE.md` + các `SKILL.md` liên quan trong CÙNG PR.
 - Khi Country feature (file mẫu) đổi tên/vị trí, cập nhật đường dẫn trong skills.
+- DoD chỉ sửa ở skill `flutter-verify`; không chép lại checklist vào `CLAUDE.md` hay tài liệu này.

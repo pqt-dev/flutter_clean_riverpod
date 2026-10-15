@@ -82,4 +82,4 @@ File `snake_case`, class `PascalCase`, hậu tố cố định:
 - Commit message tiếng Anh, câu ngắn imperative hoặc prefix `refactor:`.
 
 ## Definition of Done
-`fvm flutter analyze` sạch, `fvm flutter test` pass, đã chạy `make build_runner`/`make l10n` nếu cần, không sửa file generated, không import sai layer, text qua l10n. Chi tiết: skill `flutter-verify`.
+`fvm flutter analyze` sạch, `fvm flutter test` pass, không sửa file generated. Checklist đầy đủ: skill `flutter-verify`.

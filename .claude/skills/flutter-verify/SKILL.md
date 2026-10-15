@@ -24,10 +24,12 @@ Dùng `fvm flutter` / `fvm dart`. CI dùng `make USE_FVM=false` (không FVM).
 - [ ] `fvm flutter test` pass
 - [ ] Đã chạy `make build_runner` / `make l10n` nếu cần
 - [ ] Không sửa file generated
-- [ ] Không import sai layer (domain không import flutter/dio/data/presentation; presentation không import data)
+- [ ] Không import sai layer (domain không import flutter/dio/data/presentation; presentation không import data). Đã có test máy kiểm tra trong `fvm flutter test` (`test/architecture/layer_rules_test.dart`: luật import, `getIt` chỉ ở `di_providers.dart`, ViewModel không import repository, không `print`). Test fail thì sửa code, KHÔNG sửa/nới test
 - [ ] Text qua l10n, đủ key ở 3 file JSON
 - [ ] Lỗi trả `Result`, không throw ra ngoài datasource
 - [ ] Không thêm package mới ngoài yêu cầu
+
+Ghi chú: hook project (`.claude/settings.json` → `.claude/hooks/`) chặn sửa tay file generated, hỏi trước khi sửa `pubspec.yaml`, và tự format file `.dart`. CI chạy `flutter analyze` + `flutter test`.
 
 ## Đừng làm
 - Đừng sửa tay `*.g.dart`, `*.freezed.dart`, `*.config.dart`, `*.gen.dart`, `*.mocks.dart` để "qua" analyze; chạy lại build_runner.
