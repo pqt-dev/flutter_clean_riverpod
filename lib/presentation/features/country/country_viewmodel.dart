@@ -14,11 +14,9 @@ class CountryViewmodel extends _$CountryViewmodel {
     final result = await useCase.fetchAllCountries();
     switch (result) {
       case Success(:final value):
-        return CountryState(
-          countries: value,
-        );
+        return CountryState.data(countries: value);
       case Failure(:final error):
-        throw error;
+        return CountryState.error(error);
     }
   }
 }

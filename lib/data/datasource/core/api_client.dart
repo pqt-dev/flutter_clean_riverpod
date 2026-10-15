@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_clean_riverpod/data/failures/exception_mapper.dart';
 import 'package:flutter_clean_riverpod/domain/core/result.dart';
+import 'package:flutter_clean_riverpod/infrastructure/services/logger_service.dart';
 import 'package:injectable/injectable.dart';
 
 enum ApiMethod {
@@ -22,8 +23,9 @@ typedef ResponseDecoder<T> = T Function(dynamic data);
 class ApiClient {
   final Dio dio;
   final ExceptionMapper exceptionMapper;
+  final LoggerService loggerService;
 
-  ApiClient(this.dio, this.exceptionMapper);
+  ApiClient(this.dio, this.exceptionMapper, this.loggerService);
 
   Future<Result<T>> request<T>({
     required String endpoint,
@@ -46,6 +48,7 @@ class ApiClient {
       );
       return Success(decoder(response.data));
     } catch (e, st) {
+      loggerService.error('ApiClient.request failed', error: e, stackTrace: st);
       return Failure(exceptionMapper.map(e, st));
     }
   }

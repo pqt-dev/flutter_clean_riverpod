@@ -37,10 +37,10 @@ lib
 ├── infrastructure/    # Foundational code, shared across the app.
 │   ├── constants/     # Global constants (Locale, storage keys, date formats, etc.).
 │   ├── di/            # Dependency injection setup using GetIt.
-│   └── services/      # Shared utility services (e.g., InternetConnectionService).
+│   └── services/      # Shared utility services (e.g., LoggerService).
 │
 ├── data/
-│   ├── datasources/   # Abstract sources for local (DB, SharedPreferences) and remote (API) data.
+│   ├── datasource/    # Abstract sources for local (DB, SharedPreferences) and remote (API) data.
 │   ├── failures/      # Exception Mappers ensuring proper error handling (Exception -> AppError).
 │   ├── mappers/       # Mappers to transform Data Models to Domain Entities.
 │   ├── models/        # Data Transfer Objects (DTOs) with fromJson/toJson methods.
@@ -56,7 +56,8 @@ lib
 │   ├── features/      # Screens and ViewModels, grouped by feature (e.g., home, search, settings).
 │   ├── router/        # GoRouter configuration and route definitions.
 │   ├── theme/         # App theme configuration (colors, styles, fonts) and Theme ViewModel.
-│   └── dialogs/       # Reusable custom dialogs.
+│   ├── dialogs/       # Reusable custom dialogs.
+│   └── extensions/    # Presentation helpers, e.g. AppError -> localized message.
 │
 └── main.dart          # The entry point of the application.
 ```
