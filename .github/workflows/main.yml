@@ -32,6 +32,9 @@ jobs:
       - name: Get dependencies, run code gen
         run: make USE_FVM=false
 
+      - name: Analyze
+        run: flutter analyze
+
       - name: Run Tests
         run: flutter test
 
