@@ -4,5 +4,11 @@
   "favourite": "Yêu thích",
   "setting": "Cài đặt",
   "ok": "OK",
-  "cancel": "Hủy"
+  "cancel": "Hủy",
+  "error_retry": "Thử lại",
+  "error_network": "Lỗi mạng. Vui lòng kiểm tra kết nối.",
+  "error_server": "Lỗi máy chủ. Vui lòng thử lại sau.",
+  "error_auth": "Lỗi xác thực.",
+  "error_parsing": "Xử lý dữ liệu thất bại.",
+  "error_unexpected": "Đã xảy ra lỗi không mong muốn."
 }
