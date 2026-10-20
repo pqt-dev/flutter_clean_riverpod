@@ -1,0 +1,24 @@
+import 'package:{{app_package}}/data/datasource/{{feature}}/{{entity}}_datasource.dart';
+import 'package:{{app_package}}/data/mappers/{{entity}}_mapper.dart';
+import 'package:{{app_package}}/domain/core/result.dart';
+import 'package:{{app_package}}/domain/entities/{{entity}}.dart';
+import 'package:{{app_package}}/domain/repositories/{{feature}}/{{entity}}_repository.dart';
+import 'package:injectable/injectable.dart';
+
+@LazySingleton(as: {{Entity}}Repository)
+class {{Entity}}RepositoryImpl implements {{Entity}}Repository {
+  final {{Entity}}Datasource remoteDatasource;
+
+  {{Entity}}RepositoryImpl(this.remoteDatasource);
+
+  @override
+  Future<Result<List<{{Entity}}>>> fetchAll{{Entities}}() async {
+    final result = await remoteDatasource.fetchAll{{Entities}}();
+    return switch (result) {
+      Success(value: final models) => Success(
+        models.map((e) => e.toEntity()).toList(),
+      ),
+      Failure(error: final error) => Failure(error),
+    };
+  }
+}

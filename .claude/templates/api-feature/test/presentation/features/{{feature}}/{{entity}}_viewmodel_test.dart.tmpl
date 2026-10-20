@@ -1,0 +1,87 @@
+import 'package:{{app_package}}/domain/core/app_error.dart';
+import 'package:{{app_package}}/domain/core/result.dart';
+import 'package:{{app_package}}/domain/entities/{{entity}}.dart';
+import 'package:{{app_package}}/domain/use_cases/{{feature}}/{{entity}}_use_case.dart';
+import 'package:{{app_package}}/presentation/features/{{feature}}/{{entity}}_state.dart';
+import 'package:{{app_package}}/presentation/features/{{feature}}/{{entity}}_viewmodel.dart';
+import 'package:{{app_package}}/presentation/providers/di_providers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+
+import '{{entity}}_viewmodel_test.mocks.dart';
+
+@GenerateNiceMocks([MockSpec<{{Entity}}UseCase>()])
+void main() {
+  late Mock{{Entity}}UseCase {{entity}}UseCase;
+
+  setUp(() {
+    {{entity}}UseCase = Mock{{Entity}}UseCase();
+  });
+
+  ProviderContainer createContainer() {
+    return ProviderContainer(
+      overrides: [
+        {{entity}}UseCaseProvider.overrideWithValue({{entity}}UseCase),
+      ],
+    );
+  }
+
+  group('build (initial fetch)', () {
+    test('returns {{Entity}}StateData when use case returns Success', () async {
+      final mockResponseSuccess = Success([{{Entity}}(), {{Entity}}()]);
+      provideDummy<Result<List<{{Entity}}>>>(mockResponseSuccess);
+      when(
+        {{entity}}UseCase.fetchAll{{Entities}}(),
+      ).thenAnswer((_) async => mockResponseSuccess);
+
+      final container = createContainer();
+      addTearDown(container.dispose);
+
+      final future = container.read({{entity}}ViewmodelProvider.future);
+      await expectLater(
+        future,
+        completion(
+          isA<{{Entity}}StateData>()
+              .having(
+                (state) => state.{{entities}}.length,
+                'List of {{entity}} has 2 items',
+                equals(2),
+              )
+              .having(
+                (state) => state.{{entities}},
+                'Is a list of {{Entity}}',
+                isA<List<{{Entity}}>>(),
+              ),
+        ),
+      );
+      verify({{entity}}UseCase.fetchAll{{Entities}}()).called(1);
+    });
+
+    test('returns {{Entity}}StateError when use case returns Failure', () async {
+      const error = NetworkError();
+      const mockResponseFailure = Failure(error);
+      provideDummy<Result<List<{{Entity}}>>>(mockResponseFailure);
+      when(
+        {{entity}}UseCase.fetchAll{{Entities}}(),
+      ).thenAnswer((_) async => mockResponseFailure);
+
+      final container = createContainer();
+      addTearDown(container.dispose);
+
+      final future = container.read({{entity}}ViewmodelProvider.future);
+      await expectLater(
+        future,
+        completion(
+          isA<{{Entity}}StateError>().having(
+            (state) => state.error,
+            'error is the AppError from use case',
+            same(error),
+          ),
+        ),
+      );
+      verify({{entity}}UseCase.fetchAll{{Entities}}()).called(1);
+    });
+  });
+}

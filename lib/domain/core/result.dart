@@ -1,4 +1,4 @@
-import 'app_error.dart';
+import 'package:flutter_clean_riverpod/domain/core/app_error.dart';
 
 sealed class Result<T> {
   const Result();

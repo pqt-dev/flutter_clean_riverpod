@@ -1,0 +1,47 @@
+// tmpl:custom-begin
+import 'package:cached_network_image/cached_network_image.dart';
+// tmpl:custom-end
+import 'package:flutter/material.dart';
+import 'package:{{app_package}}/domain/entities/{{entity}}.dart';
+import 'package:{{app_package}}/presentation/features/widgets/app_text.dart';
+
+class {{Entity}}ItemView extends StatelessWidget {
+  const {{Entity}}ItemView({super.key, required this.data});
+
+  final {{Entity}} data;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      // tmpl:custom-begin
+      color: Theme.of(context).cardColor,
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        spacing: 8.0,
+        children: [
+          const SizedBox(height: 12.0),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 24.0,
+            ),
+            child: Card(
+              child: AspectRatio(
+                aspectRatio: 3 / 2,
+                child: CachedNetworkImage(
+                  imageUrl: data.flags?.png ?? '-',
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
+            ),
+          ),
+          AppText(
+            textAlign: TextAlign.center,
+            text: data.name?.common ?? '--',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+      // tmpl:custom-end
+}

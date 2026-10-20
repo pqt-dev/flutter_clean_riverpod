@@ -1,12 +1,11 @@
+import 'package:flutter_clean_riverpod/presentation/features/country/countries_screen.dart';
+import 'package:flutter_clean_riverpod/presentation/features/favourite/favourite_screen.dart';
+import 'package:flutter_clean_riverpod/presentation/features/home/home_screen.dart';
+import 'package:flutter_clean_riverpod/presentation/features/main_home/main_home_screen.dart';
+import 'package:flutter_clean_riverpod/presentation/features/search/search_screen.dart';
+import 'package:flutter_clean_riverpod/presentation/features/setting/setting_screen.dart';
+import 'package:flutter_clean_riverpod/presentation/router/app_routes.dart';
 import 'package:go_router/go_router.dart';
-
-import '../features/country/countries_screen.dart';
-import '../features/favourite/favourite_screen.dart';
-import '../features/home/home_screen.dart';
-import '../features/main_home/main_home_screen.dart';
-import '../features/search/search_screen.dart';
-import '../features/setting/setting_screen.dart';
-import 'app_routes.dart';
 
 class AppRouter {
   static final router = GoRouter(

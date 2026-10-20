@@ -1,0 +1,6 @@
+import 'package:{{app_package}}/domain/core/result.dart';
+import 'package:{{app_package}}/domain/entities/{{entity}}.dart';
+
+abstract class {{Entity}}Repository {
+  Future<Result<List<{{Entity}}>>> fetchAll{{Entities}}();
+}

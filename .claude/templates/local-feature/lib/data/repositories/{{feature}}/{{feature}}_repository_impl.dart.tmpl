@@ -1,0 +1,32 @@
+import 'package:{{app_package}}/domain/core/{{value_type}}.dart';
+import 'package:{{app_package}}/domain/repositories/{{feature}}/{{feature}}_repository.dart';
+import 'package:{{app_package}}/infrastructure/constants/storage_keys.dart';
+import 'package:injectable/injectable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+@LazySingleton(as: {{Feature}}Repository)
+class {{Feature}}RepositoryImpl implements {{Feature}}Repository {
+  final SharedPreferences preferences;
+
+  {{Feature}}RepositoryImpl(this.preferences);
+
+  @override
+  Future<{{ValueType}}> fetch() async {
+    final {{featureCamel}}Name = preferences.getString(StorageKeys.{{storageKey}});
+    switch ({{featureCamel}}Name) {
+      // tmpl:custom-begin
+      case 'light':
+        return {{ValueType}}.light;
+      case 'dark':
+        return {{ValueType}}.dark;
+      default:
+        return {{ValueType}}.system;
+    }
+  }
+      // tmpl:custom-end
+
+  @override
+  Future<void> save({{ValueType}} {{featureCamel}}) async {
+    await preferences.setString(StorageKeys.{{storageKey}}, {{featureCamel}}.name);
+  }
+}

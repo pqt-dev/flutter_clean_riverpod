@@ -1,0 +1,43 @@
+// tmpl:custom-begin
+import 'package:flutter/material.dart';
+// tmpl:custom-end
+import 'package:{{app_package}}/domain/core/{{value_type}}.dart';
+import 'package:{{app_package}}/presentation/providers/di_providers.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part '{{feature}}_viewmodel.g.dart';
+
+@riverpod
+class {{Feature}}Viewmodel extends _${{Feature}}Viewmodel {
+  @override
+  // tmpl:custom-begin
+  FutureOr<ThemeMode> build() async {
+    final useCase = ref.watch({{featureCamel}}UseCaseProvider);
+    final appThemeMode = await useCase.fetch();
+    return _toThemeMode(appThemeMode);
+  }
+
+  Future<void> setTheme(ThemeMode {{featureCamel}}) async {
+    final useCase = ref.watch({{featureCamel}}UseCaseProvider);
+    final appThemeMode = _to{{ValueType}}({{featureCamel}});
+    await useCase.save(appThemeMode);
+    state = AsyncData({{featureCamel}});
+  }
+
+  ThemeMode _toThemeMode({{ValueType}} mode) {
+    return switch (mode) {
+      {{ValueType}}.light => ThemeMode.light,
+      {{ValueType}}.dark => ThemeMode.dark,
+      {{ValueType}}.system => ThemeMode.system,
+    };
+  }
+
+  {{ValueType}} _to{{ValueType}}(ThemeMode mode) {
+    return switch (mode) {
+      ThemeMode.light => {{ValueType}}.light,
+      ThemeMode.dark => {{ValueType}}.dark,
+      ThemeMode.system => {{ValueType}}.system,
+    };
+  }
+  // tmpl:custom-end
+}

@@ -1,0 +1,54 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:{{app_package}}/domain/core/app_error.dart';
+import 'package:{{app_package}}/generated/locale_keys.g.dart';
+import 'package:{{app_package}}/presentation/extensions/app_error_extension.dart';
+import 'package:{{app_package}}/presentation/features/{{feature}}/{{entity}}_state.dart';
+import 'package:{{app_package}}/presentation/features/{{feature}}/{{entity}}_viewmodel.dart';
+import 'package:{{app_package}}/presentation/features/{{feature}}/widget/{{entity}}_item_view.dart';
+import 'package:{{app_package}}/presentation/features/widgets/app_loader.dart';
+import 'package:{{app_package}}/presentation/features/widgets/error_view.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class {{Entities}}Screen extends ConsumerWidget {
+  const {{Entities}}Screen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch({{entity}}ViewmodelProvider);
+    return Scaffold(
+      body: SafeArea(
+        child: switch (state) {
+          AsyncLoading<{{Entity}}State>() => AppLoader(),
+          AsyncData<{{Entity}}State>(value: {{Entity}}StateData(:final {{entities}})) =>
+            // tmpl:custom-begin
+            GridView.builder(
+              padding: EdgeInsets.symmetric(
+                horizontal: 24.0,
+              ),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 24.0,
+                crossAxisSpacing: 24.0,
+              ),
+              itemBuilder: (context, index) =>
+                  {{Entity}}ItemView(data: {{entities}}[index]),
+              itemCount: {{entities}}.length,
+            ),
+            // tmpl:custom-end
+          AsyncData<{{Entity}}State>(value: {{Entity}}StateError(:final error)) =>
+            ErrorView(
+              message: error.localizedMessage,
+              onRetry: () => ref.invalidate({{entity}}ViewmodelProvider),
+            ),
+          AsyncError<{{Entity}}State>(:final error) => ErrorView(
+            message: error is AppError
+                ? error.localizedMessage
+                : LocaleKeys.error_unexpected.tr(),
+            onRetry: () => ref.invalidate({{entity}}ViewmodelProvider),
+          ),
+        },
+      ),
+    );
+  }
+}

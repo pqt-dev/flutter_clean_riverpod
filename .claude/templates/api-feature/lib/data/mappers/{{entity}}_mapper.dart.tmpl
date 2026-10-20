@@ -1,0 +1,45 @@
+// tmpl:custom-begin
+import 'package:{{app_package}}/data/models/{{feature}}/{{entity}}_flag_model.dart';
+// tmpl:custom-end
+import 'package:{{app_package}}/data/models/{{feature}}/{{entity}}_model.dart';
+// tmpl:custom-begin
+import 'package:{{app_package}}/data/models/{{feature}}/{{entity}}_name_model.dart';
+// tmpl:custom-end
+import 'package:{{app_package}}/domain/entities/{{entity}}.dart';
+
+extension {{Entity}}ModelMapper on {{Entity}}Model {
+  {{Entity}} toEntity() {
+    return {{Entity}}(
+      // tmpl:custom-begin
+      capital: capital,
+      region: region,
+      subregion: subregion,
+      area: area,
+      population: population,
+      name: name?.toEntity(),
+      flags: flags?.toEntity(),
+      // tmpl:custom-end
+    );
+  }
+}
+
+// tmpl:custom-begin
+extension {{Entity}}NameModelMapper on {{Entity}}NameModel {
+  {{Entity}}Name toEntity() {
+    return {{Entity}}Name(
+      common: common,
+      official: official,
+    );
+  }
+}
+
+extension {{Entity}}FlagModelMapper on {{Entity}}FlagModel {
+  {{Entity}}Flag toEntity() {
+    return {{Entity}}Flag(
+      png: png,
+      svg: svg,
+      alt: alt,
+    );
+  }
+}
+// tmpl:custom-end

@@ -1,0 +1,18 @@
+import 'package:{{app_package}}/domain/core/{{value_type}}.dart';
+import 'package:{{app_package}}/domain/repositories/{{feature}}/{{feature}}_repository.dart';
+import 'package:injectable/injectable.dart';
+
+@lazySingleton
+class {{Feature}}UseCase {
+  final {{Feature}}Repository repository;
+
+  {{Feature}}UseCase(this.repository);
+
+  Future<{{ValueType}}> fetch() async {
+    return repository.fetch();
+  }
+
+  Future<void> save({{ValueType}} {{featureCamel}}) async {
+    return repository.save({{featureCamel}});
+  }
+}

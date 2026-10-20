@@ -21,28 +21,28 @@ class MainHomeScreen extends ConsumerWidget {
           BottomNavigationBarItem(
             label: LocaleKeys.home.tr(context: context),
             icon: Padding(
-              padding: .all(2.0),
+              padding: EdgeInsets.all(2.0),
               child: Icon(Icons.home_outlined),
             ),
           ),
           BottomNavigationBarItem(
             label: LocaleKeys.search.tr(context: context),
             icon: Padding(
-              padding: .all(2.0),
+              padding: EdgeInsets.all(2.0),
               child: Icon(Icons.search_outlined),
             ),
           ),
           BottomNavigationBarItem(
             label: LocaleKeys.favourite.tr(context: context),
             icon: Padding(
-              padding: .all(2.0),
+              padding: EdgeInsets.all(2.0),
               child: Icon(Icons.favorite_outline),
             ),
           ),
           BottomNavigationBarItem(
             label: LocaleKeys.setting.tr(context: context),
             icon: Padding(
-              padding: .all(2.0),
+              padding: EdgeInsets.all(2.0),
               child: Icon(Icons.settings_outlined),
             ),
           ),

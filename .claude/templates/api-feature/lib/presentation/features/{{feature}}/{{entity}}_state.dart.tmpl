@@ -1,0 +1,12 @@
+import 'package:{{app_package}}/domain/core/app_error.dart';
+import 'package:{{app_package}}/domain/entities/{{entity}}.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part '{{entity}}_state.freezed.dart';
+
+@freezed
+sealed class {{Entity}}State with _${{Entity}}State {
+  const factory {{Entity}}State.data({@Default([]) List<{{Entity}}> {{entities}}}) =
+      {{Entity}}StateData;
+  const factory {{Entity}}State.error(AppError error) = {{Entity}}StateError;
+}

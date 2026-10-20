@@ -1,0 +1,161 @@
+import 'package:{{app_package}}/data/datasource/{{feature}}/{{entity}}_datasource.dart';
+// tmpl:custom-begin
+import 'package:{{app_package}}/data/models/{{feature}}/{{entity}}_flag_model.dart';
+// tmpl:custom-end
+import 'package:{{app_package}}/data/models/{{feature}}/{{entity}}_model.dart';
+// tmpl:custom-begin
+import 'package:{{app_package}}/data/models/{{feature}}/{{entity}}_name_model.dart';
+// tmpl:custom-end
+import 'package:{{app_package}}/data/repositories/{{feature}}/{{entity}}_repository_impl.dart';
+import 'package:{{app_package}}/domain/core/app_error.dart';
+import 'package:{{app_package}}/domain/core/result.dart';
+import 'package:{{app_package}}/domain/entities/{{entity}}.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+
+import '{{entity}}_repository_impl_test.mocks.dart';
+
+@GenerateNiceMocks([MockSpec<{{Entity}}Datasource>()])
+void main() {
+  late Mock{{Entity}}Datasource datasource;
+  late {{Entity}}RepositoryImpl repository;
+
+  setUp(() {
+    datasource = Mock{{Entity}}Datasource();
+    repository = {{Entity}}RepositoryImpl(datasource);
+  });
+
+  group('fetchAll{{Entities}}', () {
+    test(
+      'returns Success with mapped entities when datasource succeeds',
+      () async {
+        // tmpl:custom-begin
+        final models = [
+          {{Entity}}Model(
+            name: {{Entity}}NameModel(
+              common: 'Vietnam',
+              official: 'Socialist Republic of Vietnam',
+            ),
+            flags: {{Entity}}FlagModel(png: 'https://flagcdn.com/vn.png'),
+            capital: ['Hanoi'],
+            region: 'Asia',
+            population: 97338579,
+          ),
+          {{Entity}}Model(
+            name: {{Entity}}NameModel(common: 'Japan'),
+            capital: ['Tokyo'],
+            region: 'Asia',
+          ),
+        ];
+        // tmpl:custom-end
+        provideDummy<Result<List<{{Entity}}Model>>>(Success(models));
+        when(
+          datasource.fetchAll{{Entities}}(),
+        ).thenAnswer((_) async => Success(models));
+
+        final result = await repository.fetchAll{{Entities}}();
+
+        expect(result, isA<Success<List<{{Entity}}>>>());
+        final {{entities}} = (result as Success<List<{{Entity}}>>).value;
+        // tmpl:custom-begin
+        expect({{entities}}, hasLength(2));
+        expect({{entities}}[0].name?.common, equals('Vietnam'));
+        expect({{entities}}[0].flags?.png, equals('https://flagcdn.com/vn.png'));
+        expect({{entities}}[1].name?.common, equals('Japan'));
+        // tmpl:custom-end
+        verify(datasource.fetchAll{{Entities}}()).called(1);
+      },
+    );
+
+    test(
+      'returns Success with empty list when datasource returns empty',
+      () async {
+        provideDummy<Result<List<{{Entity}}Model>>>(Success(<{{Entity}}Model>[]));
+        when(
+          datasource.fetchAll{{Entities}}(),
+        ).thenAnswer((_) async => Success([]));
+
+        final result = await repository.fetchAll{{Entities}}();
+
+        expect(result, isA<Success<List<{{Entity}}>>>());
+        expect((result as Success<List<{{Entity}}>>).value, isEmpty);
+      },
+    );
+
+    test(
+      'returns Failure with NetworkError when datasource fails with network error',
+      () async {
+        final networkError = NetworkError();
+        provideDummy<Result<List<{{Entity}}Model>>>(Failure(networkError));
+        when(
+          datasource.fetchAll{{Entities}}(),
+        ).thenAnswer((_) async => Failure(networkError));
+
+        final result = await repository.fetchAll{{Entities}}();
+
+        expect(result, isA<Failure>());
+        expect((result as Failure).error, isA<NetworkError>());
+      },
+    );
+
+    test(
+      'returns Failure with ServerError when datasource fails with server error',
+      () async {
+        final serverError = ServerError(statusCode: 500);
+        provideDummy<Result<List<{{Entity}}Model>>>(Failure(serverError));
+        when(
+          datasource.fetchAll{{Entities}}(),
+        ).thenAnswer((_) async => Failure(serverError));
+
+        final result = await repository.fetchAll{{Entities}}();
+
+        expect(result, isA<Failure>());
+        final error = (result as Failure).error;
+        expect(error, isA<ServerError>());
+        expect((error as ServerError).statusCode, equals(500));
+      },
+    );
+
+    test('correctly maps model fields to entity fields', () async {
+      // tmpl:custom-begin
+      final model = {{Entity}}Model(
+        capital: ['Canberra'],
+        region: 'Oceania',
+        subregion: 'Australia and New Zealand',
+        area: 7692024.0,
+        population: 25687041,
+        name: {{Entity}}NameModel(
+          common: 'Australia',
+          official: 'Commonwealth of Australia',
+        ),
+        flags: {{Entity}}FlagModel(
+          png: 'https://flagcdn.com/au.png',
+          svg: 'https://flagcdn.com/au.svg',
+          alt: 'Australian flag',
+        ),
+      );
+      // tmpl:custom-end
+      provideDummy<Result<List<{{Entity}}Model>>>(Success([model]));
+      when(
+        datasource.fetchAll{{Entities}}(),
+      ).thenAnswer((_) async => Success([model]));
+
+      final result = await repository.fetchAll{{Entities}}();
+
+      final {{entity}} = (result as Success<List<{{Entity}}>>).value.first;
+      // tmpl:custom-begin
+      expect({{entity}}.capital, equals(['Canberra']));
+      expect({{entity}}.region, equals('Oceania'));
+      expect({{entity}}.subregion, equals('Australia and New Zealand'));
+      expect({{entity}}.area, equals(7692024.0));
+      expect({{entity}}.population, equals(25687041));
+      expect({{entity}}.name?.common, equals('Australia'));
+      expect({{entity}}.name?.official, equals('Commonwealth of Australia'));
+      expect({{entity}}.flags?.png, equals('https://flagcdn.com/au.png'));
+      expect({{entity}}.flags?.svg, equals('https://flagcdn.com/au.svg'));
+      expect({{entity}}.flags?.alt, equals('Australian flag'));
+      // tmpl:custom-end
+    });
+  });
+}

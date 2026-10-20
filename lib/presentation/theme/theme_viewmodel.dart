@@ -37,4 +37,3 @@ class ThemeViewmodel extends _$ThemeViewmodel {
     };
   }
 }
-

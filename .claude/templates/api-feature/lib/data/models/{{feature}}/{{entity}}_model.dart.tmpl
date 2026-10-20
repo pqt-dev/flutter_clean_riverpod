@@ -1,0 +1,26 @@
+// tmpl:custom-begin
+import 'package:{{app_package}}/data/models/{{feature}}/{{entity}}_flag_model.dart';
+import 'package:{{app_package}}/data/models/{{feature}}/{{entity}}_name_model.dart';
+// tmpl:custom-end
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part '{{entity}}_model.freezed.dart';
+part '{{entity}}_model.g.dart';
+
+@freezed
+abstract class {{Entity}}Model with _${{Entity}}Model {
+  const factory {{Entity}}Model({
+    // tmpl:custom-begin
+    List<String>? capital,
+    String? region,
+    String? subregion,
+    double? area,
+    int? population,
+    {{Entity}}NameModel? name,
+    {{Entity}}FlagModel? flags,
+    // tmpl:custom-end
+  }) = _{{Entity}}Model;
+
+  factory {{Entity}}Model.fromJson(Map<String, dynamic> json) =>
+      _${{Entity}}ModelFromJson(json);
+}

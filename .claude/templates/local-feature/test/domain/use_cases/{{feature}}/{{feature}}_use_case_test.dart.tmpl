@@ -1,0 +1,66 @@
+import 'package:{{app_package}}/domain/core/{{value_type}}.dart';
+import 'package:{{app_package}}/domain/repositories/{{feature}}/{{feature}}_repository.dart';
+import 'package:{{app_package}}/domain/use_cases/{{feature}}/{{feature}}_use_case.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+
+import '{{feature}}_use_case_test.mocks.dart';
+
+@GenerateNiceMocks([MockSpec<{{Feature}}Repository>()])
+void main() {
+  late Mock{{Feature}}Repository repository;
+  late {{Feature}}UseCase useCase;
+
+  setUp(() {
+    repository = Mock{{Feature}}Repository();
+    useCase = {{Feature}}UseCase(repository);
+  });
+
+  // tmpl:custom-begin
+  group('fetch', () {
+    test('returns light theme from repository', () async {
+      when(repository.fetch()).thenAnswer((_) async => {{ValueType}}.light);
+
+      final result = await useCase.fetch();
+
+      expect(result, equals({{ValueType}}.light));
+      verify(repository.fetch()).called(1);
+    });
+
+    test('returns dark theme from repository', () async {
+      when(repository.fetch()).thenAnswer((_) async => {{ValueType}}.dark);
+
+      final result = await useCase.fetch();
+
+      expect(result, equals({{ValueType}}.dark));
+    });
+
+    test('returns system theme from repository', () async {
+      when(repository.fetch()).thenAnswer((_) async => {{ValueType}}.system);
+
+      final result = await useCase.fetch();
+
+      expect(result, equals({{ValueType}}.system));
+    });
+  });
+
+  group('save', () {
+    test('saves light theme to repository', () async {
+      when(repository.save({{ValueType}}.light)).thenAnswer((_) async {});
+
+      await useCase.save({{ValueType}}.light);
+
+      verify(repository.save({{ValueType}}.light)).called(1);
+    });
+
+    test('saves dark theme to repository', () async {
+      when(repository.save({{ValueType}}.dark)).thenAnswer((_) async {});
+
+      await useCase.save({{ValueType}}.dark);
+
+      verify(repository.save({{ValueType}}.dark)).called(1);
+    });
+  });
+  // tmpl:custom-end
+}

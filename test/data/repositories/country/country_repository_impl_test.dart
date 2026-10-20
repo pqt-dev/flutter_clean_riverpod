@@ -1,7 +1,7 @@
 import 'package:flutter_clean_riverpod/data/datasource/country/country_datasource.dart';
+import 'package:flutter_clean_riverpod/data/models/country/country_flag_model.dart';
 import 'package:flutter_clean_riverpod/data/models/country/country_model.dart';
 import 'package:flutter_clean_riverpod/data/models/country/country_name_model.dart';
-import 'package:flutter_clean_riverpod/data/models/country/country_flag_model.dart';
 import 'package:flutter_clean_riverpod/data/repositories/country/country_repository_impl.dart';
 import 'package:flutter_clean_riverpod/domain/core/app_error.dart';
 import 'package:flutter_clean_riverpod/domain/core/result.dart';
@@ -23,68 +23,91 @@ void main() {
   });
 
   group('fetchAllCountries', () {
-    test('returns Success with mapped entities when datasource succeeds', () async {
-      final models = [
-        CountryModel(
-          name: CountryNameModel(common: 'Vietnam', official: 'Socialist Republic of Vietnam'),
-          flags: CountryFlagModel(png: 'https://flagcdn.com/vn.png'),
-          capital: ['Hanoi'],
-          region: 'Asia',
-          population: 97338579,
-        ),
-        CountryModel(
-          name: CountryNameModel(common: 'Japan'),
-          capital: ['Tokyo'],
-          region: 'Asia',
-        ),
-      ];
-      provideDummy<Result<List<CountryModel>>>(Success(models));
-      when(datasource.fetchCountries()).thenAnswer((_) async => Success(models));
+    test(
+      'returns Success with mapped entities when datasource succeeds',
+      () async {
+        final models = [
+          CountryModel(
+            name: CountryNameModel(
+              common: 'Vietnam',
+              official: 'Socialist Republic of Vietnam',
+            ),
+            flags: CountryFlagModel(png: 'https://flagcdn.com/vn.png'),
+            capital: ['Hanoi'],
+            region: 'Asia',
+            population: 97338579,
+          ),
+          CountryModel(
+            name: CountryNameModel(common: 'Japan'),
+            capital: ['Tokyo'],
+            region: 'Asia',
+          ),
+        ];
+        provideDummy<Result<List<CountryModel>>>(Success(models));
+        when(
+          datasource.fetchAllCountries(),
+        ).thenAnswer((_) async => Success(models));
 
-      final result = await repository.fetchAllCountries();
+        final result = await repository.fetchAllCountries();
 
-      expect(result, isA<Success<List<Country>>>());
-      final countries = (result as Success<List<Country>>).value;
-      expect(countries, hasLength(2));
-      expect(countries[0].name?.common, equals('Vietnam'));
-      expect(countries[0].flags?.png, equals('https://flagcdn.com/vn.png'));
-      expect(countries[1].name?.common, equals('Japan'));
-      verify(datasource.fetchCountries()).called(1);
-    });
+        expect(result, isA<Success<List<Country>>>());
+        final countries = (result as Success<List<Country>>).value;
+        expect(countries, hasLength(2));
+        expect(countries[0].name?.common, equals('Vietnam'));
+        expect(countries[0].flags?.png, equals('https://flagcdn.com/vn.png'));
+        expect(countries[1].name?.common, equals('Japan'));
+        verify(datasource.fetchAllCountries()).called(1);
+      },
+    );
 
-    test('returns Success with empty list when datasource returns empty', () async {
-      provideDummy<Result<List<CountryModel>>>(Success(<CountryModel>[]));
-      when(datasource.fetchCountries()).thenAnswer((_) async => Success([]));
+    test(
+      'returns Success with empty list when datasource returns empty',
+      () async {
+        provideDummy<Result<List<CountryModel>>>(Success(<CountryModel>[]));
+        when(
+          datasource.fetchAllCountries(),
+        ).thenAnswer((_) async => Success([]));
 
-      final result = await repository.fetchAllCountries();
+        final result = await repository.fetchAllCountries();
 
-      expect(result, isA<Success<List<Country>>>());
-      expect((result as Success<List<Country>>).value, isEmpty);
-    });
+        expect(result, isA<Success<List<Country>>>());
+        expect((result as Success<List<Country>>).value, isEmpty);
+      },
+    );
 
-    test('returns Failure with NetworkError when datasource fails with network error', () async {
-      final networkError = NetworkError();
-      provideDummy<Result<List<CountryModel>>>(Failure(networkError));
-      when(datasource.fetchCountries()).thenAnswer((_) async => Failure(networkError));
+    test(
+      'returns Failure with NetworkError when datasource fails with network error',
+      () async {
+        final networkError = NetworkError();
+        provideDummy<Result<List<CountryModel>>>(Failure(networkError));
+        when(
+          datasource.fetchAllCountries(),
+        ).thenAnswer((_) async => Failure(networkError));
 
-      final result = await repository.fetchAllCountries();
+        final result = await repository.fetchAllCountries();
 
-      expect(result, isA<Failure>());
-      expect((result as Failure).error, isA<NetworkError>());
-    });
+        expect(result, isA<Failure>());
+        expect((result as Failure).error, isA<NetworkError>());
+      },
+    );
 
-    test('returns Failure with ServerError when datasource fails with server error', () async {
-      final serverError = ServerError(statusCode: 500);
-      provideDummy<Result<List<CountryModel>>>(Failure(serverError));
-      when(datasource.fetchCountries()).thenAnswer((_) async => Failure(serverError));
+    test(
+      'returns Failure with ServerError when datasource fails with server error',
+      () async {
+        final serverError = ServerError(statusCode: 500);
+        provideDummy<Result<List<CountryModel>>>(Failure(serverError));
+        when(
+          datasource.fetchAllCountries(),
+        ).thenAnswer((_) async => Failure(serverError));
 
-      final result = await repository.fetchAllCountries();
+        final result = await repository.fetchAllCountries();
 
-      expect(result, isA<Failure>());
-      final error = (result as Failure).error;
-      expect(error, isA<ServerError>());
-      expect((error as ServerError).statusCode, equals(500));
-    });
+        expect(result, isA<Failure>());
+        final error = (result as Failure).error;
+        expect(error, isA<ServerError>());
+        expect((error as ServerError).statusCode, equals(500));
+      },
+    );
 
     test('correctly maps model fields to entity fields', () async {
       final model = CountryModel(
@@ -93,7 +116,10 @@ void main() {
         subregion: 'Australia and New Zealand',
         area: 7692024.0,
         population: 25687041,
-        name: CountryNameModel(common: 'Australia', official: 'Commonwealth of Australia'),
+        name: CountryNameModel(
+          common: 'Australia',
+          official: 'Commonwealth of Australia',
+        ),
         flags: CountryFlagModel(
           png: 'https://flagcdn.com/au.png',
           svg: 'https://flagcdn.com/au.svg',
@@ -101,7 +127,9 @@ void main() {
         ),
       );
       provideDummy<Result<List<CountryModel>>>(Success([model]));
-      when(datasource.fetchCountries()).thenAnswer((_) async => Success([model]));
+      when(
+        datasource.fetchAllCountries(),
+      ).thenAnswer((_) async => Success([model]));
 
       final result = await repository.fetchAllCountries();
 

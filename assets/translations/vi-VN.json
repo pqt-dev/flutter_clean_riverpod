@@ -10,5 +10,6 @@
   "error_server": "Lỗi máy chủ. Vui lòng thử lại sau.",
   "error_auth": "Lỗi xác thực.",
   "error_parsing": "Xử lý dữ liệu thất bại.",
-  "error_unexpected": "Đã xảy ra lỗi không mong muốn."
+  "error_unexpected": "Đã xảy ra lỗi không mong muốn.",
+  "go_to_countries": "Đi tới danh sách quốc gia"
 }

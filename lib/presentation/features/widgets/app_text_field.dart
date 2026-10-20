@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_clean_riverpod/presentation/extensions/build_context_x.dart';
 
-import '../../theme/app_theme_extension.dart';
+import 'package:flutter_clean_riverpod/presentation/theme/app_theme_extension.dart';
 
 class AppTextField extends StatelessWidget {
   const AppTextField({

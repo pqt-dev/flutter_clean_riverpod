@@ -1,0 +1,53 @@
+import 'package:{{app_package}}/domain/core/app_error.dart';
+import 'package:{{app_package}}/domain/core/result.dart';
+import 'package:{{app_package}}/domain/entities/{{entity}}.dart';
+import 'package:{{app_package}}/domain/repositories/{{feature}}/{{entity}}_repository.dart';
+import 'package:{{app_package}}/domain/use_cases/{{feature}}/{{entity}}_use_case.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+
+import '{{entity}}_use_case_test.mocks.dart';
+
+@GenerateNiceMocks([MockSpec<{{Entity}}Repository>()])
+void main() {
+  late Mock{{Entity}}Repository repository;
+  late {{Entity}}UseCase useCase;
+
+  setUp(() {
+    repository = Mock{{Entity}}Repository();
+    useCase = {{Entity}}UseCase(repository);
+  });
+
+  group('fetchAll{{Entities}}', () {
+    test('returns Success with {{entities}} from repository', () async {
+      // tmpl:custom-begin
+      final {{entities}} = [
+        {{Entity}}(name: {{Entity}}Name(common: 'Vietnam')),
+        {{Entity}}(name: {{Entity}}Name(common: 'Japan')),
+      ];
+      // tmpl:custom-end
+      final expected = Success({{entities}});
+      provideDummy<Result<List<{{Entity}}>>>(expected);
+      when(repository.fetchAll{{Entities}}()).thenAnswer((_) async => expected);
+
+      final result = await useCase.fetchAll{{Entities}}();
+
+      expect(result, isA<Success<List<{{Entity}}>>>());
+      expect((result as Success).value, equals({{entities}}));
+      verify(repository.fetchAll{{Entities}}()).called(1);
+    });
+
+    test('returns Failure when repository returns Failure', () async {
+      final expected = Failure(NetworkError());
+      provideDummy<Result<List<{{Entity}}>>>(expected);
+      when(repository.fetchAll{{Entities}}()).thenAnswer((_) async => expected);
+
+      final result = await useCase.fetchAll{{Entities}}();
+
+      expect(result, isA<Failure>());
+      expect((result as Failure).error, isA<NetworkError>());
+      verify(repository.fetchAll{{Entities}}()).called(1);
+    });
+  });
+}

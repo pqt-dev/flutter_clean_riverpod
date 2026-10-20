@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_riverpod/presentation/extensions/build_context_x.dart';
+import 'package:flutter_clean_riverpod/presentation/features/widgets/app_text.dart';
 import 'package:flutter_clean_riverpod/presentation/theme/app_theme_extension.dart';
-
-import 'app_text.dart';
 
 class AppButton extends StatelessWidget {
   const AppButton({
@@ -31,7 +30,8 @@ class AppButton extends StatelessWidget {
     onPressed: onPressed,
     style: ElevatedButton.styleFrom(
       shape: shape,
-      backgroundColor: backgroundColor ?? context.color(Palette.primaryButtonBackground),
+      backgroundColor:
+          backgroundColor ?? context.color(Palette.primaryButtonBackground),
       padding:
           padding ??
           const EdgeInsets.symmetric(

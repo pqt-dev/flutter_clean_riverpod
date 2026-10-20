@@ -20,21 +20,23 @@ void main() {
     countryUseCase = MockCountryUseCase();
   });
 
-  test(
-    'CountryViewmodel fetches countries successfully',
-    () async {
+  ProviderContainer createContainer() {
+    return ProviderContainer(
+      overrides: [
+        countryUseCaseProvider.overrideWithValue(countryUseCase),
+      ],
+    );
+  }
+
+  group('build (initial fetch)', () {
+    test('returns CountryStateData when use case returns Success', () async {
       final mockResponseSuccess = Success([Country(), Country()]);
       provideDummy<Result<List<Country>>>(mockResponseSuccess);
       when(
         countryUseCase.fetchAllCountries(),
       ).thenAnswer((_) async => mockResponseSuccess);
 
-      // Use Riverpod overrides instead of GetIt hacking
-      final container = ProviderContainer(
-        overrides: [
-          countryUseCaseProvider.overrideWithValue(countryUseCase),
-        ],
-      );
+      final container = createContainer();
       addTearDown(container.dispose);
 
       final future = container.read(countryViewmodelProvider.future);
@@ -54,12 +56,10 @@ void main() {
               ),
         ),
       );
-    },
-  );
+      verify(countryUseCase.fetchAllCountries()).called(1);
+    });
 
-  test(
-    'CountryViewmodel returns error state when use case fails',
-    () async {
+    test('returns CountryStateError when use case returns Failure', () async {
       const error = NetworkError();
       const mockResponseFailure = Failure(error);
       provideDummy<Result<List<Country>>>(mockResponseFailure);
@@ -67,11 +67,7 @@ void main() {
         countryUseCase.fetchAllCountries(),
       ).thenAnswer((_) async => mockResponseFailure);
 
-      final container = ProviderContainer(
-        overrides: [
-          countryUseCaseProvider.overrideWithValue(countryUseCase),
-        ],
-      );
+      final container = createContainer();
       addTearDown(container.dispose);
 
       final future = container.read(countryViewmodelProvider.future);
@@ -85,6 +81,7 @@ void main() {
           ),
         ),
       );
-    },
-  );
+      verify(countryUseCase.fetchAllCountries()).called(1);
+    });
+  });
 }

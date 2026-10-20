@@ -2,10 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_clean_riverpod/generated/locale_keys.g.dart';
-import '../extensions/build_context_x.dart';
-import '../features/widgets/app_button.dart';
-import '../features/widgets/app_text.dart';
-import '../theme/app_theme_extension.dart';
+import 'package:flutter_clean_riverpod/presentation/extensions/build_context_x.dart';
+import 'package:flutter_clean_riverpod/presentation/features/widgets/app_button.dart';
+import 'package:flutter_clean_riverpod/presentation/features/widgets/app_text.dart';
+import 'package:flutter_clean_riverpod/presentation/theme/app_theme_extension.dart';
 
 class AppDialog extends StatelessWidget {
   const AppDialog({
@@ -37,7 +37,7 @@ class AppDialog extends StatelessWidget {
       canPop: canPopBySystem,
       child: Dialog(
         child: Column(
-          mainAxisSize: .min,
+          mainAxisSize: MainAxisSize.min,
           children: [
             DecoratedBox(
               decoration: BoxDecoration(

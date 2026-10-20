@@ -1,0 +1,37 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part '{{entity}}.freezed.dart';
+
+@freezed
+abstract class {{Entity}} with _${{Entity}} {
+  const factory {{Entity}}({
+    // tmpl:custom-begin
+    List<String>? capital,
+    String? region,
+    String? subregion,
+    double? area,
+    int? population,
+    {{Entity}}Name? name,
+    {{Entity}}Flag? flags,
+    // tmpl:custom-end
+  }) = _{{Entity}};
+}
+
+// tmpl:custom-begin
+@freezed
+abstract class {{Entity}}Name with _${{Entity}}Name {
+  const factory {{Entity}}Name({
+    String? common,
+    String? official,
+  }) = _{{Entity}}Name;
+}
+
+@freezed
+abstract class {{Entity}}Flag with _${{Entity}}Flag {
+  const factory {{Entity}}Flag({
+    String? png,
+    String? svg,
+    String? alt,
+  }) = _{{Entity}}Flag;
+}
+// tmpl:custom-end
