@@ -32,6 +32,11 @@ jobs:
       - name: Get dependencies, run code gen
         run: make USE_FVM=false
 
+      - name: Check format
+        run: |
+          files=$(git ls-files 'lib/*.dart' 'test/*.dart')
+          [ -z "$files" ] || dart format --output=none --set-exit-if-changed $files
+
       - name: Analyze
         run: flutter analyze
 
