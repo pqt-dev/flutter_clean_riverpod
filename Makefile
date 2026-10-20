@@ -78,6 +78,8 @@ rename:
 		sed -i '' "s/^name: $$OLD_PROJECT_NAME$$/name: $(project_name)/" pubspec.yaml; \
 		grep -rl "package:$$OLD_PROJECT_NAME/" lib test 2>/dev/null \
 		| xargs sed -i '' "s/package:$$OLD_PROJECT_NAME\//package:$(project_name)\//g" || true; \
+		echo "$(BLUE)🔀 Re-sorting imports (directives_ordering)...$(NC)"; \
+		$(DART) fix --apply --code=directives_ordering || exit 1; \
 	fi; \
 	\
     if [ -n "$(package_name)" ]; then \
