@@ -1,10 +1,11 @@
 # Quy trình làm việc với AI Agent
 
-Luật ngắn gọn agent luôn đọc: [CLAUDE.md](../CLAUDE.md). Tài liệu này mô tả quy trình end-to-end.
+Luật ngắn gọn agent luôn đọc: [CLAUDE.md](../CLAUDE.md). Quy ước chi tiết (nguồn chuẩn): [conventions.md](conventions.md). Dùng boilerplate cho project mới: [boilerplate-guide.md](boilerplate-guide.md). Tài liệu này mô tả quy trình end-to-end.
 
 ## 1. Nguyên tắc
-- Agent đọc `CLAUDE.md` trước khi làm.
-- Bám Country feature làm mẫu (`lib/**/country/`, `test/**/country*`).
+- Agent đọc `CLAUDE.md` trước khi làm; trước khi tạo/sửa feature đọc thêm `docs/conventions.md` (nguồn chuẩn duy nhất của quy ước, rule có mã).
+- Thứ tự ưu tiên khi mâu thuẫn: docs/conventions.md > .claude/templates > skills > CLAUDE.md > code mẫu Country/Theme.
+- Bám template trong `.claude/templates/` (bản hiện thực của conventions.md; xem `README.md` ở đó); feature Country/Theme nếu còn chỉ là ví dụ.
 - Thay đổi nhỏ, đúng phạm vi. Mơ hồ thì dừng và hỏi.
 
 ## 2. Vòng đời task
@@ -53,6 +54,8 @@ Skill `flutter-review` trên diff.
 | Chạy codegen, analyze, test, kiểm tra DoD | `flutter-verify` |
 | Review diff trước khi tạo PR | `flutter-review` |
 
+Bắt đầu project mới từ boilerplate này (đổi tên, xóa Country, tạo feature đầu tiên): xem [boilerplate-guide.md](boilerplate-guide.md).
+
 ## 4. Phân vai orchestrator / subagent (gợi ý tùy chọn, không bắt buộc)
 | Vai | Việc |
 |---|---|
@@ -69,7 +72,7 @@ Spec:
 - Input/Output: ...
 - Endpoint + sample JSON: ...
 - Edge case / error case: ...
-- Nhất quán với: Country feature (đường dẫn file mẫu)
+- Nhất quán với: template `.claude/templates/<api-feature|local-feature>`
 Skill áp dụng: <flutter-new-feature | flutter-add-api | ...>
 Phạm vi: chỉ tạo/sửa <danh sách file/layer>. Không đụng chỗ khác.
 Acceptance criteria:
@@ -83,23 +86,25 @@ Báo cáo: danh sách file đã đổi + tóm tắt thay đổi.
 Checklist đầy đủ nằm ở skill `flutter-verify` (nguồn duy nhất). Khi đổi DoD chỉ cần sửa ở đó.
 
 ## 7. Anti-pattern hay gặp của AI trong repo này
-| Sai | Đúng |
-|---|---|
-| Gọi `getIt` trong ViewModel/Screen | `ref.watch(xUseCaseProvider)`; `getIt` chỉ ở `di_providers.dart` |
-| Import `data/` từ `presentation/` | Đi qua UseCase/entity ở domain |
-| ViewModel gọi repository | Chỉ gọi UseCase |
-| `throw` thay vì `Failure` | Trả `Failure(AppError)` |
-| Hardcode string trên UI | `LocaleKeys.xxx.tr()` + 3 file JSON |
-| Sửa `*.g.dart`, `*.freezed.dart`, `*.config.dart` | `make build_runner` |
-| Thêm package mới không hỏi | Hỏi trước |
-| Đặt `toEntity()` trong model | Extension trong `data/mappers/x_mapper.dart` |
-| Tạo thư mục `datasources` / `repository` | `datasource` (số ít), `repositories` (số nhiều) |
-| Đặt `fromJson` cho entity | `fromJson` chỉ ở `XModel` |
-| Viết `XViewModel` | `XViewmodel` (m thường) |
-| `print` | `LoggerService` |
-| Refactor/format ngoài phạm vi | Chỉ sửa đúng yêu cầu |
+| Sai | Đúng | Rule |
+|---|---|---|
+| Gọi `getIt` trong ViewModel/Screen | `ref.watch(xUseCaseProvider)`; `getIt` chỉ ở `di_providers.dart` | ARC-04, DI-04 |
+| Import `data/` từ `presentation/` | Đi qua UseCase/entity ở domain | ARC-02 |
+| ViewModel gọi repository | Chỉ gọi UseCase | ARC-05 |
+| `throw` thay vì `Failure` | Trả `Failure(AppError)` | ERR-01 |
+| Hardcode string trên UI | `LocaleKeys.xxx.tr()` + 3 file JSON | L10N-01, L10N-02 |
+| Sửa `*.g.dart`, `*.freezed.dart`, `*.config.dart` | `make build_runner` | GEN-01, GEN-03 |
+| Thêm package mới không hỏi | Hỏi trước | (CLAUDE.md) |
+| Đặt `toEntity()` trong model | Extension trong `data/mappers/x_mapper.dart` | CLS-09, FIL-07 |
+| Tạo thư mục `datasources` / `repository` | `datasource` (số ít), `repositories` (số nhiều) | FIL-03 |
+| Đặt `fromJson` cho entity | `fromJson` chỉ ở `XModel` | MET-06 |
+| Viết `XViewModel` | `XViewmodel` (m thường) | NAM-06 |
+| `print` | `LoggerService` | ARC-08 |
+| Refactor/format ngoài phạm vi | Chỉ sửa đúng yêu cầu | (CLAUDE.md) |
+| Tự chế cấu trúc/đặt tên khác template | Render từ template; ca chưa phủ thì dừng và hỏi | STP-01, FIL-12 |
+| Bỏ file test của feature | Đủ 4 loại test như template (local: 3) | TST-02 |
 
 ## 8. Bảo trì
-- Quy ước đổi (layer, naming, lệnh, cấu trúc thư mục) thì cập nhật `CLAUDE.md` + các `SKILL.md` liên quan trong CÙNG PR.
-- Khi Country feature (file mẫu) đổi tên/vị trí, cập nhật đường dẫn trong skills.
+- Nguồn chuẩn là `docs/conventions.md`; template là bản hiện thực của nó. Thứ tự ưu tiên khi mâu thuẫn: docs/conventions.md > .claude/templates > skills > CLAUDE.md > code mẫu Country/Theme.
+- Sửa quy ước (layer, naming, code style, cấu trúc thư mục) thì sửa `docs/conventions.md` + template + skill liên quan trong CÙNG PR; `CLAUDE.md` chỉ cập nhật khi đổi lệnh, bảng skill hoặc mã rule được trích dẫn.
 - DoD chỉ sửa ở skill `flutter-verify`; không chép lại checklist vào `CLAUDE.md` hay tài liệu này.
