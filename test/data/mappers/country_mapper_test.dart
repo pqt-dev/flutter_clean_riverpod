@@ -14,7 +14,10 @@ void main() {
         subregion: 'South-Eastern Asia',
         area: 331212.0,
         population: 97338579,
-        name: CountryNameModel(common: 'Vietnam', official: 'Socialist Republic of Vietnam'),
+        name: CountryNameModel(
+          common: 'Vietnam',
+          official: 'Socialist Republic of Vietnam',
+        ),
         flags: CountryFlagModel(
           png: 'https://flagcdn.com/w320/vn.png',
           svg: 'https://flagcdn.com/vn.svg',
@@ -78,7 +81,10 @@ void main() {
 
   group('CountryNameModelMapper', () {
     test('toEntity() maps name correctly', () {
-      final model = CountryNameModel(common: 'France', official: 'French Republic');
+      final model = CountryNameModel(
+        common: 'France',
+        official: 'French Republic',
+      );
       final entity = model.toEntity();
 
       expect(entity, isA<CountryName>());

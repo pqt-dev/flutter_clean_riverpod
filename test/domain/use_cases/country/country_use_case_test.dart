@@ -19,31 +19,33 @@ void main() {
     useCase = CountryUseCase(repository);
   });
 
-  test('fetchAllCountries delegates to repository and returns Success', () async {
-    final countries = [
-      Country(name: CountryName(common: 'Vietnam')),
-      Country(name: CountryName(common: 'Japan')),
-    ];
-    final expected = Success(countries);
-    provideDummy<Result<List<Country>>>(expected);
-    when(repository.fetchAllCountries()).thenAnswer((_) async => expected);
+  group('fetchAllCountries', () {
+    test('returns Success with countries from repository', () async {
+      final countries = [
+        Country(name: CountryName(common: 'Vietnam')),
+        Country(name: CountryName(common: 'Japan')),
+      ];
+      final expected = Success(countries);
+      provideDummy<Result<List<Country>>>(expected);
+      when(repository.fetchAllCountries()).thenAnswer((_) async => expected);
 
-    final result = await useCase.fetchAllCountries();
+      final result = await useCase.fetchAllCountries();
 
-    expect(result, isA<Success<List<Country>>>());
-    expect((result as Success).value, equals(countries));
-    verify(repository.fetchAllCountries()).called(1);
-  });
+      expect(result, isA<Success<List<Country>>>());
+      expect((result as Success).value, equals(countries));
+      verify(repository.fetchAllCountries()).called(1);
+    });
 
-  test('fetchAllCountries delegates to repository and returns Failure', () async {
-    final expected = Failure(NetworkError());
-    provideDummy<Result<List<Country>>>(expected);
-    when(repository.fetchAllCountries()).thenAnswer((_) async => expected);
+    test('returns Failure when repository returns Failure', () async {
+      final expected = Failure(NetworkError());
+      provideDummy<Result<List<Country>>>(expected);
+      when(repository.fetchAllCountries()).thenAnswer((_) async => expected);
 
-    final result = await useCase.fetchAllCountries();
+      final result = await useCase.fetchAllCountries();
 
-    expect(result, isA<Failure>());
-    expect((result as Failure).error, isA<NetworkError>());
-    verify(repository.fetchAllCountries()).called(1);
+      expect(result, isA<Failure>());
+      expect((result as Failure).error, isA<NetworkError>());
+      verify(repository.fetchAllCountries()).called(1);
+    });
   });
 }

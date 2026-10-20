@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_riverpod/domain/core/app_error.dart';
 import 'package:flutter_clean_riverpod/generated/locale_keys.g.dart';
 import 'package:flutter_clean_riverpod/presentation/extensions/app_error_extension.dart';
+import 'package:flutter_clean_riverpod/presentation/features/country/country_state.dart';
+import 'package:flutter_clean_riverpod/presentation/features/country/country_viewmodel.dart';
+import 'package:flutter_clean_riverpod/presentation/features/country/widget/country_item_view.dart';
+import 'package:flutter_clean_riverpod/presentation/features/widgets/app_loader.dart';
+import 'package:flutter_clean_riverpod/presentation/features/widgets/error_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../widgets/app_loader.dart';
-import '../widgets/error_view.dart';
-import 'country_state.dart';
-import 'country_viewmodel.dart';
-import 'widget/country_item_view.dart';
 
 class CountriesScreen extends ConsumerWidget {
   const CountriesScreen({super.key});

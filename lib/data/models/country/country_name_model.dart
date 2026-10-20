@@ -10,5 +10,6 @@ abstract class CountryNameModel with _$CountryNameModel {
     String? official,
   }) = _CountryNameModel;
 
-  factory CountryNameModel.fromJson(Map<String, dynamic> json) => _$CountryNameModelFromJson(json);
+  factory CountryNameModel.fromJson(Map<String, dynamic> json) =>
+      _$CountryNameModelFromJson(json);
 }

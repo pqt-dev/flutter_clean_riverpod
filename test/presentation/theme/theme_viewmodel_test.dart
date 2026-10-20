@@ -27,39 +27,48 @@ void main() {
   }
 
   group('build (initial fetch)', () {
-    test('returns ThemeMode.light when use case returns AppThemeMode.light', () async {
-      when(themeUseCase.fetch()).thenAnswer((_) async => AppThemeMode.light);
+    test(
+      'returns ThemeMode.light when use case returns AppThemeMode.light',
+      () async {
+        when(themeUseCase.fetch()).thenAnswer((_) async => AppThemeMode.light);
 
-      final container = createContainer();
-      addTearDown(container.dispose);
+        final container = createContainer();
+        addTearDown(container.dispose);
 
-      final result = await container.read(themeViewmodelProvider.future);
+        final result = await container.read(themeViewmodelProvider.future);
 
-      expect(result, equals(ThemeMode.light));
-      verify(themeUseCase.fetch()).called(1);
-    });
+        expect(result, equals(ThemeMode.light));
+        verify(themeUseCase.fetch()).called(1);
+      },
+    );
 
-    test('returns ThemeMode.dark when use case returns AppThemeMode.dark', () async {
-      when(themeUseCase.fetch()).thenAnswer((_) async => AppThemeMode.dark);
+    test(
+      'returns ThemeMode.dark when use case returns AppThemeMode.dark',
+      () async {
+        when(themeUseCase.fetch()).thenAnswer((_) async => AppThemeMode.dark);
 
-      final container = createContainer();
-      addTearDown(container.dispose);
+        final container = createContainer();
+        addTearDown(container.dispose);
 
-      final result = await container.read(themeViewmodelProvider.future);
+        final result = await container.read(themeViewmodelProvider.future);
 
-      expect(result, equals(ThemeMode.dark));
-    });
+        expect(result, equals(ThemeMode.dark));
+      },
+    );
 
-    test('returns ThemeMode.system when use case returns AppThemeMode.system', () async {
-      when(themeUseCase.fetch()).thenAnswer((_) async => AppThemeMode.system);
+    test(
+      'returns ThemeMode.system when use case returns AppThemeMode.system',
+      () async {
+        when(themeUseCase.fetch()).thenAnswer((_) async => AppThemeMode.system);
 
-      final container = createContainer();
-      addTearDown(container.dispose);
+        final container = createContainer();
+        addTearDown(container.dispose);
 
-      final result = await container.read(themeViewmodelProvider.future);
+        final result = await container.read(themeViewmodelProvider.future);
 
-      expect(result, equals(ThemeMode.system));
-    });
+        expect(result, equals(ThemeMode.system));
+      },
+    );
   });
 
   group('setTheme', () {
@@ -74,7 +83,9 @@ void main() {
       await container.read(themeViewmodelProvider.future);
 
       // Set new theme
-      await container.read(themeViewmodelProvider.notifier).setTheme(ThemeMode.light);
+      await container
+          .read(themeViewmodelProvider.notifier)
+          .setTheme(ThemeMode.light);
 
       verify(themeUseCase.save(AppThemeMode.light)).called(1);
       final newState = container.read(themeViewmodelProvider);
@@ -89,10 +100,15 @@ void main() {
       addTearDown(container.dispose);
 
       await container.read(themeViewmodelProvider.future);
-      await container.read(themeViewmodelProvider.notifier).setTheme(ThemeMode.dark);
+      await container
+          .read(themeViewmodelProvider.notifier)
+          .setTheme(ThemeMode.dark);
 
       verify(themeUseCase.save(AppThemeMode.dark)).called(1);
-      expect(container.read(themeViewmodelProvider).value, equals(ThemeMode.dark));
+      expect(
+        container.read(themeViewmodelProvider).value,
+        equals(ThemeMode.dark),
+      );
     });
   });
 }

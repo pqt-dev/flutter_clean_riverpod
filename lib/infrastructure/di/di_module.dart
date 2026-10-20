@@ -1,10 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_clean_riverpod/data/datasource/core/api_endpoint.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../data/datasource/core/api_endpoint.dart';
 
 @module
 abstract class NetworkModule {

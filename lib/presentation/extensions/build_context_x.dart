@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_theme_extension.dart';
+import 'package:flutter_clean_riverpod/presentation/theme/app_theme_extension.dart';
 
 extension ThemeX on BuildContext {
   Color? color(Palette key) {

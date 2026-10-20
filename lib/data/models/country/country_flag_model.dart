@@ -11,5 +11,6 @@ abstract class CountryFlagModel with _$CountryFlagModel {
     String? alt,
   }) = _CountryFlagModel;
 
-  factory CountryFlagModel.fromJson(Map<String, dynamic> json) => _$CountryFlagModelFromJson(json);
+  factory CountryFlagModel.fromJson(Map<String, dynamic> json) =>
+      _$CountryFlagModelFromJson(json);
 }

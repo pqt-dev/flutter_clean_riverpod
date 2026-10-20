@@ -10,5 +10,6 @@
   "error_server" : "サーバーエラーです。しばらくしてからもう一度お試しください。",
   "error_auth" : "認証エラーです。",
   "error_parsing" : "データの処理に失敗しました。",
-  "error_unexpected" : "予期しないエラーが発生しました。"
+  "error_unexpected" : "予期しないエラーが発生しました。",
+  "go_to_countries" : "国一覧へ移動"
 }

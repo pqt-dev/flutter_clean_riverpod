@@ -6,6 +6,7 @@ part 'country_state.freezed.dart';
 
 @freezed
 sealed class CountryState with _$CountryState {
-  const factory CountryState.data({@Default([]) List<Country> countries}) = CountryStateData;
+  const factory CountryState.data({@Default([]) List<Country> countries}) =
+      CountryStateData;
   const factory CountryState.error(AppError error) = CountryStateError;
 }

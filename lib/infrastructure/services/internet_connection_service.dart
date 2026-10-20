@@ -5,10 +5,12 @@ import 'package:injectable/injectable.dart';
 class InternetConnectionService {
   Future<bool> hasInternet() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
-    return connectivityResult.any((element) => [
-          ConnectivityResult.mobile,
-          ConnectivityResult.ethernet,
-          ConnectivityResult.wifi
-        ].contains(element));
+    return connectivityResult.any(
+      (element) => [
+        ConnectivityResult.mobile,
+        ConnectivityResult.ethernet,
+        ConnectivityResult.wifi,
+      ].contains(element),
+    );
   }
 }
