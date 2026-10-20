@@ -1,113 +1,47 @@
-import 'dart:io';
-
 import 'package:flutter_test/flutter_test.dart';
 
-const _package = 'flutter_clean_riverpod';
-const _generatedSuffixes = [
-  '.g.dart',
-  '.freezed.dart',
-  '.config.dart',
-  '.gen.dart',
-  '.mocks.dart',
-];
-const _diProvidersPath = 'lib/presentation/providers/di_providers.dart';
-const _loggerServicePath = 'lib/infrastructure/services/logger_service.dart';
+import 'checks/layer_checks.dart';
+import 'support/fixture.dart';
+import 'support/project.dart';
 
-final _directiveRegex = RegExp(r'''^\s*(?:import|export)\s+['"]([^'"]+)['"]''');
-final _getItRegex = RegExp(r'\bgetIt\b');
-final _printRegex = RegExp(r'(?<![\w$])(?:print|debugPrint)\(');
+final _real = ProjectRoot();
 
-class _Line {
-  _Line(this.path, this.number, this.text);
-
-  final String path;
-  final int number;
-  final String text;
-
-  bool get isComment => text.trimLeft().startsWith('//');
-
-  @override
-  String toString() => '$path:$number: ${text.trim()}';
-}
-
-class _Directive extends _Line {
-  _Directive(super.path, super.number, super.text, this.uri, this.target);
-
-  final String uri;
-
-  /// Path of the imported file relative to the project root (e.g. `lib/data/x.dart`),
-  /// or null for non-project imports (dart:, other packages).
-  final String? target;
-
-  bool targetIn(String layer) => target?.startsWith('lib/$layer/') ?? false;
-}
-
-/// Non-generated `.dart` files under `lib/`, as project-root-relative paths.
-List<String> _libFiles([String layer = '']) {
-  final dir = Directory('lib/$layer');
-  if (!dir.existsSync()) return [];
-  return dir
-      .listSync(recursive: true)
-      .whereType<File>()
-      .map((f) => f.path.replaceAll(r'\', '/'))
-      .where((p) => p.endsWith('.dart'))
-      .where((p) => !_generatedSuffixes.any(p.endsWith))
-      .toList()
-    ..sort();
-}
-
-List<_Line> _lines(String path) {
-  final lines = File(path).readAsLinesSync();
-  return [for (var i = 0; i < lines.length; i++) _Line(path, i + 1, lines[i])];
-}
-
-String? _resolve(String path, String uri) {
-  const prefix = 'package:$_package/';
-  if (uri.startsWith(prefix)) return 'lib/${uri.substring(prefix.length)}';
-  if (uri.contains(':')) return null;
-  final base = Uri.parse(path);
-  return base.resolve(uri).path;
-}
-
-List<_Directive> _directives(String path) {
-  final result = <_Directive>[];
-  for (final line in _lines(path)) {
-    final match = _directiveRegex.firstMatch(line.text);
-    if (match == null) continue;
-    final uri = match.group(1)!;
-    result.add(
-      _Directive(path, line.number, line.text, uri, _resolve(path, uri)),
-    );
-  }
-  return result;
-}
-
-List<_Line> _linesMatching(
-  Iterable<String> files,
-  RegExp regex, {
-  bool Function(String path)? skip,
-}) {
-  return [
-    for (final path in files)
-      if (skip == null || !skip(path))
-        for (final line in _lines(path))
-          if (!line.isComment && regex.hasMatch(line.text)) line,
-  ];
-}
-
-void _expectNoViolations(String rule, Iterable<_Line> violations) {
+void _expectNoViolations(Iterable<Violation> violations) {
   expect(
     violations,
     isEmpty,
-    reason: '$rule\n${violations.map((v) => '  $v').join('\n')}',
+    reason: violations.map((v) => '  $v').join('\n'),
   );
+}
+
+/// Negative test: [bad] must yield violations all carrying [ruleId];
+/// [good] must yield none.
+void _negative(
+  String ruleId,
+  List<Violation> Function(ProjectRoot) check, {
+  required Map<String, String> bad,
+  required Map<String, String> good,
+}) {
+  test('$ruleId catches violations in a fixture project', () {
+    final p = FixtureProject(bad);
+    addTearDown(p.dispose);
+    final violations = check(p.root);
+    expect(violations, isNotEmpty);
+    expect(violations.map((v) => v.ruleId).toSet(), {ruleId});
+  });
+
+  test('$ruleId reports nothing for a valid fixture project', () {
+    final p = FixtureProject(good);
+    addTearDown(p.dispose);
+    expect(check(p.root), isEmpty);
+  });
 }
 
 void main() {
   test('sanity: every layer has scanned files', () {
     for (final layer in ['domain', 'data', 'infrastructure', 'presentation']) {
       expect(
-        _libFiles(layer),
+        _real.libFiles(layer),
         isNotEmpty,
         reason:
             'No files found in lib/$layer (run tests from the project root)',
@@ -115,59 +49,103 @@ void main() {
     }
   });
 
-  test('domain must not import flutter, dio, data or presentation', () {
-    final violations = [
-      for (final path in _libFiles('domain'))
-        for (final d in _directives(path))
-          if (d.uri.startsWith('package:flutter/') ||
-              d.uri.startsWith('package:dio/') ||
-              d.targetIn('data') ||
-              d.targetIn('presentation'))
-            d,
-    ];
-    _expectNoViolations('lib/domain/ has forbidden imports:', violations);
-  });
-
-  test('presentation must not import data', () {
-    final violations = [
-      for (final path in _libFiles('presentation'))
-        for (final d in _directives(path))
-          if (d.targetIn('data')) d,
-    ];
-    _expectNoViolations('lib/presentation/ must not import data/:', violations);
-  });
-
-  test('getIt is only used in presentation/providers/di_providers.dart', () {
-    final violations = _linesMatching(
-      _libFiles('presentation'),
-      _getItRegex,
-      skip: (p) => p == _diProvidersPath,
-    );
-    _expectNoViolations(
-      'getIt is only allowed in $_diProvidersPath:',
-      violations,
+  group('ARC-01 domain imports', () {
+    test('real project has no violations', () {
+      _expectNoViolations(checkArc01(_real));
+    });
+    _negative(
+      'ARC-01',
+      checkArc01,
+      bad: {
+        'lib/domain/a.dart': "import 'package:flutter/material.dart';\n",
+        'lib/domain/b.dart': "import 'package:sample_app/data/x.dart';\n",
+        'lib/domain/c.dart': "import '../presentation/y.dart';\n",
+      },
+      good: {
+        'lib/domain/a.dart': "import 'package:sample_app/domain/b.dart';\n",
+        'lib/domain/b.dart': "import 'dart:io';\n",
+      },
     );
   });
 
-  test('viewmodels must not import domain repositories', () {
-    final violations = [
-      for (final path in _libFiles('presentation'))
-        if (path.endsWith('_viewmodel.dart'))
-          for (final d in _directives(path))
-            if (d.targetIn('domain/repositories')) d,
-    ];
-    _expectNoViolations(
-      'ViewModel must only use UseCase, not repositories:',
-      violations,
+  group('ARC-02 presentation must not import data', () {
+    test('real project has no violations', () {
+      _expectNoViolations(checkArc02(_real));
+    });
+    _negative(
+      'ARC-02',
+      checkArc02,
+      bad: {'lib/presentation/a.dart': "import '../data/x.dart';\n"},
+      good: {
+        'lib/presentation/a.dart':
+            "import 'package:sample_app/domain/x.dart';\n",
+      },
     );
   });
 
-  test('no print/debugPrint in lib (use LoggerService)', () {
-    final violations = _linesMatching(
-      _libFiles(),
-      _printRegex,
-      skip: (p) => p == _loggerServicePath,
+  group('ARC-03 data must not import presentation', () {
+    test('real project has no violations', () {
+      _expectNoViolations(checkArc03(_real));
+    });
+    _negative(
+      'ARC-03',
+      checkArc03,
+      bad: {
+        'lib/data/a.dart': "import 'package:sample_app/presentation/x.dart';\n",
+      },
+      good: {'lib/data/a.dart': "import 'package:sample_app/domain/x.dart';\n"},
     );
-    _expectNoViolations('Use LoggerService instead of print:', violations);
+  });
+
+  group('ARC-04 getIt only in di_providers', () {
+    test('real project has no violations', () {
+      _expectNoViolations(checkArc04(_real));
+    });
+    _negative(
+      'ARC-04',
+      checkArc04,
+      bad: {'lib/presentation/a.dart': 'final x = getIt<Foo>();\n'},
+      good: {
+        'lib/presentation/providers/di_providers.dart':
+            'final x = getIt<Foo>();\n',
+        'lib/presentation/a.dart': '// getIt in a comment\n',
+      },
+    );
+  });
+
+  group('ARC-05 viewmodel must not import repositories', () {
+    test('real project has no violations', () {
+      _expectNoViolations(checkArc05(_real));
+    });
+    _negative(
+      'ARC-05',
+      checkArc05,
+      bad: {
+        'lib/presentation/x_viewmodel.dart':
+            "import 'package:sample_app/domain/repositories/x/x_repository.dart';\n",
+      },
+      good: {
+        'lib/presentation/x_viewmodel.dart':
+            "import 'package:sample_app/domain/use_cases/x/x_use_case.dart';\n",
+        'lib/presentation/other.dart':
+            "import 'package:sample_app/domain/repositories/x/x_repository.dart';\n",
+      },
+    );
+  });
+
+  group('ARC-08 no print in lib', () {
+    test('real project has no violations', () {
+      _expectNoViolations(checkArc08(_real));
+    });
+    _negative(
+      'ARC-08',
+      checkArc08,
+      bad: {'lib/data/a.dart': "void f() { print('x'); }\n"},
+      good: {
+        'lib/infrastructure/services/logger_service.dart':
+            "void f() { print('x'); }\n",
+        'lib/data/a.dart': "// print('x')\nvoid g() { sprint(1); }\n",
+      },
+    );
   });
 }
