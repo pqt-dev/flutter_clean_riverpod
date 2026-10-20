@@ -1,0 +1,17 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part '{{entity}}_{{nested}}_model.freezed.dart';
+part '{{entity}}_{{nested}}_model.g.dart';
+
+@freezed
+abstract class {{Entity}}{{Nested}}Model with _${{Entity}}{{Nested}}Model {
+  const factory {{Entity}}{{Nested}}Model({
+    // tmpl:custom-begin
+    String? common,
+    String? official,
+    // tmpl:custom-end
+  }) = _{{Entity}}{{Nested}}Model;
+
+  factory {{Entity}}{{Nested}}Model.fromJson(Map<String, dynamic> json) =>
+      _${{Entity}}{{Nested}}ModelFromJson(json);
+}

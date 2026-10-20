@@ -1,0 +1,118 @@
+// tmpl:custom-begin
+import 'package:flutter/material.dart';
+// tmpl:custom-end
+import 'package:{{app_package}}/domain/core/{{value_type}}.dart';
+import 'package:{{app_package}}/domain/use_cases/{{feature}}/{{feature}}_use_case.dart';
+import 'package:{{app_package}}/presentation/providers/di_providers.dart';
+import 'package:{{app_package}}/presentation/{{feature}}/{{feature}}_viewmodel.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+
+import '{{feature}}_viewmodel_test.mocks.dart';
+
+@GenerateNiceMocks([MockSpec<{{Feature}}UseCase>()])
+void main() {
+  late Mock{{Feature}}UseCase {{featureCamel}}UseCase;
+
+  setUp(() {
+    {{featureCamel}}UseCase = Mock{{Feature}}UseCase();
+  });
+
+  ProviderContainer createContainer() {
+    return ProviderContainer(
+      overrides: [
+        {{featureCamel}}UseCaseProvider.overrideWithValue({{featureCamel}}UseCase),
+      ],
+    );
+  }
+
+  // tmpl:custom-begin
+  group('build (initial fetch)', () {
+    test(
+      'returns ThemeMode.light when use case returns {{ValueType}}.light',
+      () async {
+        when({{featureCamel}}UseCase.fetch()).thenAnswer((_) async => {{ValueType}}.light);
+
+        final container = createContainer();
+        addTearDown(container.dispose);
+
+        final result = await container.read({{featureCamel}}ViewmodelProvider.future);
+
+        expect(result, equals(ThemeMode.light));
+        verify({{featureCamel}}UseCase.fetch()).called(1);
+      },
+    );
+
+    test(
+      'returns ThemeMode.dark when use case returns {{ValueType}}.dark',
+      () async {
+        when({{featureCamel}}UseCase.fetch()).thenAnswer((_) async => {{ValueType}}.dark);
+
+        final container = createContainer();
+        addTearDown(container.dispose);
+
+        final result = await container.read({{featureCamel}}ViewmodelProvider.future);
+
+        expect(result, equals(ThemeMode.dark));
+      },
+    );
+
+    test(
+      'returns ThemeMode.system when use case returns {{ValueType}}.system',
+      () async {
+        when({{featureCamel}}UseCase.fetch()).thenAnswer((_) async => {{ValueType}}.system);
+
+        final container = createContainer();
+        addTearDown(container.dispose);
+
+        final result = await container.read({{featureCamel}}ViewmodelProvider.future);
+
+        expect(result, equals(ThemeMode.system));
+      },
+    );
+  });
+
+  group('setTheme', () {
+    test('saves light theme and updates state', () async {
+      when({{featureCamel}}UseCase.fetch()).thenAnswer((_) async => {{ValueType}}.system);
+      when({{featureCamel}}UseCase.save({{ValueType}}.light)).thenAnswer((_) async {});
+
+      final container = createContainer();
+      addTearDown(container.dispose);
+
+      // Wait for initial build
+      await container.read({{featureCamel}}ViewmodelProvider.future);
+
+      // Set new theme
+      await container
+          .read({{featureCamel}}ViewmodelProvider.notifier)
+          .setTheme(ThemeMode.light);
+
+      verify({{featureCamel}}UseCase.save({{ValueType}}.light)).called(1);
+      final newState = container.read({{featureCamel}}ViewmodelProvider);
+      expect(newState.value, equals(ThemeMode.light));
+    });
+
+    test('saves dark theme and updates state', () async {
+      when({{featureCamel}}UseCase.fetch()).thenAnswer((_) async => {{ValueType}}.light);
+      when({{featureCamel}}UseCase.save({{ValueType}}.dark)).thenAnswer((_) async {});
+
+      final container = createContainer();
+      addTearDown(container.dispose);
+
+      await container.read({{featureCamel}}ViewmodelProvider.future);
+      await container
+          .read({{featureCamel}}ViewmodelProvider.notifier)
+          .setTheme(ThemeMode.dark);
+
+      verify({{featureCamel}}UseCase.save({{ValueType}}.dark)).called(1);
+      expect(
+        container.read({{featureCamel}}ViewmodelProvider).value,
+        equals(ThemeMode.dark),
+      );
+    });
+  });
+  // tmpl:custom-end
+}

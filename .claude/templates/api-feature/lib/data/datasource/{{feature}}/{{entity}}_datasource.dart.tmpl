@@ -1,0 +1,8 @@
+import 'package:{{app_package}}/data/models/{{feature}}/{{entity}}_model.dart';
+import 'package:{{app_package}}/domain/core/result.dart';
+
+/// Abstract interface for {{entity}} data source.
+/// Enables swapping between remote and local implementations.
+abstract class {{Entity}}Datasource {
+  Future<Result<List<{{Entity}}Model>>> fetchAll{{Entities}}();
+}
