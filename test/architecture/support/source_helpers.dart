@@ -319,26 +319,26 @@ Map<String, String> renamed(Map<String, String> files, String from, String to) {
   };
 }
 
-const sampleEntityPath = 'lib/domain/entities/country.dart';
+const sampleEntityPath = 'lib/domain/entities/product.dart';
 const sampleRepositoryPath =
-    'lib/domain/repositories/country/country_repository.dart';
-const sampleUseCasePath = 'lib/domain/use_cases/country/country_use_case.dart';
-const sampleModelPath = 'lib/data/models/country/country_model.dart';
-const sampleNestedModelPath = 'lib/data/models/country/country_name_model.dart';
-const sampleMapperPath = 'lib/data/mappers/country_mapper.dart';
+    'lib/domain/repositories/product/product_repository.dart';
+const sampleUseCasePath = 'lib/domain/use_cases/product/product_use_case.dart';
+const sampleModelPath = 'lib/data/models/product/product_model.dart';
+const sampleNestedModelPath = 'lib/data/models/product/product_name_model.dart';
+const sampleMapperPath = 'lib/data/mappers/product_mapper.dart';
 const sampleDatasourcePath =
-    'lib/data/datasource/country/country_datasource.dart';
+    'lib/data/datasource/product/product_datasource.dart';
 const sampleRemotePath =
-    'lib/data/datasource/country/country_datasource_remote.dart';
+    'lib/data/datasource/product/product_datasource_remote.dart';
 const sampleRepositoryImplPath =
-    'lib/data/repositories/country/country_repository_impl.dart';
-const sampleStatePath = 'lib/presentation/features/country/country_state.dart';
+    'lib/data/repositories/product/product_repository_impl.dart';
+const sampleStatePath = 'lib/presentation/features/product/product_state.dart';
 const sampleViewmodelPath =
-    'lib/presentation/features/country/country_viewmodel.dart';
+    'lib/presentation/features/product/product_viewmodel.dart';
 const sampleScreenPath =
-    'lib/presentation/features/country/countries_screen.dart';
+    'lib/presentation/features/product/products_screen.dart';
 const sampleItemViewPath =
-    'lib/presentation/features/country/widget/country_item_view.dart';
+    'lib/presentation/features/product/widget/product_item_view.dart';
 const sampleDiProvidersPath = 'lib/presentation/providers/di_providers.dart';
 const sampleApiEndpointPath = 'lib/data/datasource/core/api_endpoint.dart';
 const sampleRoutesPath = 'lib/presentation/router/app_routes.dart';
@@ -349,158 +349,158 @@ const sampleThemeRepositoryImplPath =
     'lib/data/repositories/theme/theme_repository_impl.dart';
 const sampleThemeViewmodelPath = 'lib/presentation/theme/theme_viewmodel.dart';
 
-/// A minimal VALID project: API feature `country` (plural `countries`, nested
+/// A minimal VALID project: API feature `product` (plural `products`, nested
 /// `name`) plus local feature `theme`, plus the shared files. Every content
 /// check must report nothing on it.
 Map<String, String> sampleProject() => {
   sampleEntityPath: r'''
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'country.freezed.dart';
+part 'product.freezed.dart';
 
 @freezed
-abstract class Country with _$Country {
-  const factory Country({
+abstract class Product with _$Product {
+  const factory Product({
     String? region,
-    CountryName? name,
-  }) = _Country;
+    ProductName? name,
+  }) = _Product;
 }
 
 @freezed
-abstract class CountryName with _$CountryName {
-  const factory CountryName({
+abstract class ProductName with _$ProductName {
+  const factory ProductName({
     String? common,
-  }) = _CountryName;
+  }) = _ProductName;
 }
 ''',
   sampleRepositoryPath: r'''
 import 'package:sample_app/domain/core/result.dart';
-import 'package:sample_app/domain/entities/country.dart';
+import 'package:sample_app/domain/entities/product.dart';
 
-abstract class CountryRepository {
-  Future<Result<List<Country>>> fetchAllCountries();
+abstract class ProductRepository {
+  Future<Result<List<Product>>> fetchAllProducts();
 }
 ''',
   sampleUseCasePath: r'''
 import 'package:injectable/injectable.dart';
 import 'package:sample_app/domain/core/result.dart';
-import 'package:sample_app/domain/entities/country.dart';
-import 'package:sample_app/domain/repositories/country/country_repository.dart';
+import 'package:sample_app/domain/entities/product.dart';
+import 'package:sample_app/domain/repositories/product/product_repository.dart';
 
 @lazySingleton
-class CountryUseCase {
-  final CountryRepository repository;
+class ProductUseCase {
+  final ProductRepository repository;
 
-  CountryUseCase(this.repository);
+  ProductUseCase(this.repository);
 
-  Future<Result<List<Country>>> fetchAllCountries() async {
-    return repository.fetchAllCountries();
+  Future<Result<List<Product>>> fetchAllProducts() async {
+    return repository.fetchAllProducts();
   }
 }
 ''',
   sampleModelPath: r'''
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sample_app/data/models/country/country_name_model.dart';
+import 'package:sample_app/data/models/product/product_name_model.dart';
 
-part 'country_model.freezed.dart';
-part 'country_model.g.dart';
+part 'product_model.freezed.dart';
+part 'product_model.g.dart';
 
 @freezed
-abstract class CountryModel with _$CountryModel {
-  const factory CountryModel({
+abstract class ProductModel with _$ProductModel {
+  const factory ProductModel({
     String? region,
-    CountryNameModel? name,
-  }) = _CountryModel;
+    ProductNameModel? name,
+  }) = _ProductModel;
 
-  factory CountryModel.fromJson(Map<String, dynamic> json) => _$CountryModelFromJson(json);
+  factory ProductModel.fromJson(Map<String, dynamic> json) => _$ProductModelFromJson(json);
 }
 ''',
   sampleNestedModelPath: r'''
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'country_name_model.freezed.dart';
-part 'country_name_model.g.dart';
+part 'product_name_model.freezed.dart';
+part 'product_name_model.g.dart';
 
 @freezed
-abstract class CountryNameModel with _$CountryNameModel {
-  const factory CountryNameModel({
+abstract class ProductNameModel with _$ProductNameModel {
+  const factory ProductNameModel({
     String? common,
-  }) = _CountryNameModel;
+  }) = _ProductNameModel;
 
-  factory CountryNameModel.fromJson(Map<String, dynamic> json) => _$CountryNameModelFromJson(json);
+  factory ProductNameModel.fromJson(Map<String, dynamic> json) => _$ProductNameModelFromJson(json);
 }
 ''',
   sampleMapperPath: r'''
-import 'package:sample_app/data/models/country/country_model.dart';
-import 'package:sample_app/data/models/country/country_name_model.dart';
-import 'package:sample_app/domain/entities/country.dart';
+import 'package:sample_app/data/models/product/product_model.dart';
+import 'package:sample_app/data/models/product/product_name_model.dart';
+import 'package:sample_app/domain/entities/product.dart';
 
-extension CountryModelMapper on CountryModel {
-  Country toEntity() {
-    return Country(
+extension ProductModelMapper on ProductModel {
+  Product toEntity() {
+    return Product(
       region: region,
       name: name?.toEntity(),
     );
   }
 }
 
-extension CountryNameModelMapper on CountryNameModel {
-  CountryName toEntity() {
-    return CountryName(
+extension ProductNameModelMapper on ProductNameModel {
+  ProductName toEntity() {
+    return ProductName(
       common: common,
     );
   }
 }
 ''',
   sampleDatasourcePath: r'''
-import 'package:sample_app/data/models/country/country_model.dart';
+import 'package:sample_app/data/models/product/product_model.dart';
 import 'package:sample_app/domain/core/result.dart';
 
-abstract class CountryDatasource {
-  Future<Result<List<CountryModel>>> fetchAllCountries();
+abstract class ProductDatasource {
+  Future<Result<List<ProductModel>>> fetchAllProducts();
 }
 ''',
   sampleRemotePath: r'''
 import 'package:injectable/injectable.dart';
 import 'package:sample_app/data/datasource/core/api_client.dart';
 import 'package:sample_app/data/datasource/core/api_endpoint.dart';
-import 'package:sample_app/data/datasource/country/country_datasource.dart';
-import 'package:sample_app/data/models/country/country_model.dart';
+import 'package:sample_app/data/datasource/product/product_datasource.dart';
+import 'package:sample_app/data/models/product/product_model.dart';
 import 'package:sample_app/domain/core/result.dart';
 
-@LazySingleton(as: CountryDatasource)
-class CountryDatasourceRemote implements CountryDatasource {
+@LazySingleton(as: ProductDatasource)
+class ProductDatasourceRemote implements ProductDatasource {
   final ApiClient client;
 
-  CountryDatasourceRemote(this.client);
+  ProductDatasourceRemote(this.client);
 
   @override
-  Future<Result<List<CountryModel>>> fetchAllCountries() async {
+  Future<Result<List<ProductModel>>> fetchAllProducts() async {
     return client.request(
-      endpoint: APIEndpoint.allCountries,
+      endpoint: APIEndpoint.allProducts,
       method: ApiMethod.get,
-      decoder: (data) => (data as List<dynamic>).map((element) => CountryModel.fromJson(element)).toList(),
+      decoder: (data) => (data as List<dynamic>).map((element) => ProductModel.fromJson(element)).toList(),
     );
   }
 }
 ''',
   sampleRepositoryImplPath: r'''
 import 'package:injectable/injectable.dart';
-import 'package:sample_app/data/datasource/country/country_datasource.dart';
-import 'package:sample_app/data/mappers/country_mapper.dart';
+import 'package:sample_app/data/datasource/product/product_datasource.dart';
+import 'package:sample_app/data/mappers/product_mapper.dart';
 import 'package:sample_app/domain/core/result.dart';
-import 'package:sample_app/domain/entities/country.dart';
-import 'package:sample_app/domain/repositories/country/country_repository.dart';
+import 'package:sample_app/domain/entities/product.dart';
+import 'package:sample_app/domain/repositories/product/product_repository.dart';
 
-@LazySingleton(as: CountryRepository)
-class CountryRepositoryImpl implements CountryRepository {
-  final CountryDatasource remoteDatasource;
+@LazySingleton(as: ProductRepository)
+class ProductRepositoryImpl implements ProductRepository {
+  final ProductDatasource remoteDatasource;
 
-  CountryRepositoryImpl(this.remoteDatasource);
+  ProductRepositoryImpl(this.remoteDatasource);
 
   @override
-  Future<Result<List<Country>>> fetchAllCountries() async {
-    final result = await remoteDatasource.fetchAllCountries();
+  Future<Result<List<Product>>> fetchAllProducts() async {
+    final result = await remoteDatasource.fetchAllProducts();
     return switch (result) {
       Success(value: final models) => Success(models.map((e) => e.toEntity()).toList()),
       Failure(error: final error) => Failure(error),
@@ -511,35 +511,35 @@ class CountryRepositoryImpl implements CountryRepository {
   sampleStatePath: r'''
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sample_app/domain/core/app_error.dart';
-import 'package:sample_app/domain/entities/country.dart';
+import 'package:sample_app/domain/entities/product.dart';
 
-part 'country_state.freezed.dart';
+part 'product_state.freezed.dart';
 
 @freezed
-sealed class CountryState with _$CountryState {
-  const factory CountryState.data({@Default([]) List<Country> countries}) = CountryStateData;
-  const factory CountryState.error(AppError error) = CountryStateError;
+sealed class ProductState with _$ProductState {
+  const factory ProductState.data({@Default([]) List<Product> products}) = ProductStateData;
+  const factory ProductState.error(AppError error) = ProductStateError;
 }
 ''',
   sampleViewmodelPath: r'''
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sample_app/domain/core/result.dart';
-import 'package:sample_app/presentation/features/country/country_state.dart';
+import 'package:sample_app/presentation/features/product/product_state.dart';
 import 'package:sample_app/presentation/providers/di_providers.dart';
 
-part 'country_viewmodel.g.dart';
+part 'product_viewmodel.g.dart';
 
 @riverpod
-class CountryViewmodel extends _$CountryViewmodel {
+class ProductViewmodel extends _$ProductViewmodel {
   @override
-  FutureOr<CountryState> build() async {
-    final useCase = ref.watch(countryUseCaseProvider);
-    final result = await useCase.fetchAllCountries();
+  FutureOr<ProductState> build() async {
+    final useCase = ref.watch(productUseCaseProvider);
+    final result = await useCase.fetchAllProducts();
     switch (result) {
       case Success(:final value):
-        return CountryState.data(countries: value);
+        return ProductState.data(products: value);
       case Failure(:final error):
-        return CountryState.error(error);
+        return ProductState.error(error);
     }
   }
 }
@@ -548,8 +548,8 @@ class CountryViewmodel extends _$CountryViewmodel {
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CountriesScreen extends ConsumerWidget {
-  const CountriesScreen({super.key});
+class ProductsScreen extends ConsumerWidget {
+  const ProductsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -559,12 +559,12 @@ class CountriesScreen extends ConsumerWidget {
 ''',
   sampleItemViewPath: r'''
 import 'package:flutter/material.dart';
-import 'package:sample_app/domain/entities/country.dart';
+import 'package:sample_app/domain/entities/product.dart';
 
-class CountryItemView extends StatelessWidget {
-  const CountryItemView({super.key, required this.data});
+class ProductItemView extends StatelessWidget {
+  const ProductItemView({super.key, required this.data});
 
-  final Country data;
+  final Product data;
 
   @override
   Widget build(BuildContext context) {
@@ -574,12 +574,12 @@ class CountryItemView extends StatelessWidget {
 ''',
   sampleDiProvidersPath: r'''
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sample_app/domain/use_cases/country/country_use_case.dart';
+import 'package:sample_app/domain/use_cases/product/product_use_case.dart';
 import 'package:sample_app/domain/use_cases/theme/theme_use_case.dart';
 import 'package:sample_app/infrastructure/di/injection.dart';
 
-final countryUseCaseProvider = Provider<CountryUseCase>((ref) {
-  return getIt<CountryUseCase>();
+final productUseCaseProvider = Provider<ProductUseCase>((ref) {
+  return getIt<ProductUseCase>();
 });
 
 final themeUseCaseProvider = Provider<ThemeUseCase>((ref) {
@@ -590,14 +590,14 @@ final themeUseCaseProvider = Provider<ThemeUseCase>((ref) {
 class APIEndpoint {
   static const baseUrl = 'https://example.com';
 
-  static const String allCountries = '/all';
+  static const String allProducts = '/all';
 }
 ''',
   sampleRoutesPath: r'''
 class AppRoutes {
   static const home = '/home';
-  static const countries = '/countries';
-  static const countriesInHome = '/home/countries';
+  static const products = '/products';
+  static const productsInHome = '/home/products';
 }
 ''',
   sampleThemeRepositoryPath: r'''

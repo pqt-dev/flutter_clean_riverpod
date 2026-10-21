@@ -1,8 +1,4 @@
 {
-  "home" : "Home",
-  "search" : "Search",
-  "favourite" : "Favourite",
-  "setting" : "Setting",
   "ok" : "OK",
   "cancel" : "Cancel",
   "error_retry" : "Retry",
@@ -11,5 +7,7 @@
   "error_auth" : "Authentication error.",
   "error_parsing" : "Failed to process data.",
   "error_unexpected" : "An unexpected error occurred.",
-  "go_to_countries" : "Go to list of countries"
+  "counter_title" : "Flutter Demo Home Page",
+  "counter_message" : "You have pushed the button this many times:",
+  "counter_increment_tooltip" : "Increment"
 }

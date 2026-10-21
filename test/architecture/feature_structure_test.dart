@@ -52,7 +52,7 @@ Set<String> _paths(
   return check(p.root).map((v) => v.path).toSet();
 }
 
-const _countryMapper = 'lib/data/mappers/country_mapper.dart';
+const _productMapper = 'lib/data/mappers/product_mapper.dart';
 const _themeRepoImpl = 'lib/data/repositories/theme/theme_repository_impl.dart';
 
 final _validBoth = merged([
@@ -68,7 +68,7 @@ void main() {
     final p = FixtureProject(_validBoth);
     addTearDown(p.dispose);
     final features = discoverFeatures(p.root);
-    expect(features.map((f) => f.name).toSet(), {'country', 'theme'});
+    expect(features.map((f) => f.name).toSet(), {'product', 'theme'});
     expect(features.map((f) => f.kind).toSet(), {
       FeatureKind.api,
       FeatureKind.local,
@@ -81,35 +81,35 @@ void main() {
     });
     test('reports exactly the missing and the extra file', () {
       final files = {
-        ...without(validApiFeature(), [_countryMapper]),
-        'lib/data/models/country/extra.dart': '',
+        ...without(validApiFeature(), [_productMapper]),
+        'lib/data/models/product/extra.dart': '',
       };
       expect(_paths(checkFil01, files), {
-        _countryMapper,
-        'lib/data/models/country/extra.dart',
+        _productMapper,
+        'lib/data/models/product/extra.dart',
       });
     });
     _negative(
       'FIL-01',
       checkFil01,
       bad: {
-        'missing mapper': without(validApiFeature(), [_countryMapper]),
+        'missing mapper': without(validApiFeature(), [_productMapper]),
         'extra file in feature dir': {
           ...validApiFeature(),
-          'lib/domain/repositories/country/other.dart': '',
+          'lib/domain/repositories/product/other.dart': '',
         },
         'extra test file': {
           ...validApiFeature(),
-          'test/domain/use_cases/country/other_test.dart': '',
+          'test/domain/use_cases/product/other_test.dart': '',
         },
         'missing screen': without(validApiFeature(), [
-          'lib/presentation/features/country/countries_screen.dart',
+          'lib/presentation/features/product/products_screen.dart',
         ]),
         'no use case, entity unknown': {
           ...without(validApiFeature(), [
-            'lib/domain/use_cases/country/country_use_case.dart',
+            'lib/domain/use_cases/product/product_use_case.dart',
           ]),
-          'lib/domain/use_cases/country/other.dart': '',
+          'lib/domain/use_cases/product/other.dart': '',
         },
       },
       good: _validBoth,
@@ -165,14 +165,14 @@ void main() {
       'FIL-03',
       checkFil03,
       bad: {
-        'datasources (plural)': {'lib/data/datasources/country/a.dart': ''},
-        'repository (singular)': {'lib/domain/repository/country/a.dart': ''},
-        'usecases': {'lib/domain/usecases/country/a.dart': ''},
-        'plural feature dir': {'lib/domain/use_cases/countries/a.dart': ''},
+        'datasources (plural)': {'lib/data/datasources/product/a.dart': ''},
+        'repository (singular)': {'lib/domain/repository/product/a.dart': ''},
+        'usecases': {'lib/domain/usecases/product/a.dart': ''},
+        'plural feature dir': {'lib/domain/use_cases/products/a.dart': ''},
         'models dir in test mirror': {'test/data/model/a_test.dart': ''},
         'widgets dir inside feature': {
           ...validApiFeature(),
-          'lib/presentation/features/country/widgets/a.dart': '',
+          'lib/presentation/features/product/widgets/a.dart': '',
         },
       },
       good: _validBoth,
@@ -193,15 +193,32 @@ void main() {
         },
         'models dir with another name': {
           ...validApiFeature(),
-          'lib/data/models/countries/a.dart': '',
+          'lib/data/models/products/a.dart': '',
         },
         'test dir with another name': {
           ...validApiFeature(),
           'test/data/repositories/nation/a_test.dart': '',
         },
+        'unknown dir in test/presentation/features': {
+          ...validApiFeature(),
+          'test/presentation/features/random/a_test.dart': '',
+        },
+        'widgets dir outside test/presentation/features': {
+          ...validApiFeature(),
+          'test/data/models/widgets/a_test.dart': '',
+        },
       },
       good: _validBoth,
     );
+    test('FIL-04 allows shared widgets test dir', () {
+      expect(
+        _paths(checkFil04, {
+          ...validApiFeature(),
+          'test/presentation/features/widgets/a_test.dart': '',
+        }),
+        isEmpty,
+      );
+    });
   });
 
   group('FIL-05 entities in one flat file', () {
@@ -214,11 +231,11 @@ void main() {
       bad: {
         'entity in feature subdir': {
           ...validApiFeature(),
-          'lib/domain/entities/country/country.dart': '',
+          'lib/domain/entities/product/product.dart': '',
         },
         'nested entity in its own file': {
           ...validApiFeature(),
-          'lib/domain/entities/country_name.dart': '',
+          'lib/domain/entities/product_name.dart': '',
         },
       },
       good: _validBoth,
@@ -235,16 +252,16 @@ void main() {
       bad: {
         'two classes in one model file': {
           ...validApiFeature(),
-          'lib/data/models/country/country_model.dart':
-              'class CountryModel {}\nclass CountryNameModel {}\n',
+          'lib/data/models/product/product_model.dart':
+              'class ProductModel {}\nclass ProductNameModel {}\n',
         },
         'model file without class': {
           ...validApiFeature(),
-          'lib/data/models/country/country_model.dart': '// empty\n',
+          'lib/data/models/product/product_model.dart': '// empty\n',
         },
         'model outside feature dir': {
           ...validApiFeature(),
-          'lib/data/country_flag_model.dart': 'class CountryFlagModel {}\n',
+          'lib/data/product_flag_model.dart': 'class ProductFlagModel {}\n',
         },
         'model in unknown feature dir': {
           ...validApiFeature(),
@@ -265,15 +282,15 @@ void main() {
       bad: {
         'mapper in feature subdir': {
           ...validApiFeature(),
-          'lib/data/mappers/country/country_mapper.dart': '',
+          'lib/data/mappers/product/product_mapper.dart': '',
         },
         'nested mapper in its own file': {
           ...validApiFeature(),
-          'lib/data/mappers/country_name_mapper.dart': '',
+          'lib/data/mappers/product_name_mapper.dart': '',
         },
         'mapper outside data/mappers': {
           ...validApiFeature(),
-          'lib/data/models/country/other_mapper.dart':
+          'lib/data/models/product/other_mapper.dart':
               'extension on Object { int toEntity() => 1; }\n',
         },
       },
@@ -291,7 +308,7 @@ void main() {
       bad: {
         'API feature presentation at presentation/<f>': {
           ...validApiFeature(),
-          'lib/presentation/country/a.dart': '',
+          'lib/presentation/product/a.dart': '',
         },
         'local feature presentation under features/': {
           ...validLocalFeature(),
@@ -299,11 +316,11 @@ void main() {
         },
         'item view not in widget/': {
           ...validApiFeature(),
-          'lib/presentation/features/country/other_item_view.dart': '',
+          'lib/presentation/features/product/other_item_view.dart': '',
         },
         'item view in nested widget dir': {
           ...validApiFeature(),
-          'lib/presentation/features/country/widget/sub/other_item_view.dart':
+          'lib/presentation/features/product/widget/sub/other_item_view.dart':
               '',
         },
       },
@@ -350,7 +367,7 @@ void main() {
       bad: {
         'APIEndpoint declared in another file': {
           ..._validBoth,
-          'lib/data/datasource/country/endpoints.dart':
+          'lib/data/datasource/product/endpoints.dart':
               'class APIEndpoint {}\n',
         },
         'StorageKeys declared in another file': {
@@ -416,7 +433,7 @@ void main() {
       _expectNoViolations(checkTst02(_real));
     });
     test('reports exactly the missing test file', () {
-      const missing = 'test/data/mappers/country_mapper_test.dart';
+      const missing = 'test/data/mappers/product_mapper_test.dart';
       expect(_paths(checkTst02, without(validApiFeature(), [missing])), {
         missing,
       });
@@ -426,10 +443,10 @@ void main() {
       checkTst02,
       bad: {
         'API feature without mapper test': without(validApiFeature(), [
-          'test/data/mappers/country_mapper_test.dart',
+          'test/data/mappers/product_mapper_test.dart',
         ]),
         'API feature without viewmodel test': without(validApiFeature(), [
-          'test/presentation/features/country/country_viewmodel_test.dart',
+          'test/presentation/features/product/product_viewmodel_test.dart',
         ]),
         'local feature without use case test': without(validLocalFeature(), [
           'test/domain/use_cases/theme/theme_use_case_test.dart',
