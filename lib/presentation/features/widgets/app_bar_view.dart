@@ -41,7 +41,12 @@ class AppBarView extends StatelessWidget implements PreferredSizeWidget {
                     if (onBack != null) {
                       onBack!();
                     } else {
-                      context.pop();
+                      final router = GoRouter.maybeOf(context);
+                      if (router != null) {
+                        router.pop();
+                      } else {
+                        Navigator.of(context).maybePop();
+                      }
                     }
                   },
                   icon: Icon(

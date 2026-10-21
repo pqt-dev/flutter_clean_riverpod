@@ -52,7 +52,7 @@ void _negative(
 
 void main() {
   // The real project may have 0, only API, only local, or both kinds of
-  // features (a fresh copy of the boilerplate has none of Country). Only the
+  // features (a fresh copy of the boilerplate has no API feature). Only the
   // plural-from-screen constraint is checked on features that exist; the
   // "not an empty pass" guard lives in the sample fixture sanity below.
   test('sanity: every real API feature has a *_screen.dart plural', () {
@@ -65,8 +65,8 @@ void main() {
     final p = FixtureProject(sampleProject());
     addTearDown(p.dispose);
     final contexts = featureContexts(p.root);
-    expect(contexts.map((c) => c.name), ['country', 'theme']);
-    expect(contexts.first.plural, 'countries');
+    expect(contexts.map((c) => c.name), ['product', 'theme']);
+    expect(contexts.first.plural, 'products');
     expect(contexts.first.isApi, isTrue);
     expect(contexts.last.isApi, isFalse);
   });
@@ -80,20 +80,20 @@ void main() {
         'repository impl suffix changed': (f) => mutated(
           f,
           sampleRepositoryImplPath,
-          'CountryRepositoryImpl',
-          'CountryRepoImpl',
+          'ProductRepositoryImpl',
+          'ProductRepoImpl',
         ),
         'datasource remote suffix changed': (f) => mutated(
           f,
           sampleRemotePath,
-          'CountryDatasourceRemote',
-          'CountryRemoteDatasource',
+          'ProductDatasourceRemote',
+          'ProductRemoteDatasource',
         ),
         'screen class does not match file': (f) => mutated(
           f,
           sampleScreenPath,
-          'CountriesScreen',
-          'CountriesPage',
+          'ProductsScreen',
+          'ProductsPage',
         ),
         'local use case renamed': (f) =>
             mutated(f, sampleThemeUseCasePath, 'ThemeUseCase', 'ThemeUseCases'),
@@ -108,18 +108,18 @@ void main() {
       checkNam04,
       bad: {
         'nested entity without Entity prefix': (f) =>
-            mutated(f, sampleEntityPath, 'CountryName', 'Name'),
+            mutated(f, sampleEntityPath, 'ProductName', 'Name'),
         'nested model class renamed': (f) => mutated(
           f,
           sampleNestedModelPath,
-          'CountryNameModel',
+          'ProductNameModel',
           'NameModel',
         ),
         'nested mapper extension renamed': (f) => mutated(
           f,
           sampleMapperPath,
-          'CountryNameModelMapper',
-          'CountryNameMapper',
+          'ProductNameModelMapper',
+          'ProductNameMapper',
         ),
       },
     );
@@ -132,12 +132,12 @@ void main() {
       checkNam05,
       bad: {
         'Dto suffix': (f) =>
-            mutated(f, sampleEntityPath, 'CountryName', 'CountryDto'),
+            mutated(f, sampleEntityPath, 'ProductName', 'ProductDto'),
         'Entity suffix': (f) => mutated(
           f,
           sampleEntityPath,
-          'abstract class Country ',
-          'abstract class CountryEntity ',
+          'abstract class Product ',
+          'abstract class ProductEntity ',
         ).map((k, v) => MapEntry(k, v)),
       },
     );
@@ -160,7 +160,7 @@ void main() {
         'view_model file name': (f) => renamed(
           f,
           sampleViewmodelPath,
-          'lib/presentation/features/country/country_view_model.dart',
+          'lib/presentation/features/product/product_view_model.dart',
         ),
       },
     );
@@ -175,18 +175,18 @@ void main() {
         'singular screen': (f) => renamed(
           f,
           sampleScreenPath,
-          'lib/presentation/features/country/country_screen.dart',
+          'lib/presentation/features/product/product_screen.dart',
         ),
         'plural repository file': (f) => renamed(
           f,
           sampleRepositoryPath,
-          'lib/domain/repositories/country/countries_repository.dart',
+          'lib/domain/repositories/product/products_repository.dart',
         ),
         'plural class outside screen': (f) => mutated(
           f,
           sampleRepositoryPath,
-          'CountryRepository',
-          'CountriesRepository',
+          'ProductRepository',
+          'ProductsRepository',
         ),
       },
     );
@@ -201,15 +201,15 @@ void main() {
         'provider misnamed': (f) => mutated(
           f,
           sampleDiProvidersPath,
-          'countryUseCaseProvider',
-          'countriesUseCaseProvider',
+          'productUseCaseProvider',
+          'productsUseCaseProvider',
         ),
         'two providers for one use case': (f) => mutated(
           f,
           sampleDiProvidersPath,
           'final themeUseCaseProvider',
-          'final extraCountryUseCaseProvider = Provider<CountryUseCase>((ref) {\n'
-              '  return getIt<CountryUseCase>();\n'
+          'final extraProductUseCaseProvider = Provider<ProductUseCase>((ref) {\n'
+              '  return getIt<ProductUseCase>();\n'
               '});\n\n'
               'final themeUseCaseProvider',
         ),
@@ -230,7 +230,7 @@ void main() {
       checkNam09,
       bad: {
         'constant misnamed': (f) =>
-            mutated(f, sampleApiEndpointPath, 'allCountries', 'countriesAll'),
+            mutated(f, sampleApiEndpointPath, 'allProducts', 'productsAll'),
         'class casing': (f) =>
             mutated(f, sampleApiEndpointPath, 'APIEndpoint', 'ApiEndpoint'),
       },
@@ -244,15 +244,15 @@ void main() {
       checkNam10,
       bad: {
         'InHome constant misnamed': (f) =>
-            mutated(f, sampleRoutesPath, 'countriesInHome', 'countriesHome'),
+            mutated(f, sampleRoutesPath, 'productsInHome', 'productsHome'),
         'path wrong': (f) => mutated(
           f,
           sampleRoutesPath,
-          "'/home/countries'",
-          "'/countries/home'",
+          "'/home/products'",
+          "'/products/home'",
         ),
         'plain constant missing': (f) =>
-            mutated(f, sampleRoutesPath, 'countries =', 'countryList ='),
+            mutated(f, sampleRoutesPath, 'products =', 'productList ='),
       },
     );
   });
@@ -266,16 +266,16 @@ void main() {
         'datasource renamed': (f) => mutated(
           f,
           sampleDatasourcePath,
-          'fetchAllCountries',
-          'getCountries',
+          'fetchAllProducts',
+          'getProducts',
         ),
         'use case renamed': (f) =>
-            mutated(f, sampleUseCasePath, 'fetchAllCountries', 'fetchAll'),
+            mutated(f, sampleUseCasePath, 'fetchAllProducts', 'fetchAll'),
         'repository impl renamed': (f) => mutated(
           f,
           sampleRepositoryImplPath,
-          'Future<Result<List<Country>>> fetchAllCountries()',
-          'Future<Result<List<Country>>> fetchCountries()',
+          'Future<Result<List<Product>>> fetchAllProducts()',
+          'Future<Result<List<Product>>> fetchProducts()',
         ),
       },
     );
@@ -290,8 +290,8 @@ void main() {
         'method renamed': (f) => mutated(
           f,
           sampleMapperPath,
-          'Country toEntity()',
-          'Country toDomain()',
+          'Product toEntity()',
+          'Product toDomain()',
         ),
         'nested model not mapped with ?.toEntity()': (f) => mutated(
           f,
@@ -304,14 +304,14 @@ void main() {
         'body is not return X(...)': (f) => mutated(
           f,
           sampleMapperPath,
-          'CountryName toEntity() {\n    return CountryName(\n      common: common,\n    );\n  }',
-          'CountryName toEntity() => CountryName(common: common);',
+          'ProductName toEntity() {\n    return ProductName(\n      common: common,\n    );\n  }',
+          'ProductName toEntity() => ProductName(common: common);',
         ),
         'two toEntity in one extension': (f) => mutated(
           f,
           sampleMapperPath,
-          '  Country toEntity() {',
-          '  Country toEntity(){return Country();}\n  Country toEntity() {',
+          '  Product toEntity() {',
+          '  Product toEntity(){return Product();}\n  Product toEntity() {',
         ),
       },
     );
@@ -326,26 +326,26 @@ void main() {
         'entity has fromJson': (f) => mutated(
           f,
           sampleEntityPath,
-          '  }) = _Country;',
-          '  }) = _Country;\n\n  factory Country.fromJson(Map<String, dynamic> json) => _\$CountryFromJson(json);',
+          '  }) = _Product;',
+          '  }) = _Product;\n\n  factory Product.fromJson(Map<String, dynamic> json) => _\$ProductFromJson(json);',
         ),
         'model fromJson deviates': (f) => mutated(
           f,
           sampleModelPath,
-          '_\$CountryModelFromJson(json)',
-          'CountryModel()',
+          '_\$ProductModelFromJson(json)',
+          'ProductModel()',
         ),
         'model without fromJson': (f) => mutated(
           f,
           sampleNestedModelPath,
-          'factory CountryNameModel.fromJson(Map<String, dynamic> json) => _\$CountryNameModelFromJson(json);',
+          'factory ProductNameModel.fromJson(Map<String, dynamic> json) => _\$ProductNameModelFromJson(json);',
           '',
         ),
         'fromJson declared outside models': (f) => mutated(
           f,
           sampleStatePath,
-          '  const factory CountryState.error',
-          '  factory CountryState.fromJson(Map<String, dynamic> json) => CountryState.data();\n  const factory CountryState.error',
+          '  const factory ProductState.error',
+          '  factory ProductState.fromJson(Map<String, dynamic> json) => ProductState.data();\n  const factory ProductState.error',
         ),
       },
     );
@@ -360,8 +360,8 @@ void main() {
         '.g.dart before .freezed.dart': (f) => mutated(
           f,
           sampleModelPath,
-          "part 'country_model.freezed.dart';\npart 'country_model.g.dart';",
-          "part 'country_model.g.dart';\npart 'country_model.freezed.dart';",
+          "part 'product_model.freezed.dart';\npart 'product_model.g.dart';",
+          "part 'product_model.g.dart';\npart 'product_model.freezed.dart';",
         ),
         'no blank line after imports': (f) => mutated(
           f,
@@ -378,19 +378,19 @@ void main() {
         'blank line between parts': (f) => mutated(
           f,
           sampleModelPath,
-          "part 'country_model.freezed.dart';\npart",
-          "part 'country_model.freezed.dart';\n\npart",
+          "part 'product_model.freezed.dart';\npart",
+          "part 'product_model.freezed.dart';\n\npart",
         ),
         'part with a path': (f) => mutated(
           f,
           sampleStatePath,
-          "part 'country_state.freezed.dart';",
-          "part 'generated/country_state.freezed.dart';",
+          "part 'product_state.freezed.dart';",
+          "part 'generated/product_state.freezed.dart';",
         ),
         'part before imports': (f) => {
           ...f,
           sampleEntityPath:
-              "part 'country.freezed.dart';\n\nimport 'package:freezed_annotation/freezed_annotation.dart';\n\n${f[sampleEntityPath]!.split("\n\n").skip(2).join("\n\n")}",
+              "part 'product.freezed.dart';\n\nimport 'package:freezed_annotation/freezed_annotation.dart';\n\n${f[sampleEntityPath]!.split("\n\n").skip(2).join("\n\n")}",
         },
       },
     );
@@ -405,26 +405,26 @@ void main() {
         'missing @freezed': (f) => mutated(
           f,
           sampleEntityPath,
-          '@freezed\nabstract class Country with',
-          'abstract class Country with',
+          '@freezed\nabstract class Product with',
+          'abstract class Product with',
         ),
         'not abstract': (f) => mutated(
           f,
           sampleEntityPath,
-          'abstract class CountryName',
-          'class CountryName',
+          'abstract class ProductName',
+          'class ProductName',
         ),
         'extra .g.dart part': (f) => mutated(
           f,
           sampleEntityPath,
-          "part 'country.freezed.dart';",
-          "part 'country.freezed.dart';\npart 'country.g.dart';",
+          "part 'product.freezed.dart';",
+          "part 'product.freezed.dart';\npart 'product.g.dart';",
         ),
         'factory not assigned to private class': (f) => mutated(
           f,
           sampleEntityPath,
-          '}) = _CountryName;',
-          '}) = CountryNameImpl;',
+          '}) = _ProductName;',
+          '}) = ProductNameImpl;',
         ),
       },
     );
@@ -439,26 +439,26 @@ void main() {
         'missing .g.dart part': (f) => mutated(
           f,
           sampleModelPath,
-          "part 'country_model.g.dart';\n",
+          "part 'product_model.g.dart';\n",
           '',
         ),
         'nested field typed as entity': (f) => mutated(
           f,
           sampleModelPath,
-          'CountryNameModel? name',
-          'CountryName? name',
+          'ProductNameModel? name',
+          'ProductName? name',
         ),
         'missing fromJson': (f) => mutated(
           f,
           sampleNestedModelPath,
-          'factory CountryNameModel.fromJson(Map<String, dynamic> json) => _\$CountryNameModelFromJson(json);',
+          'factory ProductNameModel.fromJson(Map<String, dynamic> json) => _\$ProductNameModelFromJson(json);',
           '',
         ),
         'not abstract': (f) => mutated(
           f,
           sampleModelPath,
-          'abstract class CountryModel',
-          'class CountryModel',
+          'abstract class ProductModel',
+          'class ProductModel',
         ),
       },
     );
@@ -475,22 +475,22 @@ void main() {
         'extra factory': (f) => mutated(
           f,
           sampleStatePath,
-          '  const factory CountryState.error',
-          '  const factory CountryState.loading() = CountryStateLoading;\n  const factory CountryState.error',
+          '  const factory ProductState.error',
+          '  const factory ProductState.loading() = ProductStateLoading;\n  const factory ProductState.error',
         ),
         'missing @Default([])': (f) =>
             mutated(f, sampleStatePath, '@Default([]) ', ''),
         'wrong list field name': (f) => mutated(
           f,
           sampleStatePath,
-          'List<Country> countries',
-          'List<Country> items',
+          'List<Product> products',
+          'List<Product> items',
         ),
         'extra .g.dart part': (f) => mutated(
           f,
           sampleStatePath,
-          "part 'country_state.freezed.dart';",
-          "part 'country_state.freezed.dart';\npart 'country_state.g.dart';",
+          "part 'product_state.freezed.dart';",
+          "part 'product_state.freezed.dart';\npart 'product_state.g.dart';",
         ),
       },
     );
@@ -505,13 +505,13 @@ void main() {
         'datasource extends instead of implements': (f) => mutated(
           f,
           sampleRemotePath,
-          'implements CountryDatasource',
-          'extends CountryDatasource',
+          'implements ProductDatasource',
+          'extends ProductDatasource',
         ),
         'repository impl without as:': (f) => mutated(
           f,
           sampleRepositoryImplPath,
-          '@LazySingleton(as: CountryRepository)',
+          '@LazySingleton(as: ProductRepository)',
           '@LazySingleton()',
         ),
         'local repository impl extends': (f) => mutated(
@@ -535,8 +535,8 @@ void main() {
         'abstract use case': (f) => mutated(
           f,
           sampleUseCasePath,
-          'class CountryUseCase',
-          'abstract class CountryUseCase',
+          'class ProductUseCase',
+          'abstract class ProductUseCase',
         ),
         'local use case without annotation': (f) =>
             mutated(f, sampleThemeUseCasePath, '@lazySingleton\n', ''),
@@ -559,7 +559,7 @@ void main() {
         'missing .g.dart part': (f) => mutated(
           f,
           sampleViewmodelPath,
-          "part 'country_viewmodel.g.dart';",
+          "part 'product_viewmodel.g.dart';",
           '',
         ),
         'missing riverpod_annotation import': (f) => mutated(
@@ -599,8 +599,8 @@ void main() {
         'screen constructor not const': (f) => mutated(
           f,
           sampleScreenPath,
-          'const CountriesScreen({super.key});',
-          'CountriesScreen({super.key});',
+          'const ProductsScreen({super.key});',
+          'ProductsScreen({super.key});',
         ),
         'item view not StatelessWidget': (f) => mutated(
           f,
@@ -611,8 +611,8 @@ void main() {
         'item view without required data': (f) => mutated(
           f,
           sampleItemViewPath,
-          'const CountryItemView({super.key, required this.data});',
-          'const CountryItemView({super.key, this.data});',
+          'const ProductItemView({super.key, required this.data});',
+          'const ProductItemView({super.key, this.data});',
         ),
       },
     );
@@ -633,15 +633,15 @@ void main() {
         '@singleton on repository impl': (f) => mutated(
           f,
           sampleRepositoryImplPath,
-          '@LazySingleton(as: CountryRepository)',
-          '@LazySingleton(as: CountryRepository)\n@singleton',
+          '@LazySingleton(as: ProductRepository)',
+          '@LazySingleton(as: ProductRepository)\n@singleton',
         ),
         'use case without annotation': (f) =>
             mutated(f, sampleUseCasePath, '@lazySingleton\n', ''),
         'datasource remote without as:': (f) => mutated(
           f,
           sampleRemotePath,
-          '@LazySingleton(as: CountryDatasource)',
+          '@LazySingleton(as: ProductDatasource)',
           '@LazySingleton()',
         ),
       },
@@ -657,13 +657,13 @@ void main() {
         '@freezed without .freezed.dart': (f) => mutated(
           f,
           sampleEntityPath,
-          "part 'country.freezed.dart';",
+          "part 'product.freezed.dart';",
           '',
         ),
         'fromJson without .g.dart': (f) => mutated(
           f,
           sampleNestedModelPath,
-          "part 'country_name_model.g.dart';\n",
+          "part 'product_name_model.g.dart';\n",
           '',
         ),
         '@riverpod without .g.dart': (f) => mutated(

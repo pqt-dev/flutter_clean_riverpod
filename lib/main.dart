@@ -37,8 +37,17 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeViewmodelProvider);
     return MaterialApp.router(
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        extensions: [AppTheme.lightThemeExtension],
+      ),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.deepPurple,
+          brightness: Brightness.dark,
+        ),
+        extensions: [AppTheme.darkThemeExtension],
+      ),
       themeMode: themeMode.value ?? ThemeMode.system,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,

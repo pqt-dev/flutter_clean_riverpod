@@ -1,8 +1,4 @@
 {
-  "home": "Trang chủ",
-  "search": "Tìm kiếm",
-  "favourite": "Yêu thích",
-  "setting": "Cài đặt",
   "ok": "OK",
   "cancel": "Hủy",
   "error_retry": "Thử lại",
@@ -11,5 +7,7 @@
   "error_auth": "Lỗi xác thực.",
   "error_parsing": "Xử lý dữ liệu thất bại.",
   "error_unexpected": "Đã xảy ra lỗi không mong muốn.",
-  "go_to_countries": "Đi tới danh sách quốc gia"
+  "counter_title": "Trang chủ demo Flutter",
+  "counter_message": "Bạn đã nhấn nút này số lần:",
+  "counter_increment_tooltip": "Tăng"
 }

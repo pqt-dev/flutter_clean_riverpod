@@ -205,13 +205,13 @@ String? entityName(ProjectRoot root, Feature feature) {
   return null;
 }
 
-/// `country_name` -> `CountryName`.
+/// `product_name` -> `ProductName`.
 String snakeToPascal(String s) => [
   for (final part in s.split('_'))
     if (part.isNotEmpty) part[0].toUpperCase() + part.substring(1),
 ].join();
 
-/// `country_name` -> `countryName`.
+/// `product_name` -> `productName`.
 String snakeToCamel(String s) {
   final pascal = snakeToPascal(s);
   return pascal.isEmpty

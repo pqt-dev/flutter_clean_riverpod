@@ -9,7 +9,7 @@ import 'support/structure_helpers.dart';
 import 'support/template_renderer.dart';
 
 /// Template conformance: the templates in `.claude/templates/`, rendered for
-/// features other than Country/Theme, must satisfy every automated rule.
+/// features other than the sample Theme feature, must satisfy every automated rule.
 /// Works even when the sample features have been deleted from the project.
 
 const _apiSet = 'api-feature';
@@ -23,19 +23,13 @@ const _apiTokens = {
   'feature': 'product',
   'app_package': 'sample_app',
 };
-// The custom regions of the templates hard-code nested Name/Flag (like
-// Country), so the main fixture renders the nested template for both.
+// The custom regions of the templates hard-code nested Name/Flag, so the main
+// fixture renders the nested template for both.
 const _apiNested = [
   {'Nested': 'Name', 'nested': 'name'},
   {'Nested': 'Flag', 'nested': 'flag'},
 ];
 const _flagModelPath = 'lib/data/models/product/product_flag_model.dart';
-const _apiLiterals = {
-  'Countries': 'Products',
-  'countries': 'products',
-  'Country': 'Product',
-  'country': 'product',
-};
 
 const _localTokens = {
   'Feature': 'Language',
@@ -59,7 +53,6 @@ Map<String, String> _renderApi() {
   final api = renderTemplateSet(
     _apiSet,
     tokens: _apiTokens,
-    literals: _apiLiterals,
     nested: _apiNested,
   );
   // Simulates a developer rewriting the custom region consistently: the
@@ -264,7 +257,6 @@ void main() {
       final api = renderTemplateSet(
         _apiSet,
         tokens: _apiTokens,
-        literals: _apiLiterals,
         nested: const [
           {'Nested': 'Detail', 'nested': 'detail'},
         ],

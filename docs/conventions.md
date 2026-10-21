@@ -1,6 +1,6 @@
 # Conventions — bộ rule chuẩn của feature
 
-Tài liệu này là NGUỒN CHUẨN DUY NHẤT về cấu trúc, đặt tên và cách viết code của feature trong repo. Mục tiêu: 1000 feature thì 1000 cái giống hệt nhau, không cái nào khác cái nào. Template, test và skill phải bám theo tài liệu này; khi mâu thuẫn, tài liệu này thắng. Thứ tự ưu tiên: docs/conventions.md > .claude/templates > skills > CLAUDE.md > code mẫu Country/Theme.
+Tài liệu này là NGUỒN CHUẨN DUY NHẤT về cấu trúc, đặt tên và cách viết code của feature trong repo. Mục tiêu: 1000 feature thì 1000 cái giống hệt nhau, không cái nào khác cái nào. Template, test và skill phải bám theo tài liệu này; khi mâu thuẫn, tài liệu này thắng. Thứ tự ưu tiên: docs/conventions.md > .claude/templates > skills > CLAUDE.md > code mẫu Theme.
 
 ## 1. Cách đọc tài liệu này
 
@@ -49,7 +49,7 @@ Khi test kiến trúc fail: thông báo vi phạm có mã rule (vd `FIL-05`); ph
 
 ### 1.3 Từ ngữ và token
 - Chỉ dùng "phải" và "không được". Không có ngoại lệ ngầm: ngoại lệ được ghi ngay trong rule.
-- Token (cùng bộ với `.claude/templates/README.md`): `{{app_package}}` (tên package trong `pubspec.yaml`), `{{feature}}` (thư mục feature, snake_case, số ít, vd: `country`), `{{Entity}}`/`{{entity}}` (số ít, vd: `Country`/`country`), `{{Entities}}`/`{{entities}}` (số nhiều, vd: `Countries`/`countries`), `{{Nested}}`/`{{nested}}` (entity lồng, vd: `Name`/`name`).
+- Token (cùng bộ với `.claude/templates/README.md`): `{{app_package}}` (tên package trong `pubspec.yaml`), `{{feature}}` (thư mục feature, snake_case, số ít, vd: `product`), `{{Entity}}`/`{{entity}}` (số ít, vd: `Product`/`product`), `{{Entities}}`/`{{entities}}` (số nhiều, vd: `Products`/`products`), `{{Nested}}`/`{{nested}}` (entity lồng, vd: `Name`/`name`).
 - Feature local: `{{Feature}}` (vd: `Theme`), `{{featureCamel}}` (vd: `theme`), `{{ValueType}}`/`{{value_type}}` (vd: `AppThemeMode`/`app_theme_mode`), `{{storageKey}}`/`{{storage_key}}` (vd: `themeModeKey`/`theme_mode_key`).
 - Ví dụ trong rule là dạng rút gọn; không phải toàn bộ code.
 
@@ -58,7 +58,7 @@ Nếu yêu cầu rơi vào mục 9 hoặc tài liệu không có rule cho nó th
 
 ## 2. Giải phẫu một feature
 
-### 2.1 Feature API (như Country): đủ 17 file
+### 2.1 Feature API: đủ 17 file
 
 | # | Đường dẫn | Class | Vai trò |
 |---|---|---|---|
@@ -83,8 +83,8 @@ Nếu yêu cầu rơi vào mục 9 hoặc tài liệu không có rule cho nó th
 Sửa vào file dùng chung (không tạo file mới):
 - `lib/data/datasource/core/api_endpoint.dart`: thêm `APIEndpoint.all{{Entities}}`.
 - `lib/presentation/providers/di_providers.dart`: thêm `{{entity}}UseCaseProvider`.
-- `lib/presentation/router/app_routes.dart`: thêm `{{entities}}` và `{{entities}}InHome`.
-- `lib/presentation/router/app_router.dart`: thêm `GoRoute` của `{{Entities}}Screen`.
+- `lib/presentation/router/app_routes.dart` (đã có, hiện chỉ có `AppRoutes.home = '/home'`): thêm `{{entities}}` và `{{entities}}InHome`.
+- `lib/presentation/router/app_router.dart` (đã có, hiện chỉ có `GoRoute` của `AppRoutes.home` với `CounterScreen`): thêm `GoRoute` của `{{Entities}}Screen` làm sub-route trong `routes` của `GoRoute(path: AppRoutes.home, ...)` (thêm danh sách `routes: [...]` nếu chưa có).
 - `assets/translations/{en-US,ja-JP,vi-VN}.json`: chỉ khi feature có text hiển thị mới.
 
 File generated đi kèm (không sửa tay): `{{entity}}.freezed.dart`, `{{entity}}_model.freezed.dart`/`.g.dart`, `{{entity}}_{{nested}}_model.freezed.dart`/`.g.dart`, `{{entity}}_state.freezed.dart`, `{{entity}}_viewmodel.g.dart`, `*_test.mocks.dart`, `injection.config.dart`.
@@ -152,7 +152,7 @@ Feature local không có: datasource, model, mapper, entity, state class, screen
 
 ### 4.1 SCP — phạm vi
 
-- **SCP-01** [review] Tài liệu này chỉ phủ hai ca: feature lấy danh sách qua API (như Country) và feature state cục bộ lưu local (như Theme). Mọi ca khác phải DỪNG và hỏi user (xem mục 9).
+- **SCP-01** [review] Tài liệu này chỉ phủ hai ca: feature lấy danh sách qua API và feature state cục bộ lưu local (như Theme). Mọi ca khác phải DỪNG và hỏi user (xem mục 9).
 
 ### 4.2 ARC — layer và import giữa layer
 
@@ -170,9 +170,9 @@ Feature local không có: datasource, model, mapper, entity, state class, screen
 
 - **FIL-01** [test] Feature API phải có đủ 17 file của bảng 2.1, không thiếu, không thừa (không kể file generated).
 - **FIL-02** [test] Feature local phải có đủ 8 file của bảng 2.2, không thiếu, không thừa.
-- **FIL-03** [test] Tên thư mục phải đúng: `datasource` (số ít), `repositories` (số nhiều), `use_cases`, `entities`, `models`, `mappers`, `widget` (số ít, trong feature); thư mục `{{feature}}` luôn số ít. Vd: `data/datasource/country/`, `data/repositories/country/`.
-- **FIL-04** [test] Cùng một `{{feature}}` phải dùng đúng tên thư mục đó ở `domain/repositories`, `domain/use_cases`, `data/models`, `data/datasource`, `data/repositories`, `test/` tương ứng.
-- **FIL-05** [test] Entity chính và mọi entity lồng của nó phải nằm chung MỘT file `domain/entities/{{entity}}.dart`; không được đặt vào thư mục con theo feature. Vd: `Country`, `CountryName`, `CountryFlag` cùng trong `country.dart`.
+- **FIL-03** [test] Tên thư mục phải đúng: `datasource` (số ít), `repositories` (số nhiều), `use_cases`, `entities`, `models`, `mappers`, `widget` (số ít, trong feature); thư mục `{{feature}}` luôn số ít. Vd: `data/datasource/product/`, `data/repositories/product/`.
+- **FIL-04** [test] Cùng một `{{feature}}` phải dùng đúng tên thư mục đó ở `domain/repositories`, `domain/use_cases`, `data/models`, `data/datasource`, `data/repositories`, `test/` tương ứng. Ngoại lệ: thư mục `core` (mọi tầng) và `test/presentation/features/widgets/` (test của widget dùng chung, mirror `lib/presentation/features/widgets/`).
+- **FIL-05** [test] Entity chính và mọi entity lồng của nó phải nằm chung MỘT file `domain/entities/{{entity}}.dart`; không được đặt vào thư mục con theo feature. Vd: `Product`, `ProductName`, `ProductFlag` cùng trong `product.dart`.
 - **FIL-06** [test] Model phải mỗi class một file: model chính ở `{{entity}}_model.dart`, mỗi model lồng ở file riêng `{{entity}}_{{nested}}_model.dart`, cùng thư mục `data/models/{{feature}}/`.
 - **FIL-07** [test] Mapper phải đặt phẳng ở `data/mappers/{{entity}}_mapper.dart`, không được tạo thư mục con theo feature; mapper của model lồng nằm chung file với mapper của model chính.
 - **FIL-08** [test] Feature API đặt presentation ở `presentation/features/{{feature}}/`; feature local đặt ở `presentation/{{feature}}/`. Widget con của feature API phải ở `presentation/features/{{feature}}/widget/`.
@@ -183,25 +183,25 @@ Feature local không có: datasource, model, mapper, entity, state class, screen
 
 ### 4.4 NAM — đặt tên
 
-- **NAM-01** [lint] Tên file phải là `snake_case` (lint `file_names`). Vd: `country_repository_impl.dart`.
+- **NAM-01** [lint] Tên file phải là `snake_case` (lint `file_names`). Vd: `product_repository_impl.dart`.
 - **NAM-02** [lint] Tên class, enum, extension phải là `PascalCase`; tên method, biến, tham số phải là `camelCase`; tên enum value phải là `lowerCamelCase` (lint `camel_case_types`, `camel_case_extensions`, `non_constant_identifier_names`, `constant_identifier_names`, có trong `flutter_lints`).
 - **NAM-03** [test] Tên class phải đúng cột "Class" của bảng 2.1/2.2, hậu tố cố định: `Repository`, `RepositoryImpl`, `UseCase`, `Datasource`, `DatasourceRemote`, `Model`, `ModelMapper`, `State`, `Viewmodel`, `Screen`, `ItemView`. Không được đổi hậu tố.
-- **NAM-04** [test] Tên entity lồng phải là `{{Entity}}{{Nested}}` (entity), `{{Entity}}{{Nested}}Model` (model), `{{Entity}}{{Nested}}ModelMapper` (extension). Vd: `CountryName`, `CountryNameModel`, `CountryNameModelMapper`.
+- **NAM-04** [test] Tên entity lồng phải là `{{Entity}}{{Nested}}` (entity), `{{Entity}}{{Nested}}Model` (model), `{{Entity}}{{Nested}}ModelMapper` (extension). Vd: `ProductName`, `ProductNameModel`, `ProductNameModelMapper`.
 - **NAM-05** [test] Entity không được có hậu tố (không `Entity`, không `Dto`).
 - **NAM-06** [test] Viewmodel phải viết `Viewmodel` (chữ m thường); không được viết `ViewModel`. Provider sinh ra phải là `{{entity}}ViewmodelProvider` (local: `{{featureCamel}}ViewmodelProvider`).
 - **NAM-07** [test] Tên file Screen phải dùng số nhiều (`{{entities}}_screen.dart` → `{{Entities}}Screen`); mọi file/class khác của feature API dùng số ít `{{entity}}`.
 - **NAM-08** [test] Tên provider DI phải là `{{entity}}UseCaseProvider` (local: `{{featureCamel}}UseCaseProvider`); mỗi use case đúng một provider.
-- **NAM-09** [test] Hằng endpoint phải là `APIEndpoint.all{{Entities}}` (class `APIEndpoint`, `API` viết hoa). Vd: `APIEndpoint.allCountries`.
-- **NAM-10** [test] Hằng route phải là cặp `AppRoutes.{{entities}} = '/{{entities}}'` và `AppRoutes.{{entities}}InHome = '/home/{{entities}}'`. Vd: `countries`, `countriesInHome`.
+- **NAM-09** [test] Hằng endpoint phải là `APIEndpoint.all{{Entities}}` (class `APIEndpoint`, `API` viết hoa). Vd: `APIEndpoint.allProducts`.
+- **NAM-10** [test] Hằng route phải là cặp `AppRoutes.{{entities}} = '/{{entities}}'` và `AppRoutes.{{entities}}InHome = '/home/{{entities}}'`. Vd: `products`, `productsInHome`.
 - **NAM-11** [review] Tên storage key phải là camelCase kết thúc bằng `Key`, giá trị chuỗi là snake_case của chính tên đó. Vd: `themeModeKey = 'theme_mode_key'`. (Tạm thời v1: chỉ rút từ một ví dụ duy nhất là Theme; cần ví dụ thứ hai để xác nhận.)
-- **NAM-12** [test] Tên file test phải là tên file nguồn cộng `_test` (xem TST-01); file mock sinh ra là `{{tên_file}}_test.mocks.dart`; class mock là `Mock{{Class}}`. Vd: `MockCountryDatasource`.
-- **NAM-13** [review] Không được đặt tên abstract class bằng tiền tố `I`, `Abstract` hay hậu tố `Interface`/`Base`. Vd: `CountryRepository`, không phải `ICountryRepository`.
+- **NAM-12** [test] Tên file test phải là tên file nguồn cộng `_test` (xem TST-01); file mock sinh ra là `{{tên_file}}_test.mocks.dart`; class mock là `Mock{{Class}}`. Vd: `MockProductDatasource`.
+- **NAM-13** [review] Không được đặt tên abstract class bằng tiền tố `I`, `Abstract` hay hậu tố `Interface`/`Base`. Vd: `ProductRepository`, không phải `IProductRepository`.
 - **NAM-14** [test] Tên key l10n phải là `snake_case`, phẳng (không lồng). Vd: `error_retry`.
 - **NAM-15** [review] Tên tham số và biến phải là từ đầy đủ; chỉ được viết tắt `e` cho tham số lambda của `map` trong repository impl và `_` cho tham số bị bỏ qua.
 
 ### 4.5 MET — tên method và chữ ký
 
-- **MET-01** [test] Method lấy danh sách phải tên `fetchAll{{Entities}}` ở CẢ ba layer: datasource, repository, use case. Vd: `fetchAllCountries`.
+- **MET-01** [test] Method lấy danh sách phải tên `fetchAll{{Entities}}` ở CẢ ba layer: datasource, repository, use case. Vd: `fetchAllProducts`.
 - **MET-02** [review] Chữ ký datasource: `Future<Result<List<{{Entity}}Model>>> fetchAll{{Entities}}()`; chữ ký repository và use case: `Future<Result<List<{{Entity}}>>> fetchAll{{Entities}}()`. Không có tham số khi feature chỉ lấy toàn bộ danh sách.
 - **MET-03** [review] Thân method của use case phải là đúng một câu lệnh `return repository.fetchAll{{Entities}}();` (method khai báo `async`, không `await`).
 - **MET-04** [review] Mọi method trả `Future` ở use case, repository impl, datasource remote phải khai báo `async` và có `@override` khi triển khai abstract.
@@ -314,7 +314,7 @@ Feature local không có: datasource, model, mapper, entity, state class, screen
 
 ### 4.15 TST — test
 
-- **TST-01** [test] `test/` phải mirror ĐÚNG đường dẫn `lib/`: thay `lib/` bằng `test/`, thêm hậu tố `_test.dart`. Vd: `lib/presentation/features/country/country_viewmodel.dart` → `test/presentation/features/country/country_viewmodel_test.dart`; `lib/presentation/theme/theme_viewmodel.dart` → `test/presentation/theme/theme_viewmodel_test.dart`.
+- **TST-01** [test] `test/` phải mirror ĐÚNG đường dẫn `lib/`: thay `lib/` bằng `test/`, thêm hậu tố `_test.dart`. Vd: `lib/presentation/features/product/product_viewmodel.dart` → `test/presentation/features/product/product_viewmodel_test.dart`; `lib/presentation/theme/theme_viewmodel.dart` → `test/presentation/theme/theme_viewmodel_test.dart`.
 - **TST-02** [test] Feature API phải có đủ 4 file test (mapper, repository impl, use case, viewmodel); feature local phải có đủ 3 (repository impl, use case, viewmodel). Không có file test cho datasource remote, screen, item view, state trong phạm vi hiện tại.
 - **TST-03** [test] Mỗi file test phải có `void main()`; test cần mock phải khai báo `@GenerateNiceMocks([MockSpec<T>()])` ngay trên `void main()` và `import '{{tên_file}}_test.mocks.dart';`.
 - **TST-04** [review] Chỉ mock phụ thuộc trực tiếp: test repository impl mock `{{Entity}}Datasource`; test use case mock `{{Entity}}Repository`; test viewmodel mock `{{Entity}}UseCase`; test mapper không mock.
@@ -378,7 +378,7 @@ Feature local không có: datasource, model, mapper, entity, state class, screen
 
 ## 6. Nơi code hiện tại lệch rule
 
-Code mẫu Country/Theme được căn chỉnh theo tài liệu này. Khi phát hiện code lệch rule, phải sửa code theo rule; chỉ được đổi rule khi user duyệt.
+Code mẫu Theme được căn chỉnh theo tài liệu này. Khi phát hiện code lệch rule, phải sửa code theo rule; chỉ được đổi rule khi user duyệt.
 
 ## 7. Bảo trì tài liệu
 
@@ -387,13 +387,13 @@ Code mẫu Country/Theme được căn chỉnh theo tài liệu này. Khi phát 
 
 ## 8. Thứ tự áp dụng khi có mâu thuẫn
 
-docs/conventions.md > .claude/templates > skills > CLAUDE.md > code mẫu Country/Theme.
+docs/conventions.md > .claude/templates > skills > CLAUDE.md > code mẫu Theme.
 
 ## 9. Chưa được phủ — DỪNG và hỏi
 
 - **STP-01** [review] Gặp bất kỳ ca nào dưới đây thì phải DỪNG và hỏi user; không được tự chế cấu trúc, tên hay luồng xử lý.
 
-Các ca chưa được phủ (Country/Theme không minh họa):
+Các ca chưa được phủ (Theme không minh họa):
 - Màn hình chi tiết (detail), điều hướng từ item sang màn hình khác, truyền tham số route.
 - Create, update, delete; method HTTP khác `GET` (POST, PUT, PATCH, DELETE); request có body.
 - Phân trang, load more, pull to refresh, tìm kiếm, lọc, sắp xếp.
@@ -408,7 +408,7 @@ Các ca chưa được phủ (Country/Theme không minh họa):
 - Entity có JSON key khác tên field (snake_case JSON, `@JsonKey`, converter), response không phải `List`, response lồng object.
 - API trả danh sách rỗng cần màn hình trạng thái rỗng (empty state).
 - Key l10n riêng của feature (tiền tố, đặt tên) và text mới trên UI.
-- Màn hình không thuộc feature API/local (home, search, favourite, setting, main_home).
+- Màn hình không thuộc feature API/local (ví dụ màn hình điều hướng chính, tìm kiếm, cài đặt).
 - Widget dùng chung mới, extension helper mới, đặt tên file và class extension.
 - Đặt tên hằng số hạ tầng mới ngoài `StorageKeys`.
 - Thêm loại `AppError`, thêm service hạ tầng, thay đổi `ApiClient`.

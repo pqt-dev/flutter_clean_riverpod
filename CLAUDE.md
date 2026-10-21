@@ -5,8 +5,8 @@ Quy trình đầy đủ: [docs/ai-workflow.md](docs/ai-workflow.md). Dùng cho p
 
 ## Bắt buộc đọc
 - Trước khi tạo/sửa feature: đọc [docs/conventions.md](docs/conventions.md) (nguồn chuẩn, rule có mã `ARC-01`, `NAM-06`...). Khi tạo feature mới: đọc thêm [.claude/templates/README.md](.claude/templates/README.md).
-- Thứ tự ưu tiên khi mâu thuẫn: docs/conventions.md > .claude/templates > skills > CLAUDE.md > code mẫu Country/Theme.
-- Country (API) và Theme (local) chỉ là ví dụ, có thể bị xóa.
+- Thứ tự ưu tiên khi mâu thuẫn: docs/conventions.md > .claude/templates > skills > CLAUDE.md > code mẫu Theme.
+- Theme (local) chỉ là ví dụ, có thể bị xóa.
 
 ## Nguyên tắc
 - Đọc file này trước, thay đổi nhỏ và đúng phạm vi.

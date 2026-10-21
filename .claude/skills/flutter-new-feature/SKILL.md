@@ -30,7 +30,7 @@ Pattern chuẩn nằm ở `.claude/templates/` (đọc `.claude/templates/README
 12. **ViewModel** render `api-feature/lib/presentation/features/{{feature}}/{{entity}}_viewmodel.dart.tmpl`.
 13. **Screen** render `api-feature/lib/presentation/features/{{feature}}/{{entities}}_screen.dart.tmpl` (tên Screen số nhiều).
 14. **Sub-widget** render `api-feature/lib/presentation/features/{{feature}}/widget/{{entity}}_item_view.dart.tmpl`.
-15. **Route** áp `api-feature/SNIPPETS.md` mục Route vào `app_routes.dart` + `app_router.dart`.
+15. **Route** áp `api-feature/SNIPPETS.md` mục Route vào `app_routes.dart` + `app_router.dart` (hai file đã có; route mới là sub-route của `AppRoutes.home`, thêm `routes: [...]` vào `GoRoute` của home nếu chưa có).
 16. **l10n** nếu có text mới: thêm key vào CẢ 3 file `assets/translations/{en-US,ja-JP,vi-VN}.json` (xem `api-feature/SNIPPETS.md` mục l10n), `make l10n`, dùng `LocaleKeys.xxx.tr()`.
 17. **Tests** render đủ 4 file test của `api-feature/test/...` (mapper, repository impl, use case, viewmodel), chỉnh theo `flutter-write-tests`.
 
