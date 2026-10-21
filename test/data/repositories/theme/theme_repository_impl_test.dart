@@ -48,7 +48,9 @@ void main() {
     });
 
     test('returns AppThemeMode.system for unknown stored value', () async {
-      SharedPreferences.setMockInitialValues({'theme_mode_key': 'unknown_value'});
+      SharedPreferences.setMockInitialValues({
+        'theme_mode_key': 'unknown_value',
+      });
       final prefs = await SharedPreferences.getInstance();
       repository = ThemeRepositoryImpl(prefs);
 

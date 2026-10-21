@@ -1,0 +1,7 @@
+import 'package:{{app_package}}/domain/core/{{value_type}}.dart';
+
+abstract class {{Feature}}Repository {
+  Future<{{ValueType}}> fetch();
+
+  Future<void> save({{ValueType}} {{featureCamel}});
+}

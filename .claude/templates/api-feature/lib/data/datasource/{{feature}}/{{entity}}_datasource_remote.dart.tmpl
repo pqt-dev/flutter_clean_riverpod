@@ -1,0 +1,37 @@
+import 'package:{{app_package}}/data/datasource/core/api_client.dart';
+import 'package:{{app_package}}/data/datasource/core/api_endpoint.dart';
+import 'package:{{app_package}}/data/datasource/{{feature}}/{{entity}}_datasource.dart';
+import 'package:{{app_package}}/data/models/{{feature}}/{{entity}}_model.dart';
+import 'package:{{app_package}}/domain/core/result.dart';
+import 'package:injectable/injectable.dart';
+
+@LazySingleton(as: {{Entity}}Datasource)
+class {{Entity}}DatasourceRemote implements {{Entity}}Datasource {
+  final ApiClient client;
+
+  {{Entity}}DatasourceRemote(this.client);
+
+  @override
+  Future<Result<List<{{Entity}}Model>>> fetchAll{{Entities}}() async {
+    return client.request(
+      endpoint: APIEndpoint.all{{Entities}},
+      method: ApiMethod.get,
+      // tmpl:custom-begin
+      queryParameters: {
+        'fields': [
+          'name',
+          'flags',
+          'capital',
+          'area',
+          'region',
+          'subregion',
+          'population',
+        ],
+      },
+      // tmpl:custom-end
+      decoder: (data) => (data as List<dynamic>)
+          .map((element) => {{Entity}}Model.fromJson(element))
+          .toList(),
+    );
+  }
+}

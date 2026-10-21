@@ -1,0 +1,118 @@
+import 'package:{{app_package}}/data/repositories/{{feature}}/{{feature}}_repository_impl.dart';
+import 'package:{{app_package}}/domain/core/{{value_type}}.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+void main() {
+  late {{Feature}}RepositoryImpl repository;
+
+  // tmpl:custom-begin
+  group('fetch', () {
+    test('returns {{ValueType}}.light when stored value is "light"', () async {
+      SharedPreferences.setMockInitialValues({'{{storage_key}}': 'light'});
+      final prefs = await SharedPreferences.getInstance();
+      repository = {{Feature}}RepositoryImpl(prefs);
+
+      final result = await repository.fetch();
+
+      expect(result, equals({{ValueType}}.light));
+    });
+
+    test('returns {{ValueType}}.dark when stored value is "dark"', () async {
+      SharedPreferences.setMockInitialValues({'{{storage_key}}': 'dark'});
+      final prefs = await SharedPreferences.getInstance();
+      repository = {{Feature}}RepositoryImpl(prefs);
+
+      final result = await repository.fetch();
+
+      expect(result, equals({{ValueType}}.dark));
+    });
+
+    test('returns {{ValueType}}.system when stored value is "system"', () async {
+      SharedPreferences.setMockInitialValues({'{{storage_key}}': 'system'});
+      final prefs = await SharedPreferences.getInstance();
+      repository = {{Feature}}RepositoryImpl(prefs);
+
+      final result = await repository.fetch();
+
+      expect(result, equals({{ValueType}}.system));
+    });
+
+    test('returns {{ValueType}}.system when no value stored', () async {
+      SharedPreferences.setMockInitialValues({});
+      final prefs = await SharedPreferences.getInstance();
+      repository = {{Feature}}RepositoryImpl(prefs);
+
+      final result = await repository.fetch();
+
+      expect(result, equals({{ValueType}}.system));
+    });
+
+    test('returns {{ValueType}}.system for unknown stored value', () async {
+      SharedPreferences.setMockInitialValues({
+        '{{storage_key}}': 'unknown_value',
+      });
+      final prefs = await SharedPreferences.getInstance();
+      repository = {{Feature}}RepositoryImpl(prefs);
+
+      final result = await repository.fetch();
+
+      expect(result, equals({{ValueType}}.system));
+    });
+  });
+
+  group('save', () {
+    test('saves light theme as "light" string', () async {
+      SharedPreferences.setMockInitialValues({});
+      final prefs = await SharedPreferences.getInstance();
+      repository = {{Feature}}RepositoryImpl(prefs);
+
+      await repository.save({{ValueType}}.light);
+
+      expect(prefs.getString('{{storage_key}}'), equals('light'));
+    });
+
+    test('saves dark theme as "dark" string', () async {
+      SharedPreferences.setMockInitialValues({});
+      final prefs = await SharedPreferences.getInstance();
+      repository = {{Feature}}RepositoryImpl(prefs);
+
+      await repository.save({{ValueType}}.dark);
+
+      expect(prefs.getString('{{storage_key}}'), equals('dark'));
+    });
+
+    test('saves system theme as "system" string', () async {
+      SharedPreferences.setMockInitialValues({});
+      final prefs = await SharedPreferences.getInstance();
+      repository = {{Feature}}RepositoryImpl(prefs);
+
+      await repository.save({{ValueType}}.system);
+
+      expect(prefs.getString('{{storage_key}}'), equals('system'));
+    });
+
+    test('save then fetch returns same theme', () async {
+      SharedPreferences.setMockInitialValues({});
+      final prefs = await SharedPreferences.getInstance();
+      repository = {{Feature}}RepositoryImpl(prefs);
+
+      await repository.save({{ValueType}}.dark);
+      final result = await repository.fetch();
+
+      expect(result, equals({{ValueType}}.dark));
+    });
+
+    test('overwriting previously saved theme', () async {
+      SharedPreferences.setMockInitialValues({'{{storage_key}}': 'light'});
+      final prefs = await SharedPreferences.getInstance();
+      repository = {{Feature}}RepositoryImpl(prefs);
+
+      await repository.save({{ValueType}}.dark);
+      final result = await repository.fetch();
+
+      expect(result, equals({{ValueType}}.dark));
+    });
+  });
+  // tmpl:custom-end
+}

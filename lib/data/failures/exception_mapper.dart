@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_clean_riverpod/domain/core/app_error.dart';
 import 'package:injectable/injectable.dart';
-
-import '../../domain/core/app_error.dart';
 
 @lazySingleton
 class ExceptionMapper {
@@ -32,6 +31,10 @@ class ExceptionMapper {
     if (statusCode == 401 || statusCode == 403) {
       return AuthError(cause: e, stackTrace: stackTrace);
     }
-    return ServerError(cause: e, stackTrace: stackTrace, statusCode: e.response?.statusCode);
+    return ServerError(
+      cause: e,
+      stackTrace: stackTrace,
+      statusCode: e.response?.statusCode,
+    );
   }
 }

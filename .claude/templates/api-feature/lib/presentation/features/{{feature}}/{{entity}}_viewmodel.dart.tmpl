@@ -1,0 +1,21 @@
+import 'package:{{app_package}}/domain/core/result.dart';
+import 'package:{{app_package}}/presentation/features/{{feature}}/{{entity}}_state.dart';
+import 'package:{{app_package}}/presentation/providers/di_providers.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part '{{entity}}_viewmodel.g.dart';
+
+@riverpod
+class {{Entity}}Viewmodel extends _${{Entity}}Viewmodel {
+  @override
+  FutureOr<{{Entity}}State> build() async {
+    final useCase = ref.watch({{entity}}UseCaseProvider);
+    final result = await useCase.fetchAll{{Entities}}();
+    switch (result) {
+      case Success(:final value):
+        return {{Entity}}State.data({{entities}}: value);
+      case Failure(:final error):
+        return {{Entity}}State.error(error);
+    }
+  }
+}

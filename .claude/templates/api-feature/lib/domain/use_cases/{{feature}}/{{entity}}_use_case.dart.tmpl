@@ -1,0 +1,15 @@
+import 'package:{{app_package}}/domain/core/result.dart';
+import 'package:{{app_package}}/domain/entities/{{entity}}.dart';
+import 'package:{{app_package}}/domain/repositories/{{feature}}/{{entity}}_repository.dart';
+import 'package:injectable/injectable.dart';
+
+@lazySingleton
+class {{Entity}}UseCase {
+  final {{Entity}}Repository repository;
+
+  {{Entity}}UseCase(this.repository);
+
+  Future<Result<List<{{Entity}}>>> fetchAll{{Entities}}() async {
+    return repository.fetchAll{{Entities}}();
+  }
+}

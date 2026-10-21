@@ -1,14 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_riverpod/generated/codegen_loader.g.dart';
+import 'package:flutter_clean_riverpod/infrastructure/constants/app_constants.dart';
+import 'package:flutter_clean_riverpod/infrastructure/constants/locale_constants.dart';
+import 'package:flutter_clean_riverpod/infrastructure/di/injection.dart';
+import 'package:flutter_clean_riverpod/presentation/router/app_router.dart';
 import 'package:flutter_clean_riverpod/presentation/theme/app_theme.dart';
+import 'package:flutter_clean_riverpod/presentation/theme/theme_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'generated/codegen_loader.g.dart';
-import 'infrastructure/constants/app_constants.dart';
-import 'infrastructure/constants/locale_constants.dart';
-import 'infrastructure/di/injection.dart';
-import 'presentation/router/app_router.dart';
-import 'presentation/theme/theme_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

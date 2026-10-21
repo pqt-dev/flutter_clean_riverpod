@@ -1,9 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_riverpod/presentation/features/widgets/app_text.dart';
 import 'package:go_router/go_router.dart';
-
-import 'app_text.dart';
 
 class AppBarView extends StatelessWidget implements PreferredSizeWidget {
   const AppBarView({
@@ -46,7 +45,9 @@ class AppBarView extends StatelessWidget implements PreferredSizeWidget {
                     }
                   },
                   icon: Icon(
-                    Platform.isAndroid ? Icons.arrow_back_outlined : Icons.arrow_back_ios_outlined,
+                    Platform.isAndroid
+                        ? Icons.arrow_back_outlined
+                        : Icons.arrow_back_ios_outlined,
                   ),
                 )
               : const SizedBox());
@@ -56,7 +57,7 @@ class AppBarView extends StatelessWidget implements PreferredSizeWidget {
           ? AppText(
               text: title!,
               size: 16.0,
-              weight: .w600,
+              weight: FontWeight.w600,
               color: titleColor,
             )
           : null,

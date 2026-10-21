@@ -4,5 +4,12 @@
   "favourite" : "Favourite",
   "setting" : "Setting",
   "ok" : "OK",
-  "cancel" : "Cancel"
+  "cancel" : "Cancel",
+  "error_retry" : "Retry",
+  "error_network" : "Network error. Please check your connection.",
+  "error_server" : "Server error. Please try again later.",
+  "error_auth" : "Authentication error.",
+  "error_parsing" : "Failed to process data.",
+  "error_unexpected" : "An unexpected error occurred.",
+  "go_to_countries" : "Go to list of countries"
 }
