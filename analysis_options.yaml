@@ -37,6 +37,9 @@ analyzer:
     - "**/*.config.dart"
     - "**/*.gen.dart"
     - "**/*.mocks.dart"
+    - build/**
+    - android/**
+    - ios/**
   errors:
     invalid_annotation_target: ignore
 formatter:

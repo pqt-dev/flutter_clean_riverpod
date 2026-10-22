@@ -5,7 +5,7 @@ description: Review diff theo quy ước của repo này (layer rule, naming, er
 
 # flutter-review
 
-Nguồn chuẩn: `docs/conventions.md` (mỗi rule có mã `<NHÓM>-<nn>` và nhãn `[lint]`/`[test]`/`[review]`). Thứ tự ưu tiên khi mâu thuẫn: docs/conventions.md > .claude/templates > skills > CLAUDE.md > code mẫu Country/Theme.
+Nguồn chuẩn: `docs/conventions.md` (mỗi rule có mã `<NHÓM>-<nn>` và nhãn `[lint]`/`[test]`/`[review]`). Thứ tự ưu tiên khi mâu thuẫn: docs/conventions.md > .claude/templates > skills > CLAUDE.md > code mẫu Theme.
 
 ## Các bước
 1. **Lấy diff**: `git status` và `git diff` (cộng `git diff --staged` nếu có); đọc từng file đã đổi, không chỉ diff.

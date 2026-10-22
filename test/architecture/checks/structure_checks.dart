@@ -197,12 +197,16 @@ const _featureNameParents = [
 
 /// FIL-04: every feature directory name matches a feature (a directory of
 /// `lib/domain/use_cases/`) in all the other layers and in `test/`.
+/// `core` is exempt everywhere; `widgets` (shared widgets) is exempt only in
+/// `test/presentation/features/`.
 List<Violation> checkFil04(ProjectRoot root) {
   final features = {for (final f in discoverFeatures(root)) f.name};
   return [
     for (final parent in _featureNameParents)
       for (final dir in root.subdirs(parent))
-        if (dir != 'core' && !features.contains(dir))
+        if (dir != 'core' &&
+            !(parent == 'test/presentation/features' && dir == 'widgets') &&
+            !features.contains(dir))
           Violation(
             'FIL-04',
             '$parent/$dir',

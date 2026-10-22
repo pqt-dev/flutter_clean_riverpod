@@ -8,12 +8,12 @@ class AppTheme {
         useMaterial3: false,
       ).copyWith(
         extensions: [
-          _lightThemeExtension,
+          lightThemeExtension,
         ],
         textTheme: GoogleFonts.ubuntuTextTheme(),
       );
 
-  static final _lightThemeExtension = AppThemeExtension(
+  static final lightThemeExtension = AppThemeExtension(
     colors: {
       Palette.primaryTextColor: Colors.black,
       Palette.primaryBackground: Colors.white,
@@ -30,12 +30,12 @@ class AppTheme {
         useMaterial3: false,
       ).copyWith(
         extensions: [
-          _darkThemeExtension,
+          darkThemeExtension,
         ],
         textTheme: GoogleFonts.ubuntuTextTheme(),
       );
 
-  static final _darkThemeExtension = AppThemeExtension(
+  static final darkThemeExtension = AppThemeExtension(
     colors: {
       Palette.primaryTextColor: Colors.white,
       Palette.primaryBackground: Colors.black,

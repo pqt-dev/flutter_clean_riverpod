@@ -233,11 +233,11 @@ Map<String, String> merged(Iterable<Map<String, String>> maps) => {
 
 const _emptyMain = 'void main() {}\n';
 
-/// Valid API feature (default: Country).
+/// Valid API feature (default: Product).
 Map<String, String> validApiFeature({
-  String feature = 'country',
-  String entity = 'country',
-  String plural = 'countries',
+  String feature = 'product',
+  String entity = 'product',
+  String plural = 'products',
   String nested = 'name',
 }) {
   final e = entity;
@@ -297,7 +297,7 @@ Map<String, String> validLocalFeature({
 
 /// Valid shared files (endpoint, storage keys, routes, DI providers).
 Map<String, String> validSharedFiles({
-  String useCaseProvider = 'countryUseCaseProvider',
+  String useCaseProvider = 'productUseCaseProvider',
 }) => {
   apiEndpointFile: 'class APIEndpoint {}\n',
   storageKeysFile: 'class StorageKeys {}\n',

@@ -4,8 +4,8 @@ Luật ngắn gọn agent luôn đọc: [CLAUDE.md](../CLAUDE.md). Quy ước ch
 
 ## 1. Nguyên tắc
 - Agent đọc `CLAUDE.md` trước khi làm; trước khi tạo/sửa feature đọc thêm `docs/conventions.md` (nguồn chuẩn duy nhất của quy ước, rule có mã).
-- Thứ tự ưu tiên khi mâu thuẫn: docs/conventions.md > .claude/templates > skills > CLAUDE.md > code mẫu Country/Theme.
-- Bám template trong `.claude/templates/` (bản hiện thực của conventions.md; xem `README.md` ở đó); feature Country/Theme nếu còn chỉ là ví dụ.
+- Thứ tự ưu tiên khi mâu thuẫn: docs/conventions.md > .claude/templates > skills > CLAUDE.md > code mẫu Theme.
+- Bám template trong `.claude/templates/` (bản hiện thực của conventions.md; xem `README.md` ở đó); feature Theme nếu còn chỉ là ví dụ.
 - Thay đổi nhỏ, đúng phạm vi. Mơ hồ thì dừng và hỏi.
 
 ## 2. Vòng đời task
@@ -31,7 +31,7 @@ Acceptance criteria:
 2. data: model → mapper → datasource (abstract + remote) → repository impl; endpoint trong `APIEndpoint`
 3. infrastructure (DI): annotation injectable, `make build_runner`; thêm `xUseCaseProvider` vào `di_providers.dart`
 4. presentation: state → viewmodel → screen → widget
-5. route (`app_routes.dart`, `app_router.dart`) + l10n (3 file JSON, `make l10n`)
+5. route (`app_routes.dart`, `app_router.dart`; áp snippet vào cả hai file, thêm `routes: [...]` vào `GoRoute` của home nếu chưa có) + l10n (3 file JSON, `make l10n`)
 6. test (mirror cấu trúc `lib/`)
 
 ### 2.4 Verify
@@ -54,7 +54,7 @@ Skill `flutter-review` trên diff.
 | Chạy codegen, analyze, test, kiểm tra DoD | `flutter-verify` |
 | Review diff trước khi tạo PR | `flutter-review` |
 
-Bắt đầu project mới từ boilerplate này (đổi tên, xóa Country, tạo feature đầu tiên): xem [boilerplate-guide.md](boilerplate-guide.md).
+Bắt đầu project mới từ boilerplate này (đổi tên, tạo feature đầu tiên): xem [boilerplate-guide.md](boilerplate-guide.md).
 
 ## 4. Phân vai orchestrator / subagent (gợi ý tùy chọn, không bắt buộc)
 | Vai | Việc |
@@ -105,6 +105,6 @@ Checklist đầy đủ nằm ở skill `flutter-verify` (nguồn duy nhất). Kh
 | Bỏ file test của feature | Đủ 4 loại test như template (local: 3) | TST-02 |
 
 ## 8. Bảo trì
-- Nguồn chuẩn là `docs/conventions.md`; template là bản hiện thực của nó. Thứ tự ưu tiên khi mâu thuẫn: docs/conventions.md > .claude/templates > skills > CLAUDE.md > code mẫu Country/Theme.
+- Nguồn chuẩn là `docs/conventions.md`; template là bản hiện thực của nó. Thứ tự ưu tiên khi mâu thuẫn: docs/conventions.md > .claude/templates > skills > CLAUDE.md > code mẫu Theme.
 - Sửa quy ước (layer, naming, code style, cấu trúc thư mục) thì sửa `docs/conventions.md` + template + skill liên quan trong CÙNG PR; `CLAUDE.md` chỉ cập nhật khi đổi lệnh, bảng skill hoặc mã rule được trích dẫn.
 - DoD chỉ sửa ở skill `flutter-verify`; không chép lại checklist vào `CLAUDE.md` hay tài liệu này.

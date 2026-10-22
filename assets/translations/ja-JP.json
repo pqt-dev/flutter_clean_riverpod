@@ -1,8 +1,4 @@
 {
-  "home" : "ホーム",
-  "search" : "検索",
-  "favourite" : "お気に入り",
-  "setting" : "設定",
   "ok" : "OK",
   "cancel" : "キャンセル",
   "error_retry" : "再試行",
@@ -11,5 +7,7 @@
   "error_auth" : "認証エラーです。",
   "error_parsing" : "データの処理に失敗しました。",
   "error_unexpected" : "予期しないエラーが発生しました。",
-  "go_to_countries" : "国一覧へ移動"
+  "counter_title" : "Flutter デモホームページ",
+  "counter_message" : "ボタンを押した回数:",
+  "counter_increment_tooltip" : "増やす"
 }

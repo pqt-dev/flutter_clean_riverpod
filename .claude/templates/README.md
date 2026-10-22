@@ -1,6 +1,6 @@
 # Templates — bản hiện thực của conventions
 
-Thư mục này là bản hiện thực (dạng file mẫu) của `docs/conventions.md` cho cấu trúc, đặt tên và code style của feature mới; nguồn chuẩn duy nhất là `docs/conventions.md`. Feature Country (API) và Theme (local), nếu còn trong repo, chỉ là ví dụ sống. Thứ tự ưu tiên khi mâu thuẫn: docs/conventions.md > .claude/templates > skills > CLAUDE.md > code mẫu Country/Theme.
+Thư mục này là bản hiện thực (dạng file mẫu) của `docs/conventions.md` cho cấu trúc, đặt tên và code style của feature mới; nguồn chuẩn duy nhất là `docs/conventions.md`. Feature Theme (local), nếu còn trong repo, chỉ là ví dụ sống. Thứ tự ưu tiên khi mâu thuẫn: docs/conventions.md > .claude/templates > skills > CLAUDE.md > code mẫu Theme.
 
 Mỗi bộ template là một thư mục con mô phỏng đường dẫn đích (`lib/...`, `test/...`), file có đuôi `.tmpl`, kèm `SNIPPETS.md` cho phần sửa vào file dùng chung.
 
@@ -23,15 +23,15 @@ Dùng chung:
 | Token | Ý nghĩa | Ví dụ |
 |---|---|---|
 | `{{app_package}}` | Tên package, lấy từ `name:` trong `pubspec.yaml` | `my_app` |
-| `{{feature}}` | Tên thư mục feature, snake_case, SỐ ÍT | `country`, `theme` |
+| `{{feature}}` | Tên thư mục feature, snake_case, SỐ ÍT | `product`, `theme` |
 
 `api-feature/`:
 | Token | Ý nghĩa | Ví dụ |
 |---|---|---|
-| `{{Entity}}` | Tên entity PascalCase, số ít | `Country` |
-| `{{entity}}` | Tên entity snake_case, số ít | `country` |
-| `{{Entities}}` | PascalCase, số nhiều (tên Screen) | `Countries` |
-| `{{entities}}` | snake_case/camelCase, số nhiều (tên file screen, route, biến list) | `countries` |
+| `{{Entity}}` | Tên entity PascalCase, số ít | `Product` |
+| `{{entity}}` | Tên entity snake_case, số ít | `product` |
+| `{{Entities}}` | PascalCase, số nhiều (tên Screen) | `Products` |
+| `{{entities}}` | snake_case/camelCase, số nhiều (tên file screen, route, biến list) | `products` |
 | `{{Nested}}` / `{{nested}}` | Tên nested model (chỉ ở file nested model) | `Name` / `name`, `Flag` / `flag` |
 
 `local-feature/`:
